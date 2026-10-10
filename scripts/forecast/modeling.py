@@ -35,7 +35,7 @@ def _model_params(quantile: float, config: CatBoostConfig) -> dict[str, Any]:
         "random_seed": config.random_seed,
         "thread_count": config.thread_count,
         "allow_writing_files": False,
-        "verbose": False,
+        "verbose": 100,
         "random_strength": 0.5,
     }
 

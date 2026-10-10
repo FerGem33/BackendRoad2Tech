@@ -83,7 +83,7 @@ mkdir -p artifacts/forecast
 LOCAL_UID=$(id -u) LOCAL_GID=$(id -g) docker compose --profile forecast run --build --rm forecast-local
 ```
 
-This runs the four-fold backtest and enforces the existing rule that mean CatBoost P50 WAPE must beat the seasonal-naive baseline before training the final model. The default forecast cutoff, `2026-09-16`, matches the interactive demo; change it with `DATA_AS_OF=YYYY-MM-DD`. `MODEL_ITERATIONS` can override the default 750 for experiments, but changing it requires rerunning the quality gate. The generated `forecasts.jsonl` contains one record per store/SKU with 14 P50/P80/P90 points and can be inspected or consumed by a local API adapter.
+This runs the four-fold backtest and enforces the existing rule that mean CatBoost P50 WAPE must beat the seasonal-naive baseline before training the final model. CatBoost logs training progress every 100 iterations. The default forecast cutoff, `2026-09-16`, matches the interactive demo; change it with `DATA_AS_OF=YYYY-MM-DD`. `MODEL_ITERATIONS` can override the default 750 for experiments, but changing it requires rerunning the quality gate. The generated `forecasts.jsonl` contains one record per store/SKU with 14 P50/P80/P90 points and can be inspected or consumed by a local API adapter.
 
 This local path is intentionally separate from the AWS promotion workflow below: it does not register a SageMaker Model Package, activate a DynamoDB model pointer, or invoke the scheduled publisher. Once the account quota is approved, continue with the cloud workflow to register and publish a model.
 

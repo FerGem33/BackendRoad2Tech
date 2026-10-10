@@ -1,0 +1,13 @@
+product_id,product_name,category_id,brand,unit,shelf_life_days,retail_price,is_seasonal,weather_sensitivity,base_daily_demand
+P001,Coca-Cola 600 ml,C01,Coca-Cola,bottle,180,20.00,0,hot,30.00
+P010,Ciel Purified Water 600 ml,C01,Ciel,bottle,365,12.00,0,hot,18.00
+P016,Monster Energy 473 ml,C01,Monster,can,365,42.00,0,neutral,8.00
+P023,Tecate Original 473 ml Can,C02,Tecate,can,180,25.00,0,hot,10.00
+P026,Corona Extra 355 ml Bottle,C02,Corona,bottle,180,22.00,0,hot,12.00
+P034,Sabritas Original Potato Chips 45 g,C03,Sabritas,bag,120,21.00,0,neutral,10.00
+P059,Ham and Cheese Sandwich,C05,Private Label,piece,6,39.00,0,neutral,6.00
+P067,Chilaquiles Bowl,C05,Private Label,piece,4,49.00,0,cold,3.00
+P069,Andatti Americano Coffee Large,C06,Andatti,cup,180,29.00,0,cold,20.00
+P085,Bimbo Conchas 2 pcs,C08,Bimbo,pack,7,28.00,0,cold,4.00
+P097,Holanda Magnum Almond 100 ml,C10,Holanda,piece,270,40.00,0,hot,3.00
+P117,Fresh Fruit Cup 300 g,C18,Private Label,cup,5,35.00,0,hot,3.00

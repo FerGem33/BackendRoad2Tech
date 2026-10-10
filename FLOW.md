@@ -1,123 +1,125 @@
-# StockCopilot — flujo funcional
+# StockCopilot — functional flow
 
-## Dos modos de uso
+## Two usage modes
 
-### 1. Plan comercial automático
+### 1. Automatic commercial plan
 
-La interfaz carga un plan por tienda y periodo (por defecto, próximos siete días). Muestra hasta cinco estrategias elegibles y priorizadas por impacto neto esperado.
+The interface loads a plan for a store and period, by default the next seven days. It displays up to five eligible strategies prioritized by expected net impact.
 
-No se deben forzar cinco promociones rentables: si sólo existen tres oportunidades que cumplen las reglas, se muestran tres y se explica por qué.
+The system must not force five profitable promotions. If only three opportunities meet the rules, it returns three and explains why.
 
-Cada tarjeta debe contener:
-
-```text
-tipo de estrategia
-productos y tienda objetivo
-periodo de vigencia
-acción/precio o descuento propuesto
-ventas incrementales esperadas
-margen incremental esperado
-merma evitada (si aplica)
-riesgo de quiebre
-intervalo de incertidumbre / confianza
-explicación y restricciones consideradas
-```
-
-### 2. Estrategia bajo demanda con agente
-
-El encargado puede pedir algo específico, por ejemplo:
-
-> “Quiero aumentar las ventas de bebidas energéticas este sábado sin dar más de 10% de descuento.”
-
-El agente transforma la petición en un objetivo y restricciones, consulta datos actuales/históricos y forecast, genera alternativas dentro de esos límites y las manda a simulación. La nueva estrategia se muestra como borrador y puede agregarse al plan.
-
-## Flujo de datos operativos
+Each card includes:
 
 ```text
-Venta / recepción / ajuste de inventario
-  -> evento operativo
-  -> actualización de stock actual
-  -> persistencia en histórico
-  -> reevaluación si el evento cambia una decisión relevante
+strategy type
+target products and store
+validity period
+proposed action, price, or discount
+expected incremental sales
+expected incremental margin
+waste avoided, when applicable
+stockout risk
+uncertainty or confidence interval
+explanation and constraints considered
 ```
 
-Eventos que ameritan reevaluar recomendaciones:
+### 2. On-demand strategy through the copilot
 
-- inventario bajo o recepción de mercancía;
-- producto próximo a caducar;
-- pedido retrasado o incompleto;
-- venta atípicamente alta;
-- cambio relevante en clima/evento;
-- inicio/final de promoción;
-- solicitud explícita del encargado.
+A manager can request a specific action, for example:
 
-No se reentrena el modelo después de cada venta. Las ventas actualizan el contexto actual; el reentrenamiento se ejecuta de forma periódica.
+> “I want to increase energy-drink sales this Saturday without giving more than a 10% discount.”
 
-## Generación del plan automático
+The copilot turns the request into an objective and constraints, queries current and historical data plus the forecast, creates alternatives within those bounds, and sends them to simulation. The resulting strategy is shown as a draft that can be added to the plan.
+
+## Operational data flow
 
 ```text
-1. Cargar contexto actual de la tienda.
-2. Obtener forecast base sin estrategia para el horizonte.
-3. Detectar oportunidades: exceso, merma, afinidad, evento, crecimiento/caída de demanda.
-4. Crear candidatas de estrategia mediante plantillas válidas.
-5. Simular el impacto incremental de cada candidata.
-6. Rechazar candidatas no viables.
-7. Optimizar el portafolio de estrategias compatibles.
-8. Guardar y presentar las estrategias priorizadas.
+Sale / receipt / inventory adjustment
+  -> operational event
+  -> current-stock update
+  -> historical persistence
+  -> reevaluation when the event changes a relevant decision
 ```
 
-### Plantillas iniciales
+Events that warrant recommendation reevaluation:
 
-| Plantilla | Objetivo | Ejemplo |
+- low inventory or a merchandise receipt;
+- a product nearing expiry;
+- delayed or incomplete order;
+- unusually high sales;
+- meaningful weather or event change;
+- promotion start or end;
+- explicit manager request.
+
+The model is not retrained after each sale. Sales update the current context; retraining runs periodically.
+
+## Automatic plan generation
+
+```text
+1. Load current store context.
+2. Retrieve the baseline forecast for the horizon.
+3. Detect opportunities: excess inventory, waste, affinity, events, and demand growth/decline.
+4. Create candidates from valid strategy templates.
+5. Simulate the incremental impact of every candidate.
+6. Reject infeasible candidates.
+7. Optimize a portfolio of compatible strategies.
+8. Save and present the prioritized strategies.
+```
+
+### Initial templates
+
+| Template | Objective | Example |
 | --- | --- | --- |
-| Combo de afinidad | Aumentar artículos por ticket | Café + panqué; cerveza + botana |
-| Combo de rescate | Evitar merma y recuperar margen | Producto popular + producto que vence pronto |
-| Promoción contextual | Aumentar volumen según contexto | Bebida fría por ola de calor; botana previo a partido |
+| Affinity bundle | Increase items per ticket | Coffee + pastry; beer + snack |
+| Waste-rescue bundle | Avoid waste and recover margin | Popular product + product nearing expiry |
+| Contextual promotion | Increase volume based on context | Cold drink during a heat wave; snack before a match |
 
-## Simulación de impacto
+## Impact simulation
 
-Para cada estrategia se compara el escenario base contra el escenario tratado:
-
-```text
-impacto incremental = resultado con estrategia - resultado sin estrategia
-```
-
-El cálculo debe estimar, como mínimo:
+Each strategy compares the baseline against a treated scenario:
 
 ```text
-unidades adicionales
-ingresos incrementales
-margen incremental
-costo de descuento / subsidio
-merma evitada
-costo esperado de quiebre adicional
+incremental impact = result with strategy - result without strategy
 ```
 
-Una estrategia es elegible sólo si cumple las reglas de inventario y negocio:
+The calculation estimates at least:
 
-- margen neto positivo o justificación explícita de objetivo;
-- inventario disponible y en tránsito suficiente;
-- no promover SKU con riesgo alto de quiebre;
-- respetar vida útil, descuento máximo, presupuesto y fechas;
-- respetar la capacidad de operación de la tienda;
-- no ser incompatible con otra oferta activa.
+```text
+additional units
+incremental revenue
+incremental margin
+discount or subsidy cost
+waste avoided
+expected cost of additional stockouts
+```
 
-## Optimización del portafolio
+A strategy is eligible only when it follows inventory and business rules:
 
-El total mostrado al usuario debe recalcularse cada vez que se selecciona, quita o agrega una estrategia. No se deben sumar impactos individuales sin validar conflictos.
+- positive net margin or an explicit objective justification;
+- sufficient available and in-transit inventory;
+- no promoted SKU with high stockout risk;
+- respect for shelf life, maximum discount, budget, and dates;
+- respect for store operating capacity;
+- no incompatibility with another active offer.
 
-Ejemplos de conflicto:
+## Portfolio optimization
 
-- dos estrategias usan el mismo SKU, tienda y horario;
-- dos ofertas consumen más producto del disponible;
-- un descuento canibaliza un combo más rentable;
-- una oferta de rescate compite con una promoción contextual.
+The total shown to the manager must be recalculated whenever a strategy is selected, removed, or added. Individual impacts must not be summed without conflict validation.
 
-El optimizador maximiza el margen incremental esperado sujeto a las restricciones anteriores. Se recomienda una restricción de diversidad para evitar que el plan tenga cinco estrategias sobre el mismo producto o categoría.
+Examples of conflicts:
 
-## Rol del agente
+- two strategies use the same SKU, store, and time window;
+- two offers consume more product than is available;
+- a discount cannibalizes a more profitable bundle;
+- a waste-rescue offer competes with a contextual promotion.
 
-El agente tiene acceso únicamente mediante herramientas seguras:
+The optimizer maximizes expected incremental margin subject to these constraints. A diversity constraint is recommended so the plan does not contain five strategies for the same product or category.
+
+## Copilot Orchestrator and LLM role
+
+LangGraph controls request state, approvals, retries, and draft continuation. LangChain connects the graph to Amazon Bedrock through `ChatBedrockConverse`. The LLM interprets intent and explains results, while SageMaker and the deterministic engine calculate forecasts, risks, and economic impact.
+
+The copilot may access data only through safe tools:
 
 ```text
 get_current_store_context(store_id)
@@ -129,26 +131,38 @@ optimize_portfolio(candidates)
 create_promotion_draft(strategy)
 ```
 
-El agente puede proponer una estrategia estructurada, pero no la declara viable por sí mismo. Siempre debe pasar por `simulate_strategy` y por el optimizador cuando afecta el plan actual.
-
-## Aprobación y aprendizaje
+The request journey is:
 
 ```text
-GENERADA -> SIMULADA -> EN BORRADOR -> AGREGADA AL PLAN
-    -> APROBADA / RECHAZADA -> ACTIVA -> MEDIDA -> APRENDIZAJE
+intent -> context -> forecast/insights -> candidates
+-> simulation -> validation -> optimization -> JSON response
+-> human approval -> save a draft or approved promotion
 ```
 
-Tras una estrategia se almacenan resultados reales: ventas, margen, unidades de combo, merma, stockouts, aprobación/rechazo y contexto. Estos resultados alimentan la evaluación y los futuros ciclos de entrenamiento.
+The copilot may propose a structured strategy but cannot declare it viable by itself. It must always pass through `simulate_strategy`, and through the optimizer when it affects the current plan.
 
-## Cadencias sugeridas
+Two product-facing facades keep the frontend independent from internal tools:
 
-| Proceso | Cadencia |
+- `get_product_tendency`: returns historical series, P50/P80/P90 forecast, trend, and risks; Bedrock only creates the summary.
+- `get_product_sell_strategy`: composes context, forecast, history, candidates, simulation, validation, and a draft; it always compares a baseline and treated scenario.
+
+## Approval and learning
+
+```text
+GENERATED -> SIMULATED -> DRAFT -> ADDED_TO_PLAN
+    -> APPROVED / REJECTED -> ACTIVE -> MEASURED -> LEARNING
+```
+
+After a strategy, the system stores actual sales, margin, bundle units, waste, stockouts, approval/rejection, and context. Those results feed evaluation and future training cycles.
+
+## Suggested cadence
+
+| Process | Cadence |
 | --- | --- |
-| Actualización de stock | Por evento |
-| Registro histórico | Por evento |
-| Revisión de alertas | Por evento relevante o cada hora |
-| Forecast operativo | Diario; horario en demo si aplica |
-| Generar plan base | Diario o bajo demanda |
-| Reentrenar modelos | Semanal |
-| Evaluar promociones | Diario/semanal |
-
+| Stock update | Per event |
+| Historical record | Per event |
+| Alert review | Per relevant event or hourly |
+| Operational forecast | Daily; hourly in a demo if needed |
+| Baseline plan generation | Daily or on demand |
+| Model retraining | Weekly |
+| Promotion evaluation | Daily or weekly |

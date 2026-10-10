@@ -1,0 +1,27 @@
+C:\Users\bigot\Escritorio\Proyectos\Road2Tech\BackendRoad2Tech\scripts\dynamo\build_import.py:139: DtypeWarning: Columns (9: campaign_id) have mixed types. Specify dtype option on import or set low_memory=False.
+  read = lambda name, **kw: pd.read_csv(V2 / f"{name}.csv", keep_default_na=False, na_values=[""], **kw)
+reading sales.csv ...
+reading ticket_lines.csv ...
+reading inventory_daily.csv ...
+{
+  "items": 353087,
+  "files": 2,
+  "by_entity": {
+    "ZONE": 8,
+    "CATEGORY": 20,
+    "STORE": 25,
+    "OFFER": 405,
+    "SUPPLIER": 19,
+    "PRODUCT": 120,
+    "DAY": 1018,
+    "SALE": 270000,
+    "SALE_DAY": 2250,
+    "TICKET_DAY": 2250,
+    "FORECAST": 42000,
+    "LOT": 3701,
+    "PO": 28269,
+    "STOCK": 3000,
+    "USER": 1,
+    "COUNTER": 1
+  }
+}

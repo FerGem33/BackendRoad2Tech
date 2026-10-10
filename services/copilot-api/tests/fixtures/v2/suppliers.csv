@@ -1,0 +1,20 @@
+supplier_id,supplier_name,email,categories_served,city,reliability_score
+SUP01,Northern Beverage Distributors,northern.beverage.distributors@gmail.com,C01|C02|C11,Saltillo,0.78
+SUP02,Coahuila Bottling Logistics,coahuila.bottling.logistics@gmail.com,C01|C11|C03,Saltillo,0.98
+SUP03,Sierra Madre Beer & Spirits,sierra.madre.beer@gmail.com,C02|C11|C19,Monterrey,0.73
+SUP04,Altiplano Wholesale Grocers,altiplano.wholesale.grocers@gmail.com,C09|C14|C13|C16|C17|C19|C15,Saltillo,0.79
+SUP05,Zapalinamé Snacks & Sweets,zapaliname.snacks.sweets@gmail.com,C03|C04|C12,Saltillo,0.81
+SUP06,Monterrey Confectionery Hub,monterrey.confectionery.hub@gmail.com,C04|C03|C08,Monterrey,0.96
+SUP07,Fresh Kitchen Commissary del Norte,fresh.kitchen.commissary@gmail.com,C05|C18|C07,Saltillo,0.73
+SUP08,Ramos Arizpe Cold Chain,ramos.arizpe.cold@gmail.com,C07|C10|C11|C05,Ramos Arizpe,0.89
+SUP09,Golden Crumb Bakeries,golden.crumb.bakeries@gmail.com,C08|C05|C06,Saltillo,0.97
+SUP10,Highland Coffee Supply,highland.coffee.supply@gmail.com,C06|C09|C08,Monterrey,0.89
+SUP11,Desert Pharma Distribution,desert.pharma.distribution@gmail.com,C15|C13|C17,Monterrey,0.88
+SUP12,Tobacco & Convenience Supply MX,tobacco.convenience.supply@gmail.com,C12|C04|C03|C01,Monterrey,0.96
+SUP13,Bajío Household Goods,bajio.household.goods@gmail.com,C14|C13|C19|C16,Querétaro,0.85
+SUP14,Northeast Multi-Category Wholesale,northeast.multi.category@gmail.com,C01|C02|C03|C09|C14|C12|C06,Monterrey,0.74
+SUP15,Arteaga Farms & Florals,arteaga.farms.florals@gmail.com,C18|C20|C07,Arteaga,0.77
+SUP16,Gulf Frozen Foods,gulf.frozen.foods@gmail.com,C10|C07|C05,Monterrey,0.93
+SUP17,Valle Florist Wholesale,valle.florist.wholesale@gmail.com,C20|C18|C19,Saltillo,0.97
+SUP18,Laguna Cold & Care Distribution,laguna.cold.care@gmail.com,C10|C15|C16|C17,Torreón,0.98
+SUP19,Saltillo Seasonal Gifts,saltillo.seasonal.gifts@gmail.com,C20|C04|C19,Saltillo,0.93

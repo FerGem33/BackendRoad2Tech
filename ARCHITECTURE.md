@@ -1,16 +1,16 @@
-# StockCopilot — arquitectura propuesta
+# StockCopilot — proposed architecture
 
-## Vista general
+## Overview
 
 ```text
-Fuentes operativas
-  POS / tickets, stock, catálogo, proveedores, clima, eventos
+Operational sources
+  POS / tickets, stock, catalog, suppliers, weather, events
                          |
                          v
-        API Gateway (petición) + EventBridge (evento/agenda)
+        API Gateway (request) + EventBridge (event/schedule)
                |                    |
                v                    v
-      DynamoDB (estado actual)   S3 Raw (histórico)
+      DynamoDB (current state)   S3 Raw (history)
                |                    |
                |                    v
                |            ETL: Lambda / Glue
@@ -20,139 +20,163 @@ Fuentes operativas
                |                    |
                |                    v
                +--------> SageMaker AI
-                           forecast / afinidad / uplift
+                           forecast / affinity / uplift
                                       |
                                       v
-                    Motor de simulación y optimizador
+                    Simulation engine and optimizer
                                       |
                  +--------------------+-------------------+
                  |                                        |
                  v                                        v
-      Plan automático: hasta 5 estrategias       Estrategia por prompt
-      por tienda y periodo                        solicitada al agente
+      Automatic plan: up to 5 strategies       Prompt-requested strategy
+      per store and period                      from the copilot
                  |                                        |
                  +--------------------+-------------------+
                                       |
                                       v
-                    API de experiencia + Bedrock Agent
+          Experience API + Copilot Orchestrator
+             LangChain / LangGraph + Amazon Bedrock
                                       |
                                       v
-                  Dashboard / encargado de tienda
+                   Dashboard / store manager
                                       |
-                                      +--> aprobación, ejecución y feedback
+                                      +--> approval, execution, and feedback
                                               -> EventBridge / DynamoDB / S3 Raw
 ```
 
-## Componentes y responsabilidades
+## Components and responsibilities
 
-### Fuentes operativas
+### Operational sources
 
-| Fuente | Datos principales |
+| Source | Main data |
 | --- | --- |
-| POS y tickets | Venta, SKU, cantidad, precio, descuento, ticket y promoción aplicada |
-| Inventario | Stock actual, recibido, en tránsito, merma, ajustes y caducidad |
-| Catálogo y costos | Producto, categoría, costo, precio, tamaño de caja y vida útil |
-| Proveedores | Lead time, entregas y cumplimiento |
-| Contexto externo | Clima, calendario, temporadas y eventos locales |
+| POS and tickets | Sale, SKU, quantity, price, discount, ticket, applied promotion |
+| Inventory | Current stock, received, in transit, waste, adjustments, and expiry |
+| Catalog and costs | Product, category, cost, price, case size, and shelf life |
+| Suppliers | Lead time, deliveries, and fulfillment |
+| External context | Weather, calendar, seasonality, and local events |
 
 ### Amazon API Gateway
 
-Expone endpoints síncronos para frontend y sistemas operativos. Casos: consultar el plan, consultar forecast, solicitar estrategia personalizada, agregar al plan, aprobar/rechazar un borrador.
+Exposes synchronous endpoints for the frontend and operational systems: retrieve a plan or forecast, request a custom strategy, add it to a plan, and approve or reject a draft.
 
-Puede representar dos roles lógicos en el diagrama, pero puede ser una sola API con rutas separadas:
+One API can expose two logical routes:
 
-- **ingesta operacional**: entrada validada de ventas, recepciones y ajustes;
-- **experiencia**: endpoints consumidos por dashboard y agente.
+- **operational ingestion:** validated input for sales, receipts, and adjustments;
+- **experience:** endpoints consumed by the dashboard and copilot.
 
 ### Amazon EventBridge
 
-Bus asíncrono de eventos. Desacopla una venta/recepción de los procesos posteriores: actualizar stock, persistir histórico, comprobar alertas y reevaluar recomendaciones. También agenda procesos diarios y semanales.
+Asynchronous event bus that decouples a sale or receipt from follow-up work: current-stock updates, historical persistence, alert checks, and recommendation reevaluation. It also schedules daily and weekly jobs.
 
-**No sustituye a Lambda:** EventBridge enruta o agenda; Lambda ejecuta código. Para el MVP se pueden invocar Lambdas directamente desde API Gateway y reducir eventos internos, pero se recomienda conservar EventBridge para el plan diario, el reentrenamiento semanal y procesos que no deben acoplarse a una solicitud de usuario.
+**It does not replace Lambda:** EventBridge routes or schedules; Lambda runs code. For the MVP, API Gateway may invoke Lambdas directly and reduce internal events, but EventBridge should remain for the daily plan, weekly retraining, and work that must not be coupled to a user request.
 
 ### Amazon DynamoDB
 
-Almacén operativo de baja latencia para el estado actual:
+Low-latency operational store for:
 
 ```text
-stock por tienda-SKU
-pedidos en tránsito
-alertas activas
-recomendaciones y estrategias en borrador
-plan comercial vigente por tienda y periodo
-estado de aprobación/activación
-configuración y restricciones por tienda
+stock by store-SKU
+orders in transit
+active alerts
+recommendations and strategy drafts
+active commercial plan by store and period
+approval/activation state
+store configuration and constraints
 ```
 
-No es el repositorio analítico de largo plazo; las consultas históricas complejas salen de S3 Curated/Athena.
+It is not the long-term analytical repository; complex historical queries come from S3 Curated and Athena.
 
 ### Amazon S3 Raw
 
-Data lake histórico, inmutable y particionado por fecha/origen. Conserva eventos originales y permite reproducir transformaciones o reconstruir datasets.
+Immutable, date/source-partitioned historical data lake. It preserves original events and makes transformations reproducible and datasets rebuildable.
 
 ### ETL: AWS Lambda / AWS Glue
 
-El ETL valida, normaliza, une y enriquece fuentes. Produce la tabla `fecha × tienda × SKU` y la tabla de tickets. Para el hackathon, Lambda + Python/Pandas es suficiente; AWS Glue es la alternativa escalable.
+ETL validates, normalizes, joins, and enriches sources. It produces the `date × store × SKU` table and the ticket table. Lambda with Python/Pandas is sufficient for the hackathon; AWS Glue is the scalable option.
 
-### Amazon S3 Curated y Athena
+### Amazon S3 Curated and Athena
 
-S3 Curated almacena tablas limpias y variables derivadas listas para ML y análisis. Athena permite consultas SQL históricas: promociones más rentables, merma por categoría, afinidad de productos o comportamiento por tienda.
+S3 Curated stores cleaned tables and derived features ready for ML and analysis. Athena supports historical SQL queries such as most profitable promotions, waste by category, product affinity, and store behavior.
 
 ### Amazon SageMaker AI
 
-Responsable de entrenar, evaluar y servir artefactos ML:
+Responsible for training, evaluating, and serving ML artifacts:
 
-- forecast probabilístico de demanda con CatBoost/LightGBM (P50/P80/P90);
-- afinidad de productos a partir de tickets;
-- modelo de impacto/uplift de promociones cuando el dataset lo permita;
-- backtesting temporal y comparación contra el modelo vigente.
+- probabilistic baseline-demand forecast with CatBoost (P50/P80/P90);
+- product affinity from tickets;
+- promotion impact/uplift model when the dataset supports it;
+- time-based backtesting and comparison with the active model.
 
-La inferencia puede ser batch diaria para el forecast. El motor toma esa predicción y la combina con stock actual para generar recomendaciones dinámicas sin reentrenar ante cada venta.
+Forecast inference can run in a daily batch. The decision engine combines it with current stock to generate dynamic recommendations without retraining after every sale.
 
-### Motor de decisiones y optimizador
+The implemented forecast path uses a SageMaker Training Job with a custom CatBoost image, four fixed 14-day backtests, and a Model Registry package only after CatBoost beats the seasonal-naive benchmark. An EventBridge Scheduler starts a daily SageMaker Processing Job; its validated `store × SKU × 14-day` P50/P80/P90 output is published atomically to DynamoDB. The Copilot API reads DynamoDB rather than invoking a permanent endpoint. This removes idle endpoint cost while keeping forecast lookups fast and deterministic.
 
-Servicio determinista, por ejemplo Lambda/Python, que recibe forecast, estado actual, restricciones y candidatas. Debe:
+### Decision engine and optimizer
 
-1. Proyectar inventario por horizonte.
-2. Calcular riesgo de quiebre y merma.
-3. Simular el impacto incremental de cada estrategia.
-4. Eliminar estrategias no viables.
-5. Seleccionar el portafolio que maximiza impacto neto sin doble conteo.
+Deterministic service, for example Lambda/Python, that receives forecast, current state, constraints, and candidates. It must:
 
-El motor es la fuente de verdad para valores económicos. El LLM no realiza estos cálculos.
+1. Project inventory over the horizon.
+2. Calculate stockout and waste risk.
+3. Simulate the incremental impact of every strategy.
+4. Remove infeasible strategies.
+5. Select the portfolio that maximizes net impact without double counting.
 
-### Planificador de estrategias
+The engine is the source of truth for economic values. The LLM does not perform these calculations.
 
-El planificador construye el **plan comercial automático** que aparece siempre en la interfaz. Se ejecuta diariamente, al cambiar una señal relevante o cuando el usuario pide regenerarlo.
+### Strategy planner
 
-1. Obtiene el contexto actual, forecast base e insights históricos.
-2. Genera candidatas a partir de plantillas permitidas: combo de afinidad, combo de rescate y promoción contextual.
-3. Envía cada candidata al motor de simulación.
-4. Pasa las candidatas viables al optimizador de portafolio.
-5. Guarda hasta cinco estrategias priorizadas para la tienda y el periodo.
+The planner builds the **automatic commercial plan** that always appears in the interface. It runs daily, after a material signal change, or when the manager requests regeneration.
 
-El planificador no debe forzar cinco promociones: si existen menos oportunidades rentables y viables, devuelve sólo las que cumplan las reglas.
+1. Retrieve current context, baseline forecast, and historical insights.
+2. Create candidates from allowed templates: affinity bundle, waste-rescue bundle, and contextual promotion.
+3. Send every candidate to the simulation engine.
+4. Send viable candidates to the portfolio optimizer.
+5. Store up to five prioritized strategies for the store and period.
 
-### Amazon Bedrock Agent / GenUI
+The planner must not force five promotions. If fewer opportunities are profitable and feasible, it returns fewer.
 
-Interfaz conversacional sobre herramientas controladas. El agente interpreta la intención del encargado, solicita datos por funciones y devuelve una respuesta estructurada para renderizar componentes permitidos: tarjetas de estrategia, gráfico de forecast, calendario de reabasto o resumen del plan.
+### Copilot Orchestrator — LangChain/LangGraph + Amazon Bedrock
 
-El frontend nunca debe ejecutar HTML/JavaScript arbitrario generado por el modelo. El contrato debe ser JSON validado contra un esquema de componentes conocido.
+LangGraph explicitly controls conversation state and transitions; LangChain integrates the Amazon Bedrock model through `ChatBedrockConverse`. Bedrock interprets intent, selects allowed tools, and writes responses, but it is not the source of truth for calculations.
 
-El agente tiene dos funciones complementarias:
+For a new AWS deployment, package the graph as an ARM64 container and run it in **Amazon Bedrock AgentCore Runtime**. The recommended initial protocol is HTTP: `GET /ping` for health and `POST /invocations` for dashboard requests. API Gateway continues to provide authentication, rate limits, and the public contract. For a local demo, run the same graph behind a Python API. Do not use Bedrock Agents Classic, which is in maintenance mode for new customers.
 
-- **curaduría del plan automático:** puede resumir y explicar las estrategias elegidas por el motor;
-- **estrategia bajo demanda:** transforma una petición como “aumenta bebidas energéticas el sábado, con máximo 10% de descuento” en filtros y restricciones, genera candidatas y solicita su simulación.
+The minimum graph is:
 
-Una estrategia creada por prompt inicia como borrador. Al agregarla al plan, el optimizador recalcula el impacto del portafolio completo para evitar doble conteo o canibalización.
+```text
+INTENT
+  -> FETCH_DATA
+  -> FORECAST_AND_INSIGHTS
+  -> GENERATE_CANDIDATES
+  -> SIMULATE
+  -> VALIDATE
+  -> OPTIMIZE_PORTFOLIO
+  -> RESPOND_AS_JSON
+  -> WAIT_FOR_APPROVAL
+  -> SAVE_DRAFT
+```
 
-### Dashboard y aprobación humana
+Data, simulation, and validation nodes are deterministic functions. LangGraph checkpoints allow a draft to resume, support safe retries, and separate human approval from strategy creation.
 
-Muestra KPIs, estrategias, simulaciones y alertas. El encargado puede activar o retirar una estrategia del plan, pero una promoción requiere aprobación explícita antes de ejecutarse. El resultado vuelve como evento al ciclo de aprendizaje.
+The frontend must never execute arbitrary HTML or JavaScript generated by the model. The contract is JSON validated against a known component schema.
 
-## Herramientas del agente
+The copilot has two complementary functions:
 
-El agente debe obtener información por APIs o funciones con mínimo privilegio, no mediante acceso directo y generalizado a DynamoDB/S3:
+- **automatic-plan curation:** summarizes and explains strategies selected by the engine;
+- **on-demand strategy:** turns a request such as “increase energy-drink sales on Saturday with no more than a 10% discount” into filters and constraints, creates candidates, and requests simulation.
+
+A prompt-created strategy starts as a draft. When it is added to the plan, the optimizer recalculates full portfolio impact to avoid double counting and cannibalization.
+
+The Runtime uses one least-privilege IAM identity, and every tool validates parameters. The LLM does not receive broad direct access to S3, Athena, or DynamoDB. Production requires VPC configuration when private resources are needed, inbound authentication, CloudTrail, and encrypted CloudWatch logs with limited retention.
+
+### Dashboard and human approval
+
+The dashboard displays KPIs, strategies, simulations, and alerts. The manager may activate or remove a plan strategy, but a promotion requires explicit approval before execution. Its outcome returns as an event to the learning cycle.
+
+## Agent tools
+
+The copilot retrieves information through least-privilege APIs or functions, never through unrestricted direct access to DynamoDB or S3:
 
 ```text
 get_current_store_context(store_id)
@@ -164,66 +188,80 @@ optimize_portfolio(candidates)
 create_promotion_draft(strategy)
 ```
 
-## Flujos de generación de estrategias
-
-### Plan automático de la interfaz
+Two experience functions compose those tools without expanding permissions:
 
 ```text
-EventBridge Scheduler o acción “regenerar plan”
+get_product_tendency(store_id, sku, history_days, forecast_days)
+  -> Athena/S3 Curated history + SageMaker forecast
+  -> deterministic trend, risk, and P50/P80/P90 series
+  -> Bedrock writes only ai_summary
+
+get_product_sell_strategy(store_id, objective, constraints)
+  -> context -> forecast -> insights -> allowed candidates
+  -> simulator -> validator -> optimizer -> create_promotion_draft
+```
+
+The strategy response explicitly includes `baseline` and `treated` series, incremental units/sales/margin, waste avoided, stockout risk, uncertainty, assumptions, `draft_id`, and `requires_approval: true`. It must never present impact as guaranteed.
+
+## Strategy-generation flows
+
+### Automatic interface plan
+
+```text
+EventBridge Scheduler or “regenerate plan” action
   -> Strategy Planner Lambda
-  -> contexto actual (DynamoDB)
-  -> forecast/impacto (SageMaker)
-  -> histórico y afinidad (Athena/S3 Curated)
-  -> simulador + optimizador (Decision Engine Lambda)
-  -> guardar plan de hasta 5 estrategias en DynamoDB
-  -> dashboard consulta el plan mediante API Gateway
+  -> current context (DynamoDB)
+  -> forecast/impact (SageMaker)
+  -> history and affinity (Athena/S3 Curated)
+  -> simulator + optimizer (Decision Engine Lambda)
+  -> save plan of up to five strategies in DynamoDB
+  -> dashboard retrieves the plan through API Gateway
 ```
 
-### Estrategia solicitada por prompt
+### Prompt-requested strategy
 
 ```text
-Usuario escribe una intención en el dashboard
-  -> API Gateway + Copilot Lambda
-  -> Bedrock Agent convierte intención en objetivo/restricciones
-  -> herramientas de contexto, forecast e histórico
-  -> borradores candidatos
-  -> simulador y optimizador
-  -> tarjeta de estrategia y comparación contra el plan actual
-  -> usuario agrega, descarta o solicita ajuste
+Manager enters an intent in the dashboard
+  -> API Gateway + Copilot Orchestrator (LangGraph)
+  -> Bedrock converts intent into objective/constraints
+  -> context, forecast, and history tools
+  -> allowed candidates -> simulator -> validator -> optimizer
+  -> strategy card and comparison against the active plan
+  -> manager adds, discards, or adjusts it
+  -> draft/approval persisted in DynamoDB
 ```
 
-El total mostrado al usuario siempre es `impacto neto del portafolio seleccionado`; nunca se calcula como una suma ciega de impactos individuales.
+The total shown to the manager is always `net impact of the selected portfolio`; it is never a blind sum of individual impacts.
 
-## Red y subredes para Lambda
+## Lambda networking and subnets
 
-Una función Lambda **no es una subred**. Puede configurarse para usar subredes privadas de una VPC y un security group, normalmente en dos zonas de disponibilidad. Esto sólo es necesario si debe acceder a recursos privados, por ejemplo una base de datos privada o un endpoint interno.
+A Lambda function **is not a subnet**. It can be configured to use private subnets in a VPC and a security group, normally across two Availability Zones. This is needed only for private resources such as a private database or internal endpoint.
 
-Configuración de referencia si se decide usar VPC:
+Reference configuration when a VPC is required:
 
 ```text
 VPC
-  Private app subnet AZ-a  -> Lambdas de API, agente y motor de decisiones
-  Private app subnet AZ-b  -> Lambdas de API, agente y motor de decisiones
-  VPC endpoints            -> S3 y DynamoDB (y endpoints privados necesarios)
-  NAT Gateway (opcional)   -> sólo si una Lambda necesita salir a Internet
+  Private app subnet AZ-a  -> API, copilot, and decision-engine Lambdas
+  Private app subnet AZ-b  -> API, copilot, and decision-engine Lambdas
+  VPC endpoints            -> S3, DynamoDB, and required private endpoints
+  NAT Gateway (optional)   -> only if a Lambda needs Internet egress
 ```
 
-API Gateway permanece fuera de las subredes y llama a Lambda. S3 y DynamoDB son servicios regionales; no se despliegan dentro de una subred. Para un hackathon, una VPC no es imprescindible y agrega configuración. Se recomienda incluirla sólo si se desea demostrar segmentación de red o conectar recursos privados; de otro modo, usar Lambda sin VPC reduce complejidad.
+API Gateway remains outside subnets and invokes Lambda. S3 and DynamoDB are regional services; they are not deployed inside a subnet. For a hackathon, a VPC is not required and adds configuration. Include it only to demonstrate network segmentation or connect private resources; otherwise, Lambda outside a customer VPC reduces complexity.
 
-## Seguridad y control
+## Security and control
 
-- IAM de mínimo privilegio por servicio y función.
-- Cifrado en tránsito y en reposo para datos y logs.
-- Validar parámetros de todas las herramientas llamadas por el agente.
-- El agente sólo puede crear borradores; activar promociones requiere autorización de un usuario.
-- Registrar entradas, decisiones, simulaciones y aprobaciones para auditoría.
-- Separar datos operativos actuales de datos analíticos históricos.
-- Si Lambda se configura en una VPC, usar subredes privadas, security groups de mínimo privilegio y endpoints privados antes de abrir salida a Internet mediante NAT.
+- Least-privilege IAM per service and function.
+- Encryption in transit and at rest for data and logs.
+- Validate every tool parameter supplied by the copilot.
+- The copilot can create drafts only; activating a promotion requires user authorization.
+- Record inputs, decisions, simulations, and approvals for audit.
+- Keep current operational data separate from historical analytical data.
+- When Lambda uses a VPC, use private subnets, least-privilege security groups, and private endpoints before opening Internet egress through NAT.
 
-## Límites del MVP
+## MVP limits
 
-- Forecast y simulación pueden correr sobre dataset sintético/expandido.
-- Si no hay tickets reales, la afinidad se debe presentar como simulada o inferida con el dataset generado, no como comportamiento observado real.
-- Si no hay experimentos/promociones históricas, el uplift inicial es una simulación basada en reglas causales del generador de datos. La versión productiva debe validarse con pruebas A/B o técnicas causales.
-- La activación de promociones puede ser simulada; el flujo de aprobación y medición sigue siendo válido.
-
+- Forecast and simulation may run on a synthetic or expanded dataset.
+- Without real tickets, affinity must be presented as simulated or inferred from generated data, not as observed real behavior.
+- Without historical promotion experiments, initial uplift is a simulation based on causal generator rules. A production version must validate it through A/B tests or causal techniques.
+- Promotion activation may be simulated; the approval and measurement flow remains valid.

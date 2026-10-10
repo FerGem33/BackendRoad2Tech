@@ -1,56 +1,54 @@
-# Auditoría de AWS Lambda, VPC y subredes
+# AWS Lambda, VPC, and subnet audit
 
-**Fecha de revisión:** 2026-10-09
+**Review date:** 2026-10-09
+**Verified scope:** local checkout, `main` branch, commit `751e809`
+**Evidence type:** repository only; no AWS account was queried
 
-**Alcance verificado:** checkout local, rama `main`, commit `751e809`
+## 1. Executive summary
 
-**Tipo de evidencia:** repositorio únicamente; no se consultó una cuenta AWS
+### Conclusion
 
-## 1. Resumen ejecutivo
+**INDETERMINATE: there is insufficient evidence to decide whether the MVP actually needs customer VPC subnets for AWS Lambda.**
 
-### Conclusión
+The repository describes a **proposed architecture**, not a deployable implementation. The reviewed version names four candidate workloads: ETL, `Strategy Planner Lambda`, `Decision Engine Lambda`, and `Copilot Lambda`. It contains no source code, handlers, pinned runtimes, dependency manifests, environment variables, IAM policies, or Infrastructure as Code (IaC). It also contains no VPC IDs, CIDRs, route tables, NAT Gateway, Internet Gateway, security groups, NACLs, or VPC endpoints that would allow an existing network to be audited.
 
-**INDETERMINADO: falta evidencia para decidir si el MVP realmente necesita subredes para AWS Lambda.**
+Based on available evidence, named dependencies are AWS managed services—primarily S3, DynamoDB, EventBridge, API Gateway, SageMaker, Athena, and Bedrock. No RDS, ElastiCache/Redis, private EC2/ECS, VPN, corporate network, private IP, or fixed-egress allowlist is documented. The architecture itself states that a VPC is not essential for the hackathon and recommends Lambda without a customer VPC when private resources are absent. Therefore, the MVP design decision is to run Lambdas **without attaching them to a customer VPC**, provided implementation and account inventory confirm these assumptions.
 
-El repositorio describe una **arquitectura propuesta**, no una implementación desplegable. La versión revisada nombra cuatro cargas candidatas: ETL, `Strategy Planner Lambda`, `Decision Engine Lambda` y `Copilot Lambda`. No contiene código fuente, handlers, runtimes fijados, manifiestos de dependencias, variables de entorno, políticas IAM ni Infrastructure as Code (IaC). Tampoco contiene IDs, CIDR, tablas de rutas, NAT Gateway, Internet Gateway, Security Groups, NACL o VPC Endpoints que permitan auditar una red actual.
+Confidence in the design recommendation is **medium-high**. Confidence about a real deployed environment is **low**, because required artifacts are absent from the repository and no read-only AWS access was used. Do not remove any deployed VPC configuration until the checks in the improvement plan are complete.
 
-Con la evidencia disponible, las dependencias nombradas para esas cargas son servicios administrados de AWS —principalmente S3, DynamoDB, EventBridge, API Gateway, SageMaker, Athena y Bedrock— y no se documenta RDS, ElastiCache/Redis, EC2/ECS privados, VPN, red corporativa, IP privada ni allowlist con IP fija. La propia arquitectura indica que una VPC no es imprescindible para el hackathon y recomienda usar Lambda sin VPC cuando no haya recursos privados. Por ello, la decisión de diseño para el MVP es ejecutar las Lambdas **sin conectarlas a una VPC del cliente**, condicionada a que la implementación y la cuenta confirmen esos supuestos.
+If confirmed, the simplification avoids subnets, routes, security groups, Lambda-specific EC2 permissions, and any NAT Gateway or VPC endpoint used exclusively by these functions. Actual savings cannot be quantified without account inventory, region, and usage metrics.
 
-La recomendación de diseño tiene **confianza media-alta**; la conclusión sobre un despliegue real sigue teniendo **confianza baja**, porque los artefactos necesarios para demostrarlo no están en el repositorio y no hubo acceso de solo lectura a AWS. No se debe retirar ninguna configuración VPC desplegada hasta completar las comprobaciones indicadas en el plan de mejora.
+## 2. Lambda inventory
 
-La simplificación potencial, si la hipótesis se confirma, es evitar subredes, rutas, Security Groups y permisos EC2 exclusivos de Lambda, además de cualquier NAT Gateway o VPC Endpoint que existiera solo para esas funciones. No se puede cuantificar ahorro real sin inventario, región y métricas de uso de la cuenta.
+No Lambda function was found implemented or declared through IaC. The following inventory represents only **conceptual** workloads named in `ARCHITECTURE.md`.
 
-## 2. Inventario de Lambda
-
-No se encontró ninguna función Lambda implementada o declarada mediante IaC. El inventario siguiente representa únicamente cargas **conceptuales** mencionadas en `ARCHITECTURE.md`.
-
-| Lambda | Dependencias documentadas | VPC actual | ¿Necesita VPC? | Justificación |
+| Lambda | Documented dependencies | Current VPC | Needs VPC? | Rationale |
 | --- | --- | --- | --- | --- |
-| ETL (nombre físico no definido) | S3 Raw, S3 Curated; posible Glue; produce datos para ML/análisis | No verificable | No en el diseño propuesto; despliegue indeterminado | Se propone Lambda + Python/Pandas, pero no existen handler, runtime, dependencias ni configuración. S3 no obliga por sí solo a conectar Lambda a una VPC. |
-| `Strategy Planner Lambda` | EventBridge Scheduler o API; DynamoDB, SageMaker, Athena/S3 Curated y `Decision Engine Lambda` | No verificable | No en el diseño propuesto; despliegue indeterminado | Todas las dependencias documentadas son servicios administrados o invocación entre funciones. No se documenta endpoint privado. |
-| `Decision Engine Lambda` | Forecast, estado actual, restricciones, candidatas; simulación y optimización | No verificable | No en el diseño propuesto; despliegue indeterminado | Es una Lambda conceptual explícita en el flujo, pero no tiene código ni configuración. No se documenta RDS, Redis u otra dependencia privada. |
-| `Copilot Lambda` | API Gateway, Bedrock Agent, herramientas de contexto/forecast/histórico y motor de simulación/optimización | No verificable | No en el diseño propuesto; despliegue indeterminado | Bedrock y los almacenes descritos son servicios administrados; no se documenta red privada ni egreso con IP fija. |
+| ETL (physical name undefined) | S3 Raw, S3 Curated, possible Glue; produces ML/analytics data | Not verifiable | Not in proposed design; deployment indeterminate | Lambda + Python/Pandas is proposed, but no handler, runtime, dependency, or configuration exists. S3 alone does not require a Lambda VPC connection. |
+| `Strategy Planner Lambda` | EventBridge Scheduler or API; DynamoDB, SageMaker, Athena/S3 Curated, and `Decision Engine Lambda` | Not verifiable | Not in proposed design; deployment indeterminate | All documented dependencies are managed services or function-to-function invocation. No private endpoint is described. |
+| `Decision Engine Lambda` | Forecast, current state, constraints, candidates, simulation, optimization | Not verifiable | Not in proposed design; deployment indeterminate | Explicit conceptual function without code or configuration. No RDS, Redis, or other private dependency is documented. |
+| `Copilot Lambda` | API Gateway, Bedrock/AgentCore, context/forecast/history tools, and simulation/optimization engine | Not verifiable | Not in proposed design; deployment indeterminate | Bedrock and described stores are managed services. No private network or fixed egress is documented. |
 
-### Datos que no pueden inventariarse
+### Information that cannot be inventoried
 
-- Handlers, runtime exacto, arquitectura de CPU, layers y paquetes.
-- Triggers reales y event source mappings.
-- Nombres/ARN de funciones y roles.
-- Variables de entorno y secretos.
-- API externas consumidas y sus reglas de allowlist.
-- Configuración `VpcConfig`, subredes y Security Groups.
-- Estado desplegado frente a lo declarado.
+- Handlers, exact runtime, CPU architecture, layers, and packages.
+- Real triggers and event source mappings.
+- Function names/ARNs and roles.
+- Environment variables and secrets.
+- Consumed external APIs and their allowlist rules.
+- `VpcConfig`, subnets, and security groups.
+- Deployed state versus repository declaration.
 
-## 3. Arquitectura actual
+## 3. Current proposed architecture
 
-Este diagrama refleja **solo la arquitectura propuesta en el repositorio**, no recursos confirmados en AWS. El límite agrupa las cuatro cargas Lambda conceptuales que se identificaron.
+This diagram reflects **only the proposed repository architecture**, not confirmed AWS resources. Its boundary groups the four conceptual Lambda workloads identified above.
 
 ```mermaid
 flowchart TD
-    Sources[Fuentes operativas] --> Entry[API Gateway + EventBridge]
-    Entry --> DDB[DynamoDB<br/>estado actual]
-    Entry --> Raw[S3 Raw<br/>histórico]
-    Raw --> ETL[ETL<br/>Lambda o Glue]
+    Sources[Operational sources] --> Entry[API Gateway + EventBridge]
+    Entry --> DDB[DynamoDB<br/>current state]
+    Entry --> Raw[S3 Raw<br/>history]
+    Raw --> ETL[ETL<br/>Lambda or Glue]
     ETL --> Curated[S3 Curated / features]
     Curated --> Athena[Athena]
     Curated --> SM[SageMaker AI]
@@ -60,16 +58,16 @@ flowchart TD
     Athena --> Planner
     SM --> Planner
     Planner --> Engine[Decision Engine Lambda]
-    Entry --> Copilot[Copilot Lambda]
-    Copilot --> Bedrock[Bedrock Agent]
+    Entry --> Copilot[Copilot Orchestrator]
+    Copilot --> Bedrock[Amazon Bedrock]
     Copilot --> Engine
-    Engine --> Experience[API de experiencia]
+    Engine --> Experience[Experience API]
     Bedrock --> Experience
     Experience --> Dashboard[Dashboard]
-    Dashboard --> Feedback[Aprobación, ejecución y feedback]
+    Dashboard --> Feedback[Approval, execution, and feedback]
     Feedback --> Entry
 
-    subgraph Candidate[Cargas Lambda conceptuales; no implementadas]
+    subgraph Candidate[Conceptual workloads; not implemented in the audited commit]
       ETL
       Planner
       Engine
@@ -77,141 +75,139 @@ flowchart TD
     end
 ```
 
-### Estado de red verificable
+### Verifiable network state
 
-| Elemento | Resultado en el repositorio |
+| Item | Repository result |
 | --- | --- |
-| VPC y CIDR | No declarado |
-| Subredes, CIDR y Availability Zones | No declarados |
-| Tablas de rutas | No declaradas |
-| NAT Gateway / Internet Gateway | No declarados |
-| Security Groups / NACL | No declarados |
-| VPC Endpoints | No declarados |
-| VPN / Direct Connect / peering / red privada | No declarados |
-| IP disponibles o superposición de CIDR | No evaluable |
+| VPC and CIDR | Not declared |
+| Subnets, CIDRs, and Availability Zones | Not declared |
+| Route tables | Not declared |
+| NAT Gateway / Internet Gateway | Not declared |
+| Security groups / NACLs | Not declared |
+| VPC endpoints | Not declared |
+| VPN / Direct Connect / peering / private network | Not declared |
+| Available IPs or CIDR overlap | Not assessable |
 
-La ausencia de estos elementos en el repositorio no prueba que no existan en una cuenta AWS.
+Their absence from the repository does not prove they do not exist in an AWS account.
 
-## 4. Arquitectura recomendada
+## 4. Recommended architecture
 
-La recomendación de la nueva arquitectura es correcta para el MVP: mantener las cargas Lambda fuera de una VPC del cliente mientras solo dependan de los endpoints documentados. Lambda seguirá ejecutándose en la VPC administrada por el servicio, con acceso a endpoints públicos conforme a sus permisos IAM. La recomendación sigue siendo condicional para cualquier despliegue real no visible en este repositorio.
+For the MVP, keep Lambda workloads outside a customer VPC while they depend only on documented managed-service endpoints. Lambda still runs in the service-managed network and reaches public regional endpoints under IAM authorization. The recommendation remains conditional for any real deployment not visible in this repository.
 
 ```mermaid
 flowchart TD
-    Sources[Fuentes operativas] --> Entry[API Gateway + EventBridge]
+    Sources[Operational sources] --> Entry[API Gateway + EventBridge]
     Entry --> DDB[DynamoDB]
     Entry --> Raw[S3 Raw]
-    Raw --> ETL[ETL Lambda<br/>sin VpcConfig]
+    Raw --> ETL[ETL Lambda<br/>without VpcConfig]
     ETL --> Curated[S3 Curated]
     Curated --> Athena[Athena]
     Curated --> SM[SageMaker AI]
-    Entry --> Planner[Strategy Planner Lambda<br/>sin VpcConfig]
+    Entry --> Planner[Strategy Planner Lambda<br/>without VpcConfig]
     DDB --> Planner
     Athena --> Planner
     SM --> Planner
-    Planner --> Engine[Decision Engine Lambda<br/>sin VpcConfig]
-    Entry --> Copilot[Copilot Lambda<br/>sin VpcConfig]
-    Copilot --> Bedrock[Bedrock Agent]
+    Planner --> Engine[Decision Engine Lambda<br/>without VpcConfig]
+    Entry --> Copilot[Copilot Orchestrator<br/>without customer VPC]
+    Copilot --> Bedrock[Amazon Bedrock]
     Copilot --> Engine
-    Engine --> Experience[API de experiencia]
+    Engine --> Experience[Experience API]
     Bedrock --> Experience
     Experience --> Dashboard[Dashboard]
 
-    Private[(Dependencia privada futura)]
-    Private -. si aparece .-> Hybrid[Lambda específica<br/>subredes privadas en 2+ AZ]
+    Private[(Future private dependency)]
+    Private -. if required .-> Hybrid[Specific workload<br/>private subnets across 2+ AZs]
 ```
 
-Si una carga futura necesita RDS/Redis privado, una IP privada, VPN/Direct Connect o controles de red obligatorios, solo esa función debe conectarse a subredes privadas. Si además necesita internet IPv4 o endpoints públicos, deberá tener una ruta de salida válida —por ejemplo NAT Gateway— o endpoints VPC compatibles. Conectar Lambda a una subred pública no le asigna IP pública ni le concede internet automáticamente.
+If a future workload needs private RDS/Redis, a private IP, VPN/Direct Connect, or mandatory network controls, attach only that workload to private subnets. If it also needs public Internet or public endpoints over IPv4, provide valid egress such as a NAT Gateway or compatible VPC endpoints. Connecting Lambda to a public subnet does not assign a public IP or automatically grant Internet access.
 
-## 5. Hallazgos
+## 5. Findings
 
-No se identificaron hallazgos críticos verificables porque no existe implementación ni configuración desplegable que evaluar.
+No verifiable critical finding exists because there is no implementation or deployable configuration to evaluate.
 
-| Severidad | Hallazgo | Impacto | Evidencia / alcance |
+| Severity | Finding | Impact | Evidence / scope |
 | --- | --- | --- | --- |
-| Alto | No hay código ni IaC para demostrar qué Lambdas existen o cómo se conectan. | Impide concluir si retirar `VpcConfig` rompería dependencias y evita validar IAM, rutas y controles de seguridad. | El checkout solo contiene Markdown y CSV; no hay `.tf`, plantillas SAM/CloudFormation, Serverless/CDK, `package.json`, `requirements.txt`, `pyproject.toml` ni fuentes TS/JS/Python. |
-| Alto | No se verificó el estado real de la cuenta AWS. | Recursos desplegados manualmente o desde otro repositorio pueden diferir de la arquitectura propuesta. | Auditoría local; no se ejecutaron consultas AWS. |
-| Medio | Las cargas Lambda no tienen contrato técnico implementado. | Handler, runtime, triggers, dependencias, endpoints y variables podrían introducir una necesidad de VPC no documentada. | `ARCHITECTURE.md` nombra cuatro cargas conceptuales, pero no hay código ni configuración. |
-| Medio | IAM se expresa solo como principio, sin políticas. | No se puede comprobar mínimo privilegio ni si existen permisos EC2 de ENI innecesarios. | La documentación pide mínimo privilegio, pero no define roles o policies. |
-| Medio | No se documentan APIs externas, allowlists ni requisitos de cumplimiento. | Una IP de salida fija o conectividad privada cambiaría la decisión y podría requerir VPC/NAT. | No aparecen contratos de integración ni requisitos de red. |
-| Bajo | No existen CIDR, rutas, AZ, NACL o Security Groups auditables. | No se pueden validar superposición, clasificación pública/privada, alta disponibilidad o disponibilidad de IP. | No hay IaC ni inventario de red. |
+| High | No code or IaC proves which Lambdas exist or how they connect. | Prevents a conclusion about whether removing `VpcConfig` breaks dependencies and prevents IAM, route, and control validation. | Audited checkout contained documentation and CSV data only. |
+| High | Real AWS account state was not verified. | Manually deployed resources or another repository may differ from the proposed architecture. | Local audit; no AWS queries were run. |
+| Medium | Lambda workloads have no implemented technical contract. | Handler, runtime, trigger, dependency, endpoint, and environment may introduce an undocumented VPC need. | Architecture names conceptual workloads without code/configuration. |
+| Medium | IAM appears only as a principle, without policies. | Least privilege and unnecessary ENI EC2 permissions cannot be verified. | Documentation requests least privilege but defines no roles/policies. |
+| Medium | External APIs, allowlists, and compliance requirements are undocumented. | Fixed egress IP or private connectivity could change the decision and require VPC/NAT. | No integration contracts or network requirements appear. |
+| Low | No auditable CIDRs, routes, AZs, NACLs, or security groups. | CIDR overlap, public/private classification, high availability, and IP capacity cannot be validated. | No IaC or network inventory exists. |
 
-## 6. Análisis de conectividad por carga
+## 6. Per-workload connectivity analysis
 
 ### ETL
 
-- **Direcciones privadas / base privada:** no documentadas.
-- **Servicios documentados:** S3 Raw y S3 Curated; Glue es alternativa, no dependencia confirmada.
-- **Endpoints públicos:** la arquitectura permite operar mediante endpoints regionales públicos de AWS.
-- **IP de salida fija / cumplimiento privado:** no documentados.
-- **Si se elimina VPC:** no puede evaluarse en un despliegue inexistente. Bajo la arquitectura documentada, no se observa una conexión que deba fallar por quedar sin VPC.
-- **NAT / endpoint:** no sería necesario por el mero uso de S3 si la Lambda no tiene `VpcConfig`. Si se conecta a VPC por otra dependencia, un gateway endpoint de S3 puede evitar NAT para tráfico S3; deben validarse región, DNS, rutas y políticas.
+- **Private addresses/database:** not documented.
+- **Documented services:** S3 Raw and S3 Curated; Glue is an alternative, not a confirmed dependency.
+- **Public endpoints:** permitted by the architecture.
+- **Fixed egress IP/private compliance:** not documented.
+- **If VPC is removed:** no broken connection is visible under the documented architecture, but it cannot be proven for a nonexistent deployment.
+- **NAT/endpoint:** unnecessary merely for S3 when Lambda has no `VpcConfig`. If another dependency requires VPC, an S3 gateway endpoint can avoid NAT for S3 traffic after validating region, DNS, routes, and policies.
 
-### Motor de decisiones
+### Decision engine
 
-- **Direcciones privadas / RDS / Redis / EC2 / ECS:** no documentados.
-- **Servicios documentados:** DynamoDB, SageMaker y, por el flujo, API/Bedrock.
-- **Endpoints públicos:** no hay evidencia de lo contrario.
-- **IP de salida fija / cumplimiento privado:** no documentados.
-- **Si se elimina VPC:** no puede evaluarse sin implementación. Conceptualmente no se identifica dependencia privada.
-- **NAT / endpoint:** no sería necesario por DynamoDB si la función queda sin `VpcConfig`. Si otra dependencia obliga a usar VPC, un gateway endpoint de DynamoDB puede cubrir ese tráfico sin NAT; otros servicios deben evaluarse individualmente.
+- **Private addresses/RDS/Redis/EC2/ECS:** not documented.
+- **Documented services:** DynamoDB, SageMaker, and, through the flow, API/Bedrock.
+- **Public endpoints:** no evidence otherwise.
+- **Fixed egress IP/private compliance:** not documented.
+- **If VPC is removed:** no private dependency is conceptually identified.
+- **NAT/endpoint:** unnecessary for DynamoDB when the function has no `VpcConfig`. If another dependency requires VPC, a DynamoDB gateway endpoint can cover that traffic without NAT; evaluate other services individually.
 
-### Strategy Planner
+### Strategy planner
 
-- **Direcciones privadas / base privada:** no documentadas.
-- **Servicios documentados:** EventBridge Scheduler o acción mediante API, DynamoDB, SageMaker, Athena/S3 Curated y Decision Engine.
-- **Endpoints públicos:** no hay evidencia de lo contrario.
-- **IP de salida fija / cumplimiento privado:** no documentados.
-- **Si se elimina VPC:** conceptualmente conservaría acceso mediante endpoints públicos; el comportamiento real no puede probarse sin implementación.
-- **NAT / endpoint:** no se justifica NAT ni VPC por las dependencias documentadas.
+- **Private addresses/database:** not documented.
+- **Documented services:** EventBridge Scheduler or API action, DynamoDB, SageMaker, Athena/S3 Curated, and Decision Engine.
+- **Public endpoints/fixed egress:** no evidence of contrary requirements.
+- **If VPC is removed:** it should retain managed-service access conceptually; real behavior requires implementation.
+- **NAT/endpoint:** neither NAT nor VPC is justified by the documented dependencies.
 
-### Copilot
+### Copilot Orchestrator
 
-- **Direcciones privadas / base privada:** no documentadas.
-- **Servicios documentados:** API Gateway, Bedrock Agent, herramientas de contexto/forecast/histórico y Decision Engine.
-- **Endpoints públicos:** no hay evidencia de lo contrario.
-- **IP de salida fija / cumplimiento privado:** no documentados.
-- **Si se elimina VPC:** conceptualmente conservaría acceso a los servicios administrados; el comportamiento real no puede probarse sin implementación.
-- **NAT / endpoint:** no se justifica NAT ni VPC por las dependencias documentadas.
+- **Private addresses/database:** not documented.
+- **Documented services:** API Gateway, Amazon Bedrock/AgentCore, context/forecast/history tools, and Decision Engine.
+- **Public endpoints/fixed egress:** no evidence of contrary requirements.
+- **If VPC is removed:** it should retain managed-service access conceptually; real behavior requires implementation.
+- **NAT/endpoint:** neither NAT nor VPC is justified by the documented dependencies.
 
-## 7. Comparación de arquitecturas
+## 7. Architecture comparison
 
-| Criterio | A. Lambda sin VPC del cliente | B. Lambda en subredes privadas | C. Híbrida |
+| Criterion | A. Lambda outside customer VPC | B. Lambda in private subnets | C. Hybrid |
 | --- | --- | --- | --- |
-| Cuándo aplica | Solo endpoints públicos y sin requisito de egreso fijo | Acceso a RDS/Redis/EC2/ECS privados, IP privada o control de red obligatorio | Algunas funciones tienen dependencias privadas y otras no |
-| Simplicidad | Mayor | Menor: subredes, rutas, SG, ENI y salida/endpoints | Intermedia y ajustada por carga |
-| Internet / APIs públicas | Disponible por defecto en la red administrada por Lambda | Requiere diseñar salida; una subred pública no basta | Solo se diseña salida para funciones VPC |
-| Seguridad | IAM sigue siendo el control principal; menor superficie de red administrada por el equipo | Permite acceso privado y controles de red, pero añade configuración y permisos EC2 | Evita extender acceso VPC a funciones que no lo necesitan |
-| Costos de red | Sin NAT/endpoints exclusivos de la función | Puede incurrir en NAT, procesamiento de datos, endpoints de interfaz y transferencia | Limita cargos a dependencias privadas reales |
-| Limitaciones | No alcanza IP privadas del VPC del cliente | Más componentes y riesgo de rutas/DNS/SG incorrectos | Requiere clasificar bien cada función |
-| Ajuste al MVP documentado | Hipótesis preferida, pendiente de verificación | No justificada por el repositorio actual | Recomendación si aparece al menos una dependencia privada |
+| Applies when | Public endpoints only and no fixed-egress requirement | Private RDS/Redis/EC2/ECS, private IP, or mandatory network control | Some workloads have private dependencies and others do not |
+| Simplicity | Highest | Lowest: subnets, routes, SGs, ENIs, egress/endpoints | Intermediate and workload-specific |
+| Internet/public APIs | Available by default in Lambda managed network | Requires egress design; a public subnet is insufficient | Design egress only for VPC workloads |
+| Security | IAM remains the main control; lower team-managed network surface | Enables private access and network controls but adds configuration and EC2 permissions | Avoids extending VPC access to unnecessary workloads |
+| Network cost | No function-exclusive NAT/endpoints | May incur NAT, data processing, interface endpoints, and transfer | Limits costs to actual private dependencies |
+| Limitation | Cannot reach customer VPC private IPs | More components and route/DNS/SG failure modes | Requires correct workload classification |
+| Fit for documented MVP | Preferred hypothesis pending validation | Not justified by current repository | Recommended if at least one private dependency appears |
 
-## 8. Análisis de costos
+## 8. Cost analysis
 
-- Una VPC y las subredes por sí solas no implican cargo adicional; ciertos componentes sí lo hacen.
-- Un NAT Gateway genera cargo por tiempo aprovisionado y por datos procesados, además de posibles cargos de transferencia. No hay evidencia de que exista uno en este proyecto.
-- Los VPC endpoints de interfaz pueden generar cargos; no se deben crear de forma preventiva sin comparar tráfico, seguridad y costo.
-- Los gateway endpoints de S3 y DynamoDB no tienen cargo adicional y pueden sustituir NAT para esos servicios cuando una función **ya necesita** estar en una VPC.
-- La VPC también exige permisos y operación: gestión de rutas, Security Groups, capacidad de subred y diagnóstico. Esto es complejidad operativa aunque no todos los componentes tengan precio directo.
-- No se reporta una cantidad monetaria porque faltan región, horas, AZ, volumen de datos y recursos reales. Dar una cifra sería especulativo.
+- A VPC and subnets alone do not incur an extra charge; particular network components can.
+- A NAT Gateway incurs provisioned-hour and data-processing charges plus possible transfer charges. There is no evidence one exists for this project.
+- Interface VPC endpoints may incur charges; do not create them preemptively without comparing traffic, security, and cost.
+- S3 and DynamoDB gateway endpoints carry no additional charge and can replace NAT for those services when a workload **already must** be in a VPC.
+- VPC also requires route, security-group, subnet-capacity, and diagnostic operations. This is operational complexity even when components have no direct price.
+- No monetary value is reported because region, hours, AZs, data volume, and real resources are unknown.
 
-**Oportunidad de ahorro condicional:** si AWS revela un NAT Gateway o endpoints creados exclusivamente para Lambdas que solo consumen servicios públicos, quitar `VpcConfig` de esas funciones podría permitir retirar esos componentes después de validar que no tienen otros consumidores. La eliminación no forma parte de esta auditoría.
+**Conditional savings opportunity:** if AWS inventory reveals a NAT Gateway or endpoints created exclusively for Lambdas that consume only public managed services, removing `VpcConfig` from those functions may allow those components to be retired after confirming they have no other consumers. Removal is outside this audit.
 
-## 9. Plan de mejora
+## 9. Improvement plan
 
-| Paso | Cambio sugerido | Impacto esperado | Riesgo | Reversión |
+| Step | Suggested change | Expected impact | Risk | Reversal |
 | --- | --- | --- | --- | --- |
-| 1 | Inventariar con acceso AWS de solo lectura: funciones, `VpcConfig`, variables **solo por nombre**, roles, triggers y aliases por cuenta/región. | Sustituye hipótesis por estado real. | Omitir otra cuenta/región. | No aplica; lectura únicamente. |
-| 2 | Incorporar o localizar el repositorio de implementación/IaC y mapear cada llamada de red. | Identifica endpoints privados, APIs externas y requisitos de IP fija. | Dependencias dinámicas no visibles estáticamente. | No aplica; lectura únicamente. |
-| 3 | Inventariar VPC, subredes, CIDR, AZ, rutas, NAT/IGW, endpoints, SG, NACL, VPN, peering y consumidores compartidos. | Permite validar conectividad, superposición, HA, capacidad y costo. | Confundir recursos compartidos con exclusivos. | No aplica; lectura únicamente. |
-| 4 | Clasificar cada Lambda como pública, privada o indeterminada y documentar la decisión. | Habilita una arquitectura sin VPC o híbrida con alcance mínimo. | Clasificación incorrecta por requisito no documentado. | Mantener `VpcConfig` hasta resolver los indeterminados. |
-| 5 | En un entorno no productivo, probar una versión/alias sin `VpcConfig` para las funciones clasificadas como públicas. Validar S3/DynamoDB/SageMaker/Bedrock/APIs, logs, errores, latencia y timeouts. | Prueba funcional antes de cambiar producción. | Fallos de DNS, endpoint, allowlist o dependencia oculta. | Reapuntar el alias a la versión con `VpcConfig`. |
-| 6 | Solo después de la prueba, retirar `VpcConfig` mediante IaC y observar métricas. | Reduce complejidad y permisos EC2 de las funciones afectadas. | Regresión en tráfico poco frecuente. | Restaurar la configuración IaC previa. |
-| 7 | Auditar consumidores y costos antes de retirar NAT/endpoints/subredes. | Evita pagar recursos sin uso. | Eliminar infraestructura compartida. | Conservarla hasta demostrar cero consumidores; recrear desde IaC si fuera necesario. |
+| 1 | Inventory functions, `VpcConfig`, variable names only, roles, triggers, and aliases through read-only AWS access by account/region. | Replaces assumptions with real state. | Missing another account or region. | Not applicable; read-only. |
+| 2 | Find or add the implementation/IaC repository and map every network call. | Identifies private endpoints, external APIs, and fixed-IP requirements. | Dynamic dependencies may not be statically visible. | Not applicable; read-only. |
+| 3 | Inventory VPCs, subnets, CIDRs, AZs, routes, NAT/IGW, endpoints, SGs, NACLs, VPN, peering, and shared consumers. | Validates connectivity, overlap, HA, capacity, and cost. | Mistaking shared resources for exclusive ones. | Not applicable; read-only. |
+| 4 | Classify each Lambda as public, private, or indeterminate and document it. | Enables no-VPC or minimum-scope hybrid architecture. | Incorrect classification from an undocumented requirement. | Keep `VpcConfig` until indeterminate cases are resolved. |
+| 5 | In non-production, test a version/alias without `VpcConfig` for public-classified functions. Validate S3/DynamoDB/SageMaker/Bedrock/APIs, logs, errors, latency, and timeouts. | Functional proof before production change. | DNS, endpoint, allowlist, or hidden dependency failure. | Point alias back to the version with `VpcConfig`. |
+| 6 | Only after testing, remove `VpcConfig` through IaC and observe metrics. | Reduces complexity and EC2 permissions for affected functions. | Regression in infrequent traffic. | Restore previous IaC configuration. |
+| 7 | Audit consumers and costs before deleting NAT/endpoints/subnets. | Avoids paying for unused resources. | Deleting shared infrastructure. | Preserve until zero consumers are demonstrated; recreate through IaC if needed. |
 
-### Comandos de solo lectura sugeridos para una futura validación
+### Read-only commands for future validation
 
-Estos comandos son una guía y **no se ejecutaron**:
+These commands are guidance only and were **not executed**:
 
 ```bash
 aws lambda list-functions --region <region>
@@ -227,39 +223,37 @@ aws ec2 describe-security-groups --region <region>
 aws ec2 describe-network-acls --region <region>
 ```
 
-La revisión debe repetirse por cada cuenta y región del MVP y no debe imprimir valores de secretos.
+Repeat the review for every MVP account and region, and never print secret values.
 
-## 10. Evidencia
+## 10. Evidence
 
-### Evidencia del repositorio
+### Repository evidence
 
-| Conclusión | Archivo y líneas |
+| Conclusion | File and lines |
 | --- | --- |
-| El documento es una arquitectura propuesta. | `ARCHITECTURE.md:1-3` |
-| API Gateway/EventBridge alimentan DynamoDB y S3; el ETL puede ser Lambda/Glue. | `ARCHITECTURE.md:5-44` |
-| API Gateway tiene roles de ingesta y experiencia. | `ARCHITECTURE.md:58-65` |
-| EventBridge procesa eventos y agenda Lambdas. | `ARCHITECTURE.md:67-71` |
-| DynamoDB representa estado operativo y S3/Athena el histórico. | `ARCHITECTURE.md:73-99` |
-| Lambda + Python/Pandas es solo una opción para ETL. | `ARCHITECTURE.md:93-95` |
-| El motor es “por ejemplo Lambda/Python” y no existe implementación. | `ARCHITECTURE.md:112-122` |
-| El planificador tiene responsabilidades definidas, pero no implementación. | `ARCHITECTURE.md:124-134` |
-| Los flujos nombran Strategy Planner, Decision Engine y Copilot Lambda. | `ARCHITECTURE.md:167-193` |
-| La arquitectura recomienda no usar VPC para el hackathon salvo dependencia privada. | `ARCHITECTURE.md:197-211` |
-| Solo se enuncia IAM de mínimo privilegio; no hay políticas. | `ARCHITECTURE.md:213-221` |
-| El flujo requiere operaciones actuales, históricas y forecast, sin definir red. | `FLOW.md:118-132` |
+| Document is a proposed architecture. | `ARCHITECTURE.md:1-3` |
+| API Gateway/EventBridge feed DynamoDB and S3; ETL may use Lambda/Glue. | `ARCHITECTURE.md:5-44` |
+| API Gateway has ingestion and experience roles. | `ARCHITECTURE.md:58-65` |
+| EventBridge processes events and schedules Lambdas. | `ARCHITECTURE.md:67-71` |
+| DynamoDB represents operational state; S3/Athena represents history. | `ARCHITECTURE.md:73-99` |
+| Lambda + Python/Pandas is only an ETL option. | `ARCHITECTURE.md:93-95` |
+| The engine is “for example Lambda/Python” and has no implementation. | `ARCHITECTURE.md:112-122` |
+| Planner responsibilities are defined but not implemented. | `ARCHITECTURE.md:124-134` |
+| Architecture recommends no customer VPC for the hackathon unless a private dependency appears. | `ARCHITECTURE.md` |
+| Only least-privilege IAM is stated; no policies exist. | `ARCHITECTURE.md` |
 
-La enumeración de archivos versionados en el commit auditado devuelve cuatro Markdown y catorce CSV; no hay código ni IaC. Esto sustenta la limitación principal de la auditoría.
+The audited commit contained Markdown and CSV files only, with no application code or IaC. This supports the audit’s principal limitation.
 
-### Documentación oficial de AWS
+### Official AWS documentation
 
-- [Giving Lambda functions access to resources in an Amazon VPC](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html): una Lambda se conecta a una VPC del cliente para alcanzar recursos privados; requiere Hyperplane ENI y permisos EC2. La misma guía aclara que una subred pública no otorga internet ni IP pública a Lambda y que las ENI se reutilizan por combinación de subred y Security Group, por lo que no debe suponerse una IP por ejecución concurrente.
-- [Enable internet access for VPC-connected Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc-internet.html): documenta la ruta de una subred privada mediante NAT Gateway y la relación entre subred pública, Internet Gateway y tabla de rutas.
-- [What is Amazon VPC?](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html): una VPC no tiene cargo adicional por sí misma; ciertos componentes de red sí lo tienen, y los endpoints permiten conectividad privada a servicios compatibles.
-- [Pricing for NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-pricing.html): un NAT Gateway cobra por hora aprovisionada y por datos procesados; AWS recomienda valorar endpoints compatibles para reducir tráfico NAT.
-- [AWS PrivateLink: gateway endpoints for S3 and DynamoDB](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html) y [Gateway endpoints for DynamoDB](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-ddb.html): permiten acceso desde una VPC sin Internet Gateway o NAT y no tienen cargo adicional.
+- [Giving Lambda functions access to resources in an Amazon VPC](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html): Lambda connects to a customer VPC to reach private resources and requires Hyperplane ENIs plus EC2 permissions. A public subnet does not grant Lambda a public IP or Internet access; ENIs are shared per subnet/security-group combination.
+- [Enable internet access for VPC-connected Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc-internet.html): documents private-subnet NAT Gateway egress and the relationship between public subnet, Internet Gateway, and route table.
+- [What is Amazon VPC?](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html): a VPC itself has no additional charge; particular network components do, and endpoints provide private connectivity to supported services.
+- [Pricing for NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-pricing.html): NAT Gateway charges per provisioned hour and processed data; AWS recommends considering compatible endpoints to reduce NAT traffic.
+- [Gateway endpoints for S3](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html) and [DynamoDB](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-ddb.html): enable VPC access without Internet Gateway or NAT and have no additional charge.
 
-## Decisión final
+## Final decision
 
-**INDETERMINADO: falta evidencia para decidir sobre un despliegue real.**
+**INDETERMINATE: insufficient evidence exists for a real deployment decision.**
 
-No hay base técnica suficiente para recomendar eliminar una VPC que pudiera existir en AWS. Para la **arquitectura propuesta**, la respuesta de diseño es **NO: las cuatro cargas Lambda documentadas no requieren actualmente una VPC propia**, porque solo se describen dependencias administradas y públicas. La conclusión global se mantiene en `INDETERMINADO` hasta confirmar, en código e inventario AWS, que ninguna función desplegada accede a direcciones privadas, bases privadas, redes internas, endpoints privados obligatorios o sistemas externos con IP de salida fija.
+There is no technical basis to recommend removing a VPC that may exist in AWS. For the **proposed architecture**, the design answer is **NO: the documented Lambda workloads do not currently require their own customer VPC**, because only managed public dependencies are described. The overall conclusion remains `INDETERMINATE` until code and AWS inventory confirm that no deployed function accesses private addresses, private databases, internal networks, mandatory private endpoints, or external systems requiring fixed egress IP.

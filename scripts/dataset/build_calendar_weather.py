@@ -8,7 +8,7 @@ from datetime import date, timedelta
 import numpy as np
 import pandas as pd
 
-from common import DATES, END, START, rng, write_csv
+from common import DATES, END, FORECAST_DATES, START, rng, write_csv
 
 # event key -> (scope, display name)
 EVENT_INFO = {
@@ -105,11 +105,11 @@ def in_windows(windows) -> set:
     return {d for a, b in windows for d in date_span(a, b)}
 
 
-def build_events() -> list[tuple[date, str]]:
+def build_events(start: pd.Timestamp = START, end: pd.Timestamp = END) -> list[tuple[date, str]]:
     """Return (date, event_key) pairs within the dataset range."""
     ev = []
     add = lambda d, k: ev.append((d, k))
-    for y in range(START.year - 1, END.year + 1):
+    for y in range(start.year - 1, end.year + 1):
         add(date(y, 1, 1), "new_year")
         add(date(y, 1, 5), "three_kings_eve")
         add(date(y, 1, 6), "three_kings")
@@ -172,12 +172,12 @@ def build_events() -> list[tuple[date, str]]:
                 add(d, "back_to_school")
     # SEP Technical Council: last Friday of each school month (Sep-Jun), no classes.
     sep_vac = in_windows(SEP_VACATIONS)
-    for y in range(START.year, END.year + 1):
+    for y in range(start.year, end.year + 1):
         for m in [1, 2, 3, 4, 5, 6, 9, 10, 11, 12]:
             d = last_weekday(y, m, 4)
             if d not in sep_vac:
                 add(d, "school_council")
-    lo, hi = START.date(), END.date()
+    lo, hi = start.date(), end.date()
     return sorted({(d, k) for d, k in ev if lo <= d <= hi})
 
 
@@ -192,13 +192,13 @@ def season_of(d: date) -> str:
     return "autumn"
 
 
-def build_calendar(events) -> pd.DataFrame:
+def build_calendar(events, dates: pd.DatetimeIndex = DATES) -> pd.DataFrame:
     by_day: dict[date, list[str]] = {}
     for d, k in events:
         by_day.setdefault(d, []).append(k)
     sep_vac, col_vac = in_windows(SEP_VACATIONS), in_windows(COLLEGE_VACATIONS)
     rows = []
-    for ts in DATES:
+    for ts in dates:
         d = ts.date()
         keys = by_day.get(d, [])
         hol = [EVENT_INFO[k][1] for k in keys if k in OFFICIAL_HOLIDAYS]
@@ -238,11 +238,11 @@ def weather_label(tmax: float, tmin: float, precip: float) -> str:
     return "mild"
 
 
-def build_weather() -> pd.DataFrame:
-    r = rng(4)
-    n = len(DATES)
-    doy = DATES.dayofyear.to_numpy()
-    month = DATES.month.to_numpy() - 1
+def build_weather(dates: pd.DatetimeIndex = DATES, random_key: int = 4) -> pd.DataFrame:
+    r = rng(random_key)
+    n = len(dates)
+    doy = dates.dayofyear.to_numpy()
+    month = dates.month.to_numpy() - 1
     # Smooth climatology: interpolate monthly values by day of year.
     mid = np.array([15, 45, 74, 105, 135, 166, 196, 227, 258, 288, 319, 349])
     interp = lambda clim: np.interp(doy, np.r_[mid - 365, mid, mid + 365], np.tile(clim, 3))
@@ -279,7 +279,7 @@ def build_weather() -> pd.DataFrame:
     tmin = np.minimum(tmin, tmax - 6)
     tmax, tmin = np.round(tmax, 1), np.round(tmin, 1)
     return pd.DataFrame({
-        "date": DATES.strftime("%Y-%m-%d"), "temp_max_c": tmax, "temp_min_c": tmin, "precipitation_mm": rain,
+        "date": dates.strftime("%Y-%m-%d"), "temp_max_c": tmax, "temp_min_c": tmin, "precipitation_mm": rain,
         "weather_label": [weather_label(a, b, c) for a, b, c in zip(tmax, tmin, rain)],
     })
 

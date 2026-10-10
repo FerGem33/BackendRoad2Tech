@@ -64,6 +64,25 @@ discount, promotion_id
 
 El repositorio contiene un dataset sintético del hackathon. Se puede ampliar o reemplazar por datos sintéticos propios, siempre manteniendo relaciones causales plausibles: demanda por clima/evento, impacto de promociones, caducidad, merma y restricciones de inventario.
 
+## Preparar y validar el dataset
+
+Desde la carpeta `BackendRoad2Tech`, creen un entorno aislado e instalen las dependencias del generador:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python scripts/dataset/validate.py
+```
+
+Para regenerar todos los archivos sintéticos de `public/softtek/dataset/dataset-hackathon-road2tech/v2/` (incluidos inventario diario, campañas y tickets), ejecuten:
+
+```bash
+python scripts/dataset/run_all.py
+```
+
+El archivo `v2/README.md` documenta el diccionario de datos y las hipótesis de simulación. Los nombres comerciales que aparecen en el dataset se usan sólo para hacer la demo legible; los datos son ficticios.
+
 ## Enfoque de IA
 
 1. **Forecast probabilístico:** CatBoost o LightGBM predice demanda por tienda-SKU y horizonte usando cuantiles P50/P80/P90.

@@ -1,7 +1,8 @@
 """Write v2/README.md: overview, generation rules and the data dictionary (examples read from the CSVs)."""
 import pandas as pd
 
-from common import CYCLE_DAYS, END, OUT_DIR, SAFETY_DAYS_PERISHABLE, SAFETY_DAYS_STABLE, START, out_path
+from common import (CYCLE_DAYS, END, FORECAST_DATES, OUT_DIR, SAFETY_DAYS_PERISHABLE, SAFETY_DAYS_STABLE, START,
+                    out_path)
 
 # file -> (description, [(column, type, unit, description)])
 DICTIONARY = {
@@ -80,12 +81,82 @@ DICTIONARY = {
         ("precipitation_mm", "float", "mm", "Daily rainfall."),
         ("weather_label", "string", "-", "rainy (>= 5 mm) / hot (max >= 30 °C) / cold (max < 17 °C or min <= 1 °C) / mild."),
     ]),
-    "sales": ("Main training table: full grid of date x store x product (zero-sale rows included).", [
+    "sales": ("Main daily outcome table: full grid of date x store x product (zero-sale rows included).", [
         ("date", "date", "YYYY-MM-DD", "Day."),
         ("store_id", "string", "-", "FK to stores."),
         ("product_id", "string", "-", "FK to products."),
         ("units_sold", "int", "units", "Units sold = min(demand, stock on hand). Target variable."),
-        ("revenue", "float", "MXN", "units_sold x retail_price."),
+        ("gross_revenue", "float", "MXN", "units_sold x retail_price before promotion discount."),
+        ("discount_amount", "float", "MXN", "Campaign discount applied to sold units; 0 outside treatment."),
+        ("net_revenue", "float", "MXN", "gross_revenue - discount_amount."),
+        ("revenue", "float", "MXN", "Backward-compatible alias of net_revenue."),
+        ("campaign_id", "string (nullable)", "-", "Observed treatment campaign affecting this SKU/day/store, if any."),
+        ("campaign_units", "int", "units", "Sold units exposed to campaign treatment; 0 otherwise."),
+    ]),
+    "inventory_daily": ("Daily inventory state after the operations simulation; one row per date x store x product.", [
+        ("date", "date", "YYYY-MM-DD", "Day."),
+        ("store_id", "string", "-", "FK to stores."),
+        ("product_id", "string", "-", "FK to products."),
+        ("opening_qty", "int", "units", "On-hand units at start of day, before deliveries."),
+        ("received_qty", "int", "units", "Delivered units received during the morning."),
+        ("expired_qty", "int", "units", "Units removed because their lot expired before sale."),
+        ("units_sold", "int", "units", "Must equal sales.units_sold for the same key."),
+        ("lost_demand", "int", "units", "Unfulfilled simulated demand after inventory was exhausted."),
+        ("closing_qty", "int", "units", "On-hand units after expirations and sales."),
+        ("on_order_qty", "int", "units", "Open purchase-order quantity at end of day."),
+        ("stockout_flag", "int (0/1)", "-", "1 when lost_demand > 0."),
+    ]),
+    "promotion_campaigns": ("Historical promotion definitions. These are observed experiments, not agent recommendations.", [
+        ("campaign_id", "string", "-", "Campaign key."),
+        ("strategy_type", "string", "-", "affinity_combo / rescue_bundle / contextual_offer."),
+        ("objective", "string", "-", "Business objective of the experiment."),
+        ("anchor_product_id", "string", "-", "High-velocity or complementary SKU, FK to products."),
+        ("promoted_product_id", "string", "-", "Discounted / rescued SKU, FK to products."),
+        ("discount_pct", "float", "fraction", "Discount on promoted_product_id in treatment stores."),
+        ("uplift_anchor_pct", "float", "fraction", "Demand effect intentionally simulated for the anchor."),
+        ("uplift_promoted_pct", "float", "fraction", "Demand effect intentionally simulated for the promoted SKU."),
+        ("start_date", "date", "YYYY-MM-DD", "Campaign start."),
+        ("end_date", "date", "YYYY-MM-DD", "Campaign end."),
+        ("trigger_reason", "string", "-", "Business rationale used by the synthetic generator."),
+    ]),
+    "promotion_store_days": ("Store-day campaign assignment; treatment and control make uplift estimable.", [
+        ("campaign_id", "string", "-", "FK to promotion_campaigns."),
+        ("date", "date", "YYYY-MM-DD", "Eligible campaign day."),
+        ("store_id", "string", "-", "FK to stores."),
+        ("assignment_group", "string", "-", "Zone-based stratum used to split treatment/control."),
+        ("is_eligible", "int (0/1)", "-", "Store was in the experiment population."),
+        ("is_treatment", "int (0/1)", "-", "Store received the offer; 0 means comparable control."),
+        ("expected_uplift_pct", "float", "fraction", "Simulated promoted-SKU effect used only for data generation."),
+    ]),
+    "ticket_lines": ("Synthetic transactional baskets for affinity and ticket KPI analysis; reconciles to sales.csv.", [
+        ("ticket_id", "string", "-", "Synthetic transaction key; repeats for each line in a basket."),
+        ("timestamp", "datetime", "ISO-8601", "Synthetic checkout timestamp."),
+        ("date", "date", "YYYY-MM-DD", "Date component of timestamp."),
+        ("store_id", "string", "-", "FK to stores."),
+        ("product_id", "string", "-", "FK to products."),
+        ("quantity", "int", "units", "Units on this ticket line."),
+        ("gross_amount", "float", "MXN", "quantity x retail_price."),
+        ("discount_amount", "float", "MXN", "Line discount for treatment campaign, if any."),
+        ("net_amount", "float", "MXN", "gross_amount - discount_amount."),
+        ("campaign_id", "string (nullable)", "-", "Observed campaign attribution, if any."),
+        ("line_type", "string", "-", "regular / affinity_bundle / campaign_bundle."),
+    ]),
+    "forecast_context": ("Known external features for the 14-day period immediately after observed sales; no targets included.", [
+        ("date", "date", "YYYY-MM-DD", f"Future date ({END.date() + pd.Timedelta(days=1)} to {FORECAST_DATES[-1].date()})."),
+        ("day_of_week", "string", "-", "Monday..Sunday."),
+        ("is_weekend", "int (0/1)", "-", "Saturday or Sunday."),
+        ("is_holiday", "int (0/1)", "-", "Official holiday."),
+        ("holiday_name", "string (nullable)", "-", "Official holiday name."),
+        ("season_name", "string", "-", "winter / spring / summer / autumn."),
+        ("event_name", "string (nullable)", "-", "Known events active that day."),
+        ("event_scope", "string (nullable)", "-", "Scope of event_name."),
+        ("is_payday", "int (0/1)", "-", "15th or last day of month."),
+        ("is_school_vacation", "int (0/1)", "-", "SEP vacation feature."),
+        ("is_college_vacation", "int (0/1)", "-", "University vacation feature."),
+        ("temp_max_c", "float", "°C", "Synthetic forecast maximum temperature."),
+        ("temp_min_c", "float", "°C", "Synthetic forecast minimum temperature."),
+        ("precipitation_mm", "float", "mm", "Synthetic forecast rainfall."),
+        ("weather_label", "string", "-", "rainy / hot / cold / mild."),
     ]),
     "inventory_lots": ("One row per received lot (initial stock on 2024-01-01 plus every delivered order).", [
         ("lot_id", "string", "-", "Lot key."),
@@ -146,6 +217,7 @@ def main() -> None:
 - **Network:** 25 stores in Saltillo, 8 zone types, 120 products (same catalog in every store), 20 categories, 19 suppliers
 - **Format:** CSV, UTF-8, comma delimiter, `snake_case` columns, dates `YYYY-MM-DD`, money in MXN with 2 decimals
 - **Reproducible:** `python3 scripts/dataset/run_all.py` regenerates every file (fixed seed `SEED = 42`)
+- **Setup:** `python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt`
 
 | File | Rows | Size | Content |
 |---|---|---|---|
@@ -158,6 +230,9 @@ stores.zone_type / secondary_zone_type -> zones.zone_type
 products.category_id                    -> categories.category_id
 supplier_products.(supplier_id, product_id) -> suppliers, products
 sales.(store_id, product_id)            -> stores, products;   sales.date -> calendar.date, weather.date
+inventory_daily.(store_id, product_id)  -> stores, products; inventory_daily.units_sold -> sales.units_sold
+promotion_store_days.campaign_id        -> promotion_campaigns.campaign_id
+ticket_lines.(store_id, product_id)     -> stores, products; aggregates -> sales
 inventory_lots / purchase_orders .(store_id, product_id, supplier_id) -> stores, products, suppliers
 ```
 
@@ -165,8 +240,8 @@ inventory_lots / purchase_orders .(store_id, product_id, supplier_id) -> stores,
 
 `residential` (11 stores), and 2 stores each in `business`, `school`, `college`, `highway`, `industrial`,
 `shopping_center` and `hospital`. `school` (K-12, SEP calendar) and `college` (universities) are separate on purpose:
-school stores over-index on candy, snacks and juice and sell almost no alcohol or cigarettes, while college stores
-over-index on alcohol (with a Thursday-Saturday peak), energy drinks, coffee and cigarettes, and follow the
+school stores over-index on candy, snacks and juice and sell almost no alcoholic beverages or cigarettes, while college stores
+over-index on alcoholic beverages (with a Thursday-Saturday peak), energy drinks, coffee and cigarettes, and follow the
 university vacation calendar (`calendar.is_college_vacation`).
 
 ## Demand generation (`scripts/dataset/build_demand.py`)
@@ -178,10 +253,14 @@ expected_units = base_daily_demand
                  x weekday_multiplier[zone_type, weekday] x category_weekday[category, weekday]
                  x weather_multiplier[weather_label, weather_sensitivity] x temperature_slope
                  x event_multiplier[event, category/tag, zone_type]
-                 x annual_trend (+3.5 % volume per year; prices never change)
+                 x annual_trend (+3.5 % volume per year; shelf prices are fixed, campaign discounts alter net price)
 demand        = Poisson(expected_units x Gamma(shape=8, scale=1/8))
 units_sold    = min(demand, stock on hand)
 ```
+
+Controlled campaigns add a known treatment multiplier only for the assigned store-days. They are generated
+before operations so inventory constraints can cap their observed effect. `promotion_store_days.is_treatment = 0`
+rows are concurrent controls. Campaign outcome columns must **not** be used as future-looking forecast features.
 
 Business rules encoded (exact factors are in `EVENT_RULES`, `ZONE_MULT`, `WEATHER_MULT` in the script):
 
@@ -192,10 +271,10 @@ Business rules encoded (exact factors are in `EVENT_RULES`, `ZONE_MULT`, `WEATHE
 - **Business / industrial:** weekday breakfast/lunch profile (coffee, prepared foods), weekend and holiday drop.
 - **Parties** (Sep 15-16, Super Bowl, Mexico match days, Liga MX playoffs, Father's Day): beer, snacks, ice, dips and soft
   drinks, strongest in `residential` and `college`.
-- **Christmas Eve / New Year's Eve:** alcohol, 2.5-3 L soft drinks, ice and disposables; hangover products the day after.
+- **Christmas Eve / New Year's Eve:** alcoholic beverages, 2.5-3 L soft drinks, ice and disposables; hangover products the day after.
 - **Halloween / Day of the Dead:** candy (and flowers, sweet bread). **Three Kings' Day:** bakery, Three Kings' cake (sold only Dec 26-Jan 10), hot chocolate.
   **Candlemas:** tamales. **Valentine's / Mother's Day:** chocolates and flowers.
-- **Paydays** (15th and last day, plus the next day): +6 % traffic, +12 % alcohol. **Dry law** on the June 2024 election weekend.
+- **Paydays** (15th and last day, plus the next day): +6 % traffic, +12 % alcoholic beverages. **Dry law** on the June 2024 election weekend.
 
 ## Best-supplier rule (`scripts/dataset/supplier_selection.py`)
 
@@ -240,8 +319,9 @@ quantity formula, which orders lead-time demand that existing stock already cove
 ## Validation
 
 `python3 scripts/dataset/validate.py` checks foreign keys, store coordinates, supplier counts/prices/categories,
-constant prices, `select_supplier` reproducibility on 100 sampled orders, calendar/weather coverage, nulls,
-negative units, lot dates and the sales grid size, and prints the sanity checks.
+daily inventory balance, treatment/control validity, campaign pricing, ticket-to-sales reconciliation, leakage
+guards, `select_supplier` reproducibility on 100 sampled orders, calendar/weather coverage, nulls, negative units,
+lot dates and the sales grid size, and prints sanity checks.
 """
     (OUT_DIR / "README.md").write_text(text, encoding="utf-8")
     print(f"  wrote {OUT_DIR / 'README.md'}")

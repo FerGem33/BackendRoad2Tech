@@ -40,8 +40,8 @@ inventory_lots / purchase_orders .(store_id, product_id, supplier_id) -> stores,
 
 `residential` (11 stores), and 2 stores each in `business`, `school`, `college`, `highway`, `industrial`,
 `shopping_center` and `hospital`. `school` (K-12, SEP calendar) and `college` (universities) are separate on purpose:
-school stores over-index on candy, snacks and juice and sell almost no alcohol or cigarettes, while college stores
-over-index on alcohol (with a Thursday-Saturday peak), energy drinks, coffee and cigarettes, and follow the
+school stores over-index on candy, snacks and juice and sell almost no alcoholic beverages or cigarettes, while college stores
+over-index on alcoholic beverages (with a Thursday-Saturday peak), energy drinks, coffee and cigarettes, and follow the
 university vacation calendar (`calendar.is_college_vacation`).
 
 ## Demand generation (`scripts/dataset/build_demand.py`)
@@ -53,7 +53,7 @@ expected_units = base_daily_demand
                  x weekday_multiplier[zone_type, weekday] x category_weekday[category, weekday]
                  x weather_multiplier[weather_label, weather_sensitivity] x temperature_slope
                  x event_multiplier[event, category/tag, zone_type]
-                 x annual_trend (+3.5 % volume per year; prices never change)
+                 x annual_trend (+3.5 % volume per year; shelf prices are fixed, campaign discounts alter net price)
 demand        = Poisson(expected_units x Gamma(shape=8, scale=1/8))
 units_sold    = min(demand, stock on hand)
 ```
@@ -67,10 +67,10 @@ Business rules encoded (exact factors are in `EVENT_RULES`, `ZONE_MULT`, `WEATHE
 - **Business / industrial:** weekday breakfast/lunch profile (coffee, prepared foods), weekend and holiday drop.
 - **Parties** (Sep 15-16, Super Bowl, Mexico match days, Liga MX playoffs, Father's Day): beer, snacks, ice, dips and soft
   drinks, strongest in `residential` and `college`.
-- **Christmas Eve / New Year's Eve:** alcohol, 2.5-3 L soft drinks, ice and disposables; hangover products the day after.
+- **Christmas Eve / New Year's Eve:** alcoholic beverages, 2.5-3 L soft drinks, ice and disposables; hangover products the day after.
 - **Halloween / Day of the Dead:** candy (and flowers, sweet bread). **Three Kings' Day:** bakery, Three Kings' cake (sold only Dec 26-Jan 10), hot chocolate.
   **Candlemas:** tamales. **Valentine's / Mother's Day:** chocolates and flowers.
-- **Paydays** (15th and last day, plus the next day): +6 % traffic, +12 % alcohol. **Dry law** on the June 2024 election weekend.
+- **Paydays** (15th and last day, plus the next day): +6 % traffic, +12 % alcoholic beverages. **Dry law** on the June 2024 election weekend.
 
 ## Best-supplier rule (`scripts/dataset/supplier_selection.py`)
 

@@ -14,6 +14,8 @@ START = pd.Timestamp("2024-01-01")
 END = pd.Timestamp("2026-09-30")
 DATES = pd.date_range(START, END, freq="D")
 N_DAYS = len(DATES)
+FORECAST_HORIZON_DAYS = 14
+FORECAST_DATES = pd.date_range(END + pd.Timedelta(days=1), periods=FORECAST_HORIZON_DAYS, freq="D")
 
 # Replenishment policy (see supplier_selection.py and README).
 CYCLE_DAYS = 7

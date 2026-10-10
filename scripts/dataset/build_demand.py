@@ -130,6 +130,9 @@ class DemandModel:
     expected: np.ndarray       # float64 [days, stores, products]
     realized: np.ndarray       # int32  [days, stores, products]
     calendar_hint: np.ndarray  # float64 [days], weighted mean calendar multiplier
+    # (day_idx, store_idx, product_idx) -> (campaign_id, discount_pct)
+    # The anchor is included with a 0 discount so ticket generation can retain its basket relation.
+    campaign_effects: dict[tuple[int, int, int], tuple[str, float]]
 
 
 def _product_masks():
@@ -150,7 +153,31 @@ def _zone_matrix(zone: str, mask) -> np.ndarray:
     return out
 
 
-def build(stores: pd.DataFrame, weather: pd.DataFrame) -> DemandModel:
+def _apply_campaigns(expected: np.ndarray, stores: pd.DataFrame, campaigns: pd.DataFrame | None,
+                     assignments: pd.DataFrame | None) -> dict[tuple[int, int, int], tuple[str, float]]:
+    """Apply observed treatment effects only; controls remain the counterfactual baseline."""
+    if campaigns is None or assignments is None or campaigns.empty or assignments.empty:
+        return {}
+    c = campaigns.set_index("campaign_id")
+    day_idx = {d.strftime("%Y-%m-%d"): i for i, d in enumerate(DATES)}
+    store_idx = {store_id: i for i, store_id in enumerate(stores.store_id)}
+    product_idx = {f"P{i + 1:03d}": i for i in range(len(PRODUCTS))}
+    effects: dict[tuple[int, int, int], tuple[str, float]] = {}
+    treated = assignments[assignments.is_treatment == 1]
+    for a in treated.itertuples(index=False):
+        spec = c.loc[a.campaign_id]
+        d, s = day_idx[a.date], store_idx[a.store_id]
+        anchor, promoted = product_idx[spec.anchor_product_id], product_idx[spec.promoted_product_id]
+        # A generator invariant: campaign windows never overlap, so a product/store/day gets one effect.
+        expected[d, s, anchor] *= 1 + float(spec.uplift_anchor_pct)
+        expected[d, s, promoted] *= 1 + float(spec.uplift_promoted_pct)
+        effects[d, s, anchor] = (a.campaign_id, 0.0)
+        effects[d, s, promoted] = (a.campaign_id, float(spec.discount_pct))
+    return effects
+
+
+def build(stores: pd.DataFrame, weather: pd.DataFrame, campaigns: pd.DataFrame | None = None,
+          assignments: pd.DataFrame | None = None) -> DemandModel:
     n_d, n_s, n_p = len(DATES), len(stores), len(PRODUCTS)
     mask = _product_masks()
     zones = stores.zone_type.tolist()
@@ -241,6 +268,7 @@ def build(stores: pd.DataFrame, weather: pd.DataFrame) -> DemandModel:
     trend = (1 + ANNUAL_GROWTH) ** years
 
     expected = static[None, :, :] * weekday * wthr[:, None, :] * events * trend[:, None, None]
+    campaign_effects = _apply_campaigns(expected, stores, campaigns, assignments)
     noise = rng(6).gamma(GAMMA_SHAPE, 1 / GAMMA_SHAPE, expected.shape)
     realized = rng(7).poisson(expected * noise).astype(np.int32)
-    return DemandModel(expected=expected, realized=realized, calendar_hint=hint)
+    return DemandModel(expected=expected, realized=realized, calendar_hint=hint, campaign_effects=campaign_effects)

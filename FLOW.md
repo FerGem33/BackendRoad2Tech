@@ -115,9 +115,11 @@ Ejemplos de conflicto:
 
 El optimizador maximiza el margen incremental esperado sujeto a las restricciones anteriores. Se recomienda una restricción de diversidad para evitar que el plan tenga cinco estrategias sobre el mismo producto o categoría.
 
-## Rol del agente
+## Copilot Orchestrator y rol del LLM
 
-El agente tiene acceso únicamente mediante herramientas seguras:
+LangGraph controla el estado de la solicitud, aprobaciones, reintentos y continuación de borradores. LangChain conecta el grafo con Amazon Bedrock mediante `ChatBedrockConverse`. El LLM interpreta la intención y explica resultados, pero el forecast, los riesgos y todo impacto económico los calculan SageMaker y el motor determinista.
+
+El Copilot tiene acceso únicamente mediante herramientas seguras:
 
 ```text
 get_current_store_context(store_id)
@@ -129,7 +131,20 @@ optimize_portfolio(candidates)
 create_promotion_draft(strategy)
 ```
 
-El agente puede proponer una estrategia estructurada, pero no la declara viable por sí mismo. Siempre debe pasar por `simulate_strategy` y por el optimizador cuando afecta el plan actual.
+El recorrido de una petición es:
+
+```text
+intención -> contexto -> forecast/insights -> candidatas
+-> simulación -> validación -> optimización -> respuesta JSON
+-> aprobación humana -> guardar borrador o promoción aprobada
+```
+
+El Copilot puede proponer una estrategia estructurada, pero no la declara viable por sí mismo. Siempre debe pasar por `simulate_strategy` y por el optimizador cuando afecta el plan actual.
+
+Dos fachadas de producto evitan que el frontend conozca las herramientas internas:
+
+- `get_product_tendency`: entrega serie histórica, forecast P50/P80/P90, tendencia y riesgos; Bedrock sólo genera el resumen.
+- `get_product_sell_strategy`: compone contexto, forecast, historial, candidatas, simulación, validación y borrador; compara siempre escenario base contra escenario tratado.
 
 ## Aprobación y aprendizaje
 

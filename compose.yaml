@@ -1,0 +1,9 @@
+services:
+  dataset:
+    build:
+      context: .
+      dockerfile: Dockerfile.dataset
+    image: stockcopilot-dataset:local
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    volumes:
+      - ./public/softtek/dataset/dataset-hackathon-road2tech/v2:/app/public/softtek/dataset/dataset-hackathon-road2tech/v2

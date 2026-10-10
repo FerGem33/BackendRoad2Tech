@@ -34,7 +34,8 @@ Fuentes operativas
                  +--------------------+-------------------+
                                       |
                                       v
-                    API de experiencia + Bedrock Agent
+          API de experiencia + Copilot Orchestrator
+             LangChain / LangGraph + Amazon Bedrock
                                       |
                                       v
                   Dashboard / encargado de tienda
@@ -133,9 +134,28 @@ El planificador construye el **plan comercial automático** que aparece siempre 
 
 El planificador no debe forzar cinco promociones: si existen menos oportunidades rentables y viables, devuelve sólo las que cumplan las reglas.
 
-### Amazon Bedrock Agent / GenUI
+### Copilot Orchestrator — LangChain/LangGraph + Amazon Bedrock
 
-Interfaz conversacional sobre herramientas controladas. El agente interpreta la intención del encargado, solicita datos por funciones y devuelve una respuesta estructurada para renderizar componentes permitidos: tarjetas de estrategia, gráfico de forecast, calendario de reabasto o resumen del plan.
+LangGraph controla explícitamente el estado y las transiciones de la conversación; LangChain integra el modelo de Amazon Bedrock mediante `ChatBedrockConverse`. Bedrock interpreta intención, selecciona herramientas permitidas y redacta respuestas, pero no es la fuente de verdad de los cálculos.
+
+Para un despliegue AWS nuevo, el grafo se empaqueta como contenedor ARM64 y se ejecuta en **Amazon Bedrock AgentCore Runtime**. El protocolo recomendado inicialmente es HTTP: `GET /ping` para salud y `POST /invocations` para solicitudes del dashboard. API Gateway conserva autenticación, límites y el contrato público. Para una demo local se puede ejecutar exactamente el mismo grafo detrás de una API Python; no se usa Bedrock Agents Classic, que está en modo de mantenimiento para clientes nuevos.
+
+El grafo mínimo es:
+
+```text
+INTENCIÓN
+  -> OBTENER_DATOS
+  -> FORECAST_E_INSIGHTS
+  -> GENERAR_CANDIDATAS
+  -> SIMULAR
+  -> VALIDAR
+  -> OPTIMIZAR_PORTAFOLIO
+  -> RESPONDER_JSON
+  -> ESPERAR_APROBACIÓN
+  -> GUARDAR_BORRADOR
+```
+
+Los nodos de datos, simulación y validación son funciones deterministas. Los checkpoints de LangGraph permiten retomar un borrador, aplicar reintentos seguros y separar la aprobación humana de la generación de la estrategia.
 
 El frontend nunca debe ejecutar HTML/JavaScript arbitrario generado por el modelo. El contrato debe ser JSON validado contra un esquema de componentes conocido.
 
@@ -145,6 +165,8 @@ El agente tiene dos funciones complementarias:
 - **estrategia bajo demanda:** transforma una petición como “aumenta bebidas energéticas el sábado, con máximo 10% de descuento” en filtros y restricciones, genera candidatas y solicita su simulación.
 
 Una estrategia creada por prompt inicia como borrador. Al agregarla al plan, el optimizador recalcula el impacto del portafolio completo para evitar doble conteo o canibalización.
+
+El Runtime recibe una sola identidad IAM de mínimo privilegio y las herramientas validan todos sus parámetros. No se conceden accesos generales del LLM a S3, Athena o DynamoDB. Para producción, el Runtime usa VPC, autenticación de entrada, CloudTrail y logs de CloudWatch cifrados y con retención limitada.
 
 ### Dashboard y aprobación humana
 
@@ -163,6 +185,21 @@ simulate_strategy(strategy)
 optimize_portfolio(candidates)
 create_promotion_draft(strategy)
 ```
+
+Dos funciones de experiencia agrupan esas herramientas sin ampliar permisos:
+
+```text
+get_product_tendency(store_id, sku, history_days, forecast_days)
+  -> histórico Athena/S3 Curated + forecast SageMaker
+  -> tendencia, riesgos y series P50/P80/P90 calculados
+  -> Bedrock sólo redacta `ai_summary`
+
+get_product_sell_strategy(store_id, objective, constraints)
+  -> contexto -> forecast -> insights -> candidatas permitidas
+  -> simulador -> validador -> optimizador -> create_promotion_draft
+```
+
+La respuesta de estrategia incluye explícitamente series `baseline` y `treated`, unidades/ventas/margen incrementales, merma evitada, riesgo de quiebre, incertidumbre, supuestos, `draft_id` y `requires_approval: true`. Nunca se presenta el efecto como garantizado.
 
 ## Flujos de generación de estrategias
 
@@ -183,13 +220,13 @@ EventBridge Scheduler o acción “regenerar plan”
 
 ```text
 Usuario escribe una intención en el dashboard
-  -> API Gateway + Copilot Lambda
-  -> Bedrock Agent convierte intención en objetivo/restricciones
+  -> API Gateway + Copilot Orchestrator (LangGraph)
+  -> Bedrock convierte intención en objetivo/restricciones
   -> herramientas de contexto, forecast e histórico
-  -> borradores candidatos
-  -> simulador y optimizador
+  -> candidatas permitidas -> simulador -> validador -> optimizador
   -> tarjeta de estrategia y comparación contra el plan actual
   -> usuario agrega, descarta o solicita ajuste
+  -> borrador/aprobación persistidos en DynamoDB
 ```
 
 El total mostrado al usuario siempre es `impacto neto del portafolio seleccionado`; nunca se calcula como una suma ciega de impactos individuales.

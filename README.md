@@ -81,6 +81,24 @@ Para regenerar todos los archivos sintéticos de `public/softtek/dataset/dataset
 python scripts/dataset/run_all.py
 ```
 
+### Generación con Docker
+
+Docker evita depender de la versión de Python o de paquetes instalados en la máquina local. Construyan la imagen y ejecuten el generador así:
+
+```bash
+docker compose build dataset
+LOCAL_UID=$(id -u) LOCAL_GID=$(id -g) docker compose run --rm dataset
+```
+
+El volumen declarado en `compose.yaml` escribe los CSV generados directamente en `public/softtek/dataset/dataset-hackathon-road2tech/v2/`. Para ejecutar sólo las validaciones sobre esa salida:
+
+```bash
+LOCAL_UID=$(id -u) LOCAL_GID=$(id -g) \
+  docker compose run --rm dataset python scripts/dataset/validate.py
+```
+
+La imagen es sólo para el generador; no contiene credenciales, servicios AWS ni la aplicación web.
+
 El archivo `v2/README.md` documenta el diccionario de datos y las hipótesis de simulación. Los nombres comerciales que aparecen en el dataset se usan sólo para hacer la demo legible; los datos son ficticios.
 
 ## Enfoque de IA
@@ -89,7 +107,7 @@ El archivo `v2/README.md` documenta el diccionario de datos y las hipótesis de 
 2. **Afinidad de productos:** análisis de tickets para encontrar productos complementarios y estimar la oportunidad de cross-sell.
 3. **Simulador de estrategias:** compara el escenario base contra cada promoción candidata para estimar uplift, margen, merma evitada y riesgo de quiebre.
 4. **Optimizador de portafolio:** selecciona estrategias compatibles bajo restricciones de inventario, margen, tiempo y presupuesto.
-5. **Agente LLM:** recibe objetivos en lenguaje natural, consulta herramientas controladas y devuelve explicaciones/UI estructurada; no inventa cálculos ni escribe cambios sin aprobación humana.
+5. **Copilot Orchestrator:** LangGraph controla el flujo conversacional y las aprobaciones; LangChain usa Amazon Bedrock mediante `ChatBedrockConverse`. El LLM consulta herramientas controladas y devuelve explicaciones/UI estructurada; no inventa cálculos ni escribe cambios sin aprobación humana.
 
 ## Documentos relacionados
 

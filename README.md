@@ -76,4 +76,6 @@ El repositorio contiene un dataset sintético del hackathon. Se puede ampliar o 
 
 - [FLOW.md](./FLOW.md): recorrido funcional, generación de estrategias y retroalimentación.
 - [ARCHITECTURE.md](./ARCHITECTURE.md): componentes AWS, responsabilidades e interfaces.
+- [Diagrama de arquitectura AWS (SVG)](./docs/stockcopilot-aws-architecture.svg): versión vectorial editable con los servicios, flujos y límites de la solución.
+- [Diagrama de arquitectura AWS (PNG)](./docs/stockcopilot-architecture.png): versión lista para visualizar o incluir en presentaciones.
 

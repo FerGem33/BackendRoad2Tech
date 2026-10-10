@@ -1,0 +1,26 @@
+store_id,store_name,colonia,latitude,longitude,zone_type,secondary_zone_type,size_category,opening_hours,is_24h,opened_date
+S001,OXXO República Oriente,República Oriente,25.430881,-100.983762,residential,,medium,00:00-24:00,1,2022-03-26
+S002,OXXO Saltillo 2000,Saltillo 2000,25.458398,-101.007051,residential,school,large,00:00-24:00,1,2014-04-04
+S003,OXXO Lomas de Lourdes,Lomas de Lourdes,25.401232,-100.989193,residential,,medium,06:00-23:00,0,2020-10-22
+S004,OXXO Valle de las Flores,Valle de las Flores,25.464763,-100.979249,residential,,medium,06:00-23:00,0,2011-03-12
+S005,OXXO Mirasierra,Mirasierra,25.40302,-100.97103,residential,,large,00:00-24:00,1,2010-10-23
+S006,OXXO Los Pinos,Los Pinos,25.437903,-100.970464,residential,,small,06:00-23:00,0,2009-12-02
+S007,OXXO Morelos,Morelos,25.41669,-101.01973,residential,,small,06:00-24:00,0,2013-02-20
+S008,OXXO Bellavista,Bellavista,25.418344,-100.999919,residential,business,medium,00:00-24:00,1,2020-12-29
+S009,OXXO Brisas Poniente,Brisas Poniente,25.432733,-101.042105,residential,,medium,06:00-23:00,0,2017-06-26
+S010,OXXO Satélite Norte,Satélite Norte,25.470204,-101.015764,residential,,medium,00:00-24:00,1,2018-08-10
+S011,OXXO Virreyes Residencial,Virreyes Residencial,25.445751,-100.993572,residential,,small,06:00-23:00,0,2009-04-02
+S012,OXXO Zona Centro - Plaza de Armas,Zona Centro - Plaza de Armas,25.424511,-101.003768,business,shopping_center,medium,00:00-24:00,1,2020-12-17
+S013,OXXO Blvd. Venustiano Carranza Corporate Corridor,Blvd. Venustiano Carranza Corporate Corridor,25.441119,-100.986691,business,residential,medium,06:00-23:00,0,2011-12-04
+S014,OXXO Ateneo Fuente School Area,Ateneo Fuente School Area,25.425819,-100.991835,school,residential,small,06:00-24:00,0,2013-06-06
+S015,OXXO Escuela Normal de Coahuila Area,Escuela Normal de Coahuila Area,25.415765,-100.988827,school,,small,06:00-23:00,0,2009-09-10
+S016,OXXO Tec de Monterrey Campus Saltillo,Tec de Monterrey Campus Saltillo,25.450954,-100.982651,college,residential,medium,06:00-23:00,0,2012-12-15
+S017,OXXO UAdeC Unidad Camporredondo,UAdeC Unidad Camporredondo,25.432193,-101.009353,college,school,medium,00:00-24:00,1,2009-09-30
+S018,OXXO Highway 57 - Monterrey Exit,Highway 57 - Monterrey Exit,25.478205,-100.954717,highway,industrial,large,00:00-24:00,1,2012-03-25
+S019,OXXO Periférico LEA - Zacatecas Exit (Hwy 54),Periférico LEA - Zacatecas Exit (Hwy 54),25.385298,-101.045876,highway,,large,00:00-24:00,1,2022-11-30
+S020,OXXO Saltillo-Ramos Arizpe Industrial Park,Saltillo-Ramos Arizpe Industrial Park,25.485777,-100.964478,industrial,,medium,00:00-24:00,1,2019-08-13
+S021,OXXO Periférico LEA - Derramadero Corridor,Periférico LEA - Derramadero Corridor,25.374505,-101.028807,industrial,highway,medium,00:00-24:00,1,2014-06-10
+S022,OXXO Galerías Saltillo,Galerías Saltillo,25.442648,-100.97908,shopping_center,business,large,06:00-23:00,0,2017-05-09
+S023,OXXO Sendero Saltillo,Sendero Saltillo,25.461487,-101.029139,shopping_center,,medium,07:00-23:00,0,2008-08-05
+S024,OXXO Hospital Universitario Area,Hospital Universitario Area,25.422427,-100.989893,hospital,,medium,00:00-24:00,1,2008-11-29
+S025,OXXO IMSS Hospital General de Zona 2 Area,IMSS Hospital General de Zona 2 Area,25.434309,-100.975889,hospital,residential,medium,00:00-24:00,1,2019-09-15

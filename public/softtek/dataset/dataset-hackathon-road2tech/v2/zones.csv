@@ -1,0 +1,9 @@
+zone_type,description,peak_hours,weekend_multiplier,notes
+residential,"Housing neighborhoods; neighbors buy daily groceries, drinks and party supplies.",07:00-09:00|18:00-22:00,1.11,"Strongest reaction to parties, matches and holidays."
+business,Offices and downtown commerce; weekday breakfast and lunch traffic.,07:00-09:30|13:00-15:30,0.48,Sharp weekend and holiday drop.
+school,"Next to K-12 schools (SEP calendar); students buy candy, snacks and juice.",07:00-08:00|12:30-14:30,0.4,"Sharp drop on weekends, SEP vacations and teacher-council days; minimal alcohol/cigarettes."
+college,"Next to universities (UAdeC, Tec de Monterrey); young adults buy alcohol, energy drinks, coffee.",08:00-10:00|13:00-15:00|20:00-23:00,0.62,University calendar; alcohol peaks Thursday-Saturday.
+highway,"On Highway 57, Periferico Luis Echeverria or the Monterrey/Zacatecas exits; travelers and truckers.",06:00-10:00|16:00-20:00,1.12,"Snacks, water, soft drinks, energy drinks and coffee lead every day; long weekends increase traffic."
+industrial,Industrial parks and the corridor toward Derramadero/Ramos Arizpe; shift workers.,05:30-07:30|13:30-15:00|21:30-22:30,0.65,Weekday shift peaks; Saturday half shifts; low Sunday.
+shopping_center,Inside or next to malls; leisure shoppers.,12:00-15:00|17:00-21:00,1.27,Weekend peak; Buen Fin boost.
+hospital,"Next to hospitals and clinics; visitors, patients and staff 24/7.",07:00-10:00|19:00-22:00,0.95,"Flat week; pharmacy, coffee, flowers and baby products over-index."

@@ -72,6 +72,21 @@ RUNNER=$(aws cloudformation describe-stacks --stack-name "$STACK" --query "Stack
 
 ## Stage, train, and publish
 
+### Hackathon local path (no SageMaker training quota required)
+
+The shared AWS account currently has zero quota for SageMaker training jobs across instance types. Use this local Docker workflow to run the exact same CatBoost trainer, rolling backtest quality gate, and 14-day batch forecaster without creating AWS jobs. It writes a model bundle, evaluation report, and JSONL forecast under the ignored `artifacts/forecast/` directory; it does not publish to DynamoDB.
+
+The generated v2 dataset must exist locally at `public/softtek/dataset/dataset-hackathon-road2tech/v2/` (generate it with the dataset Docker workflow if needed). From the repository root:
+
+```bash
+mkdir -p artifacts/forecast
+LOCAL_UID=$(id -u) LOCAL_GID=$(id -g) docker compose --profile forecast run --build --rm forecast-local
+```
+
+This runs the four-fold backtest and enforces the existing rule that mean CatBoost P50 WAPE must beat the seasonal-naive baseline before training the final model. The default forecast cutoff, `2026-09-16`, matches the interactive demo; change it with `DATA_AS_OF=YYYY-MM-DD`. `MODEL_ITERATIONS` can override the default 750 for experiments, but changing it requires rerunning the quality gate. The generated `forecasts.jsonl` contains one record per store/SKU with 14 P50/P80/P90 points and can be inspected or consumed by a local API adapter.
+
+This local path is intentionally separate from the AWS promotion workflow below: it does not register a SageMaker Model Package, activate a DynamoDB model pointer, or invoke the scheduled publisher. Once the account quota is approved, continue with the cloud workflow to register and publish a model.
+
 Install the local operator dependencies and upload only the forecast inputs. The extra Botocore CRT dependency lets boto3 read credentials created by `aws login`:
 
 ```bash

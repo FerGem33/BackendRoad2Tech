@@ -42,9 +42,12 @@ def main() -> None:
     output_dir = environment_path("PROCESSING_OUTPUT_DIR", "/opt/ml/processing/output")
     model_dir = Path("/tmp/stockcopilot-model")
     archives = sorted(archive_dir.glob("*.tar.gz"))
-    if len(archives) != 1:
-        raise ValueError(f"Expected exactly one model.tar.gz input, found {archives}")
-    extract_model_archive(archives[0], model_dir)
+    if len(archives) == 1:
+        extract_model_archive(archives[0], model_dir)
+    elif not archives and (archive_dir / "metadata.json").is_file():
+        model_dir = archive_dir
+    else:
+        raise ValueError(f"Expected one model.tar.gz or a local model bundle, found {archives}")
     models, metadata = load_bundle(model_dir)
     metrics_path = model_dir / "metrics.json"
     if metrics_path.exists():

@@ -39,6 +39,7 @@ func handle(ctx context.Context, r *httpx.Request) (int, any, error) {
 	if err != nil {
 		return 0, nil, err
 	}
+	productID := httpx.Query(r, "product_id")
 	page, err := httpx.ParsePage(r, 25)
 	if err != nil {
 		return 0, nil, err
@@ -51,6 +52,9 @@ func handle(ctx context.Context, r *httpx.Request) (int, any, error) {
 	items := all[:0]
 	for _, s := range all {
 		if !urgentOnly || s.IsUrgent {
+			if productID != "" && s.ProductID != productID {
+				continue
+			}
 			items = append(items, s)
 		}
 	}

@@ -36,15 +36,17 @@ type affinityOut struct {
 }
 
 type behaviorOut struct {
-	ID               string       `json:"id"`
-	Kind             string       `json:"kind"`
-	Source           string       `json:"source"`
-	Title            string       `json:"title"`
-	Text             string       `json:"text"`
-	ProductID        string       `json:"product_id"`
-	RelatedProductID *string      `json:"related_product_id"`
-	Affinity         *affinityOut `json:"affinity"`
-	EstimatedGainMXN float64      `json:"estimated_gain_mxn"`
+	ID                  string       `json:"id"`
+	Kind                string       `json:"kind"`
+	Source              string       `json:"source"`
+	Title               string       `json:"title"`
+	Text                string       `json:"text"`
+	ProductID           string       `json:"product_id"`
+	RelatedProductID    *string      `json:"related_product_id"`
+	Affinity            *affinityOut `json:"affinity"`
+	EstimatedGainMXN    float64      `json:"estimated_gain_mxn"`
+	StrategyID          *string      `json:"strategy_id"`
+	RestockSuggestionID *string      `json:"restock_suggestion_id"`
 }
 
 func marginOf(p db.Product) float64 {
@@ -91,13 +93,34 @@ func handle(ctx context.Context, r *httpx.Request) (int, any, error) {
 		products map[string]db.Product
 		forecast map[string][]db.Forecast
 		lots     []db.Lot
+		sc       *domain.StoreContext
+		drafts   []domain.Strategy
 	)
 	g, gctx := errgroup.WithContext(ctx)
 	g.Go(func() (err error) { products, err = db.ProductMap(gctx); return })
 	g.Go(func() (err error) { forecast, err = db.Forecasts(gctx, storeID, from, to); return })
 	g.Go(func() (err error) { lots, err = db.LotsExpiringBetween(gctx, storeID, max(from, asOf), to); return })
+	g.Go(func() (err error) { sc, err = domain.LoadStoreContext(gctx, storeID); return })
+	g.Go(func() (err error) { drafts, err = domain.StoreDrafts(gctx, storeID); return })
 	if err := g.Wait(); err != nil {
 		return 0, nil, err
+	}
+
+	// vigente restock suggestion per product and plan draft per promoted product, for the links.
+	suggestionID := map[string]string{}
+	for _, s := range sc.RestockSuggestions(asOf, domain.AddDays(asOf, 7)) {
+		if _, ok := suggestionID[s.ProductID]; !ok {
+			suggestionID[s.ProductID] = s.ID
+		}
+	}
+	draftID := map[string]string{}
+	for _, d := range drafts {
+		if !domain.PlanStatuses[d.Status] {
+			continue
+		}
+		if _, ok := draftID[d.PromotedProductID]; !ok {
+			draftID[d.PromotedProductID] = d.DraftID
+		}
 	}
 
 	behaviors := []behaviorOut{}
@@ -185,6 +208,16 @@ func handle(ctx context.Context, r *httpx.Request) (int, any, error) {
 			Affinity:         nil,
 			EstimatedGainMXN: httpx.Money(uplift[pid] * marginOf(p)),
 		})
+	}
+
+	// Link each behavior to the plan draft and the vigente restock suggestion that address its product.
+	for i := range behaviors {
+		if id, ok := draftID[behaviors[i].ProductID]; ok {
+			behaviors[i].StrategyID = &id
+		}
+		if id, ok := suggestionID[behaviors[i].ProductID]; ok {
+			behaviors[i].RestockSuggestionID = &id
+		}
 	}
 
 	sort.SliceStable(behaviors, func(i, j int) bool { return behaviors[i].EstimatedGainMXN > behaviors[j].EstimatedGainMXN })

@@ -7,3 +7,27 @@ services:
     user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
     volumes:
       - ./public/softtek/dataset/dataset-hackathon-road2tech/v2:/app/public/softtek/dataset/dataset-hackathon-road2tech/v2
+
+  forecast-local:
+    build:
+      context: .
+      dockerfile: sagemaker/Dockerfile
+    image: stockcopilot-forecast:local
+    profiles: ["forecast"]
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    entrypoint: ["python", "-m", "scripts.forecast.run_local"]
+    command:
+      - --data-dir
+      - /data
+      - --output-dir
+      - /artifacts
+      - --data-as-of
+      - ${DATA_AS_OF:-2026-09-16}
+      - --iterations
+      - ${MODEL_ITERATIONS:-400}
+      - --quick
+      - --max-train-rows
+      - ${MAX_TRAIN_ROWS:-600000}
+    volumes:
+      - ./public/softtek/dataset/dataset-hackathon-road2tech/v2:/data:ro
+      - ./artifacts/forecast:/artifacts

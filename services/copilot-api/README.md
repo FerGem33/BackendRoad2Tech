@@ -49,7 +49,7 @@ How this maps to the AWS design in [`ARCHITECTURE.md`](../../ARCHITECTURE.md):
 | AWS component | Here (MVP) | Later |
 |---|---|---|
 | Athena / S3 Curated | `DataRepository` (CSV or PostgreSQL) | an Athena adapter implementing the same protocol |
-| SageMaker forecast | `domain/forecast.py` local baseline or `DynamoForecastProvider` (published P50/P80/P90) | SageMaker training and daily Processing Job |
+| SageMaker forecast | `domain/forecast.py` fallback, `JsonlForecastProvider` (local CatBoost output), or `DynamoForecastProvider` (published P50/P80/P90) | SageMaker training and daily Processing Job |
 | Uplift / affinity models | `domain/uplift.py` (campaign diff-in-diff), `data/build_affinity.py` (tickets) | SageMaker uplift / affinity models |
 | Decision engine Lambda | `domain/strategy/*`, `domain/restock.py` | same code in Lambda |
 | DynamoDB drafts | `DraftStore` (memory / PostgreSQL) | a DynamoDB store with the same methods |
@@ -82,6 +82,21 @@ DATA_BACKEND=postgres CHECKPOINTER=postgres DATABASE_URL=postgresql://... uv run
 
 Or run all three (database, loader and API) with `GOOGLE_API_KEY=... docker compose up --build`
 inside this folder. The API is then on port 8000.
+
+### Use the trained CatBoost forecast in the API
+
+The local forecast job writes `../../artifacts/forecast/forecasts/forecasts.jsonl` relative to this directory. After it finishes and passes its quality gate, run the API with that file:
+
+```bash
+FORECAST_PROVIDER=jsonl \
+FORECAST_FILE=../../artifacts/forecast/forecasts/forecasts.jsonl \
+DEMO_AS_OF=2026-09-16 \
+uv run python -m stockcopilot
+```
+
+For Docker Compose, set `FORECAST_PROVIDER=jsonl` when starting the stack; the artifact directory is mounted read-only at `/artifacts/forecast`. On PowerShell, set the environment variable with `$env:FORECAST_PROVIDER="jsonl"` before `docker compose up --build`. The forecast file must exist before API startup. Restart the API after retraining to load a new file.
+
+The provider validates all dates, quantiles, duplicate store/SKU keys, and the configured demo cutoff at startup. It never silently falls back to the deterministic baseline when the CatBoost artifact is missing or invalid. The same forecast then feeds tendency charts, stockout/waste risk, restock suggestions, and strategy simulations through `Services.forecast()`. The JSONL path is for a local demo; the deployed API continues to use the DynamoDB provider.
 
 ### AWS Lambda (REST only)
 

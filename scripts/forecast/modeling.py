@@ -35,17 +35,36 @@ def _model_params(quantile: float, config: CatBoostConfig) -> dict[str, Any]:
         "random_seed": config.random_seed,
         "thread_count": config.thread_count,
         "allow_writing_files": False,
-        "verbose": False,
+        "verbose": 100,
         "random_strength": 0.5,
     }
 
 
-def fit_quantile_models(features: pd.DataFrame, as_of: str | pd.Timestamp, config: CatBoostConfig = CatBoostConfig()) -> dict[float, Any]:
-    """Fit P50, P80, and P90 sequentially on all eligible baseline rows through as_of."""
+def select_training_rows(features: pd.DataFrame, as_of: str | pd.Timestamp, max_train_rows: int | None, random_seed: int) -> pd.DataFrame:
+    """Apply the temporal cutoff before reproducibly sampling completed feature rows."""
     cutoff = pd.Timestamp(as_of)
-    train = features.loc[features["date"] <= cutoff].copy()
-    if train.empty:
+    eligible_index = features.index[features["date"] <= cutoff]
+    if len(eligible_index) == 0:
         raise ValueError(f"No eligible training rows exist at or before {cutoff.date()}")
+    if max_train_rows is not None:
+        if max_train_rows < 1:
+            raise ValueError("max_train_rows must be a positive integer")
+        if len(eligible_index) > max_train_rows:
+            rng = np.random.default_rng(random_seed)
+            eligible_index = pd.Index(rng.choice(eligible_index.to_numpy(), size=max_train_rows, replace=False)).sort_values()
+    return features.loc[eligible_index].copy()
+
+
+def fit_quantile_models(
+    features: pd.DataFrame,
+    as_of: str | pd.Timestamp,
+    config: CatBoostConfig = CatBoostConfig(),
+    max_train_rows: int | None = None,
+) -> dict[float, Any]:
+    """Fit P50, P80, and P90 on eligible baseline rows through as_of."""
+    train = select_training_rows(features, as_of, max_train_rows, config.random_seed)
+    if max_train_rows is not None:
+        print(f"Training sample: {len(train):,} of {int((features['date'] <= pd.Timestamp(as_of)).sum()):,} eligible rows")
     model_input = train.loc[:, FEATURE_COLUMNS]
     target = train["demand_target"].astype(float)
     CatBoostRegressor = _catboost()

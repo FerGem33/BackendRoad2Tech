@@ -18,6 +18,8 @@ JQ='{n: (.data.items|length), first: .data.items[0]}' call GET /stores
 JQ='.data.kpis' call GET '/stores/S001/kpis'
 JQ='{n: (.data.items|length), top: [.data.items[] | select(.is_top) | {store_id, movement, units}]}' call GET '/heat?product_id=P001'
 JQ='{n: (.data.items|length), kinds: ([.data.items[].kind] | unique)}' call GET '/stores/S001/behaviors'
+JQ='{n: (.data.items|length), summary: .data.summary, first: (.data.items[0] | {store_id, product_id, predicted_daily_demand, risk, recommended_extra_qty})}' call GET '/predictions/stores?product_id=P001'
+JQ='{total: .data.total, first: (.data.items[0] | {product_id, predicted_daily_demand, risk, recommended_extra_qty})}' call GET '/stores/S001/predictions/products?page_size=2'
 JQ='{total: .data.total, first: .data.items[0] | {product_id, status, closing_qty, coverage_days, next_restock_date}}' call GET '/stores/S001/stock?page_size=2'
 JQ='.data' call GET '/stock/summary'
 JQ='{total: .data.total, first: .data.items[0]}' call GET '/stores/S001/stock-policy?page_size=2'
@@ -27,6 +29,8 @@ JQ='{events: (.data.events|length), kinds: ([.data.events[] | (.alert_type // .k
 JQ='{n: (.data.items|length), first: .data.items[0]}' call GET /suppliers
 JQ='{total: .data.total, first: .data.items[0]}' call GET '/suppliers/SUP01/offers?page_size=2'
 JQ='.data' call POST /suppliers/SUP01/test-email '{}'
+JQ='.data' call POST /emails '{"to":"demo@stockcopilot.com","subject":"Prueba","text":"Hola desde smoke","from_name":"StockCopilot"}'
+JQ='.' call POST /emails '{"to":"no-valido","subject":"x","text":"hola"}'
 JQ='{total: .data.total, first: .data.items[0]}' call GET '/products?q=coca&page_size=2'
 JQ='{tools: [.data.tools[].name], blocks: [.data.blocks[].type], text: .data.blocks[0].text, ic: .data.interpreted_constraints}' call POST /chat '{"store_id":"S001","conversation_id":null,"message":"Aumenta las energéticas el sábado con máximo 10% de descuento"}'
 JQ='{blocks: [.data.blocks[].type], text: .data.blocks[0].text}' call POST /chat '{"store_id":"S001","conversation_id":null,"message":"¿Qué tengo que pedir esta semana?"}'

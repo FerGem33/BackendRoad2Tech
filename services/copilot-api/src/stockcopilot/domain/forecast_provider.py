@@ -1,4 +1,5 @@
 """Forecast providers that preserve the domain contract across local and AWS runtimes."""
+
 from __future__ import annotations
 
 from datetime import date

@@ -118,6 +118,8 @@ pytest tests/forecast
 
 The model predicts baseline demand as `units_sold + lost_demand`; treated promotion rows are excluded. It produces daily P50/P80/P90 forecasts for the 14-day feature-only context and stores local artifacts in `artifacts/forecast/`, which is also ignored by Git.
 
+For the time-limited Docker path (one temporal holdout and three model fits instead of the full rolling backtest), see [sagemaker/README.md](./sagemaker/README.md#hackathon-local-path-no-sagemaker-training-quota-required).
+
 ## SageMaker batch deployment
 
 The production-shaped hackathon deployment trains the same CatBoost bundle in SageMaker, registers only a model that beats the seasonal-naive benchmark, and precomputes 14-day store-SKU forecasts into DynamoDB. It intentionally creates no real-time endpoint: the dashboard reads the validated forecasts with low latency and no idle inference cost. See [sagemaker/README.md](./sagemaker/README.md) for deployment, training, and cleanup commands.

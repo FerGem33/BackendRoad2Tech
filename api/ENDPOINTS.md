@@ -567,7 +567,9 @@ Catálogo (120 productos). Parámetros: `category_id`, `q`, `page`, `page_size`.
 
 ### 3.17 `POST /chat`
 
-Chat del asistente (GenUI). Respuesta completa, sin streaming. Requiere tienda.
+Chat del asistente (GenUI). Respuesta completa, sin streaming. `store_id` es opcional para preguntas de tendencia,
+suficiencia de stock, agotamiento y merma: el backend compara las sucursales, devuelve la señal más relevante y
+responde `focus_store_id`. Promociones, pedidos, plan y aprobación siguen requiriendo una tienda.
 
 Body:
 
@@ -575,11 +577,15 @@ Body:
 {
   "store_id": "S001",
   "conversation_id": null,
+  "context_product_id": null,
   "message": "Aumenta las energéticas el sábado con máximo 10% de descuento"
 }
 ```
 
-`conversation_id` nulo la primera vez; el backend lo devuelve y el frontend lo reenvía (checkpoint de LangGraph). Si la tienda falta: `422 store_required`.
+`conversation_id` es nulo la primera vez; el backend lo devuelve y el frontend lo reenvía. `context_product_id` es
+opcional y permite que una pregunta posterior como «¿se agotará este producto?» conserve el producto ya analizado.
+Sin `store_id`, una pregunta que no sea de tendencia o inventario devuelve texto solicitando la sucursal, sin crear
+promociones ni pedidos.
 
 Respuesta:
 
@@ -590,6 +596,8 @@ Respuesta:
   "data": {
     "conversation_id": "conv_01J8",
     "message_id": "msg_02",
+    "focus_store_id": "S001",
+    "focus_product_id": "P001",
     "tools": [
       { "name": "get_demand_forecast", "args": { "store_id": "S001", "horizon": 14 } },
       { "name": "simulate_strategy", "args": { "strategy_type": "contextual_offer", "category": "Energy drinks", "max_discount_pct": 0.10 } },
@@ -617,7 +625,10 @@ Respuesta:
 | `plan_summary` | `current_net_expected_margin_increment`, `with_draft_net_expected_margin_increment`, `delta`, `overlaps[]` |
 | `restock_table` | `suggestions[]` con la forma de §3.11 (puede ser un subconjunto) |
 
-El frontend filtra bloques desconocidos o inválidos. `tools[]` son los realmente ejecutados, en orden (`get_current_store_context`, `get_demand_forecast`, `get_historical_insights`, `get_business_constraints`, `simulate_strategy`, `optimize_portfolio`, `create_promotion_draft`, `get_product_tendency`, `get_product_sell_strategy`).
+El frontend filtra bloques desconocidos o inválidos. `tools[]` son los realmente ejecutados, en orden
+(`get_current_store_context`, `get_chain_inventory_outlook`, `get_store_inventory_outlook`, `get_demand_forecast`,
+`get_business_constraints`, `simulate_strategy`, `optimize_portfolio`, `create_promotion_draft`,
+`get_product_tendency`).
 
 Reglas: el chat **nunca aprueba ni activa**; si el usuario pide "actívala", responde con texto indicando que la aprobación se hace desde el plan. Un borrador creado por el chat vive como `draft` y se agrega con `POST /drafts/{draft_id}/add-to-plan`. Error de agente: HTTP 5xx con el formato de §1 (el frontend ofrece "Reintentar" con el mismo `message`).
 

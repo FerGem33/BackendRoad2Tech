@@ -57,8 +57,10 @@ api/
   `D` = promedio del pronóstico a 14 días; `reason` en español y `reason_codes[]` (duda D7).
 - **Calendario (§3.13)**: entregas y estrategias leídas de la tabla; alertas derivadas al leer (ver DYNAMO.md §4.18).
 - **Chat (§3.17)**: orquestador por reglas con los mismos nombres de herramientas que el agente LangGraph; detecta
-  intención (oferta, reabasto, pronóstico, aprobar), categoría, producto, día y descuento máximo; crea borradores
-  `contextual_offer` con `status: draft` y nunca aprueba. Elasticidad supuesta 4.0, margen mínimo 12 %, presupuesto $2,500.
+  intención (oferta, reabasto, pronóstico, inventario/merma, aprobar), categoría, producto, día y descuento máximo.
+  Las preguntas de tendencia o inventario pueden empezar sin tienda: compara las 25 sucursales, fija la señal más
+  relevante y conserva el producto para preguntas posteriores. Crea borradores `contextual_offer` con `status: draft`
+  y nunca aprueba. Elasticidad supuesta 4.0, margen mínimo 12 %, presupuesto $2,500.
 - **Pronóstico**: seasonal-naive mientras no exista la salida del modelo (DYNAMO.md §4.12).
 - **Dashboard (§3.1–§3.9)**: `/meta` lee catálogos (categorías, zonas); `/chain/summary` y `/kpis` agregan
   tickets (average_ticket, items_per_ticket), stockouts, sin-demanda y el portafolio (suma del margen incremental

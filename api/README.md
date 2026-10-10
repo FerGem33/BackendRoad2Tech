@@ -1,6 +1,6 @@
 # API StockCopilot (Go + AWS Lambda)
 
-Endpoints §3.1–§3.18 de [`ENDPOINTS.md`](ENDPOINTS.md), una Lambda por carpeta, detrás de un API Gateway HTTP API, sobre la
+Endpoints §3.1–§3.19 de [`ENDPOINTS.md`](ENDPOINTS.md), una Lambda por carpeta, detrás de un API Gateway HTTP API, sobre la
 tabla única de DynamoDB descrita en [`docs/DYNAMO.md`](../docs/DYNAMO.md).
 
 Base URL: `https://avbylri05m.execute-api.us-east-1.amazonaws.com`
@@ -26,6 +26,7 @@ Base URL: `https://avbylri05m.execute-api.us-east-1.amazonaws.com`
 | 3.17 | `POST /chat` | `chat` |
 | 3.18 | `POST /auth/signin` | `auth-signin` |
 | 3.18 | `POST /auth/logout` | `auth-logout` |
+| 3.19 | `POST /emails` | `send-email` |
 
 Todas, salvo `/auth/signin`, piden `Authorization: Bearer <token>`. Usuario demo: `demo@stockcopilot.com` / `demo1234`.
 
@@ -41,6 +42,7 @@ api/
   internal/mail                envío con Resend (DEMO_MAILBOX, modo log sin API key)
   scripts/build.sh             compila linux/arm64 → dist/lambdas/<lambda>.zip (bootstrap)
   scripts/deploy.sh            sube los zip y actualiza el código de cada Lambda (aws CLI)
+  scripts/set-mail-env.sh      copia RESEND_PASS/RESEND_EMAIL de ../.env.local a las Lambdas que envían correo
 ../scripts/dynamo/build_import.py   genera la carga de DynamoDB desde los CSV de v2/
 ```
 
@@ -71,17 +73,19 @@ Los KPIs de ticket y `lost_demand_7d` requieren que `build_import.py` cargue `ti
 
 | Variable | Uso |
 |---|---|
-| `TABLE_NAME` | `road2tech-stores` |
+| `TABLE_NAME` | `road2tech-stores-v2` (tabla activa; el código usa `road2tech-stores` si no se define) |
 | `DATA_AS_OF` | `2026-09-30` (hoy de la demo) |
 | `JWT_SECRET` | firma de tokens (generado al desplegar) |
 | `CORS_ALLOW_ORIGIN` | `*` (restringir al dominio del frontend) |
-| `RESEND_API_KEY` | sin definir → los correos sólo se registran en CloudWatch (`provider_message_id = log_…`) |
-| `EMAIL_FROM_ADDRESS` | remitente verificado en Resend (por defecto `onboarding@resend.dev`) |
-| `DEMO_MAILBOX` | si existe, todo correo va a ese buzón y la respuesta trae `demo_redirect: true` |
+| `RESEND_API_KEY` | sólo en `restock-orders`, `supplier-test-email` y `send-email` (`scripts/set-mail-env.sh`); sin definir → los correos sólo se registran en CloudWatch (`provider_message_id = log_…`) |
+| `EMAIL_FROM_ADDRESS` | `no-reply@tindertec.com`, remitente verificado en Resend (por defecto `onboarding@resend.dev`) |
+| `DEMO_MAILBOX` | si existe, los correos a proveedores (§3.12, §3.15) van a ese buzón y la respuesta trae `demo_redirect: true`; `/emails` lo ignora |
 
 ## Infraestructura (us-east-1)
 
-- DynamoDB `road2tech-stores` (on-demand, GSI1, GSI2, TTL `ttl`), creada con *Import from S3*.
+- DynamoDB `road2tech-stores-v2` (on-demand, GSI1, GSI2, TTL `ttl`), creada con *Import from S3* desde
+  `dynamo-import/v2/` (dataset regenerado con `run_all.py`, 353,087 ítems, incluye `TICKET_DAY` y `lost_demand_7d`).
+  `road2tech-stores` es la carga anterior (dataset viejo, sin tickets).
 - Lambdas `road2tech-<carpeta>`: `provided.al2023`, arm64, rol `road2tech-api-lambda` (DynamoDB sólo sobre la tabla + logs).
 - API Gateway HTTP API `road2tech-api` (`$default`, auto-deploy, CORS, throttling 25 rps / ráfaga 50).
 - Bucket privado `road2tech-artifacts-510936382741`: zips de Lambdas y archivos de importación.
@@ -97,4 +101,6 @@ python3 ../scripts/dynamo/build_import.py   # regenera dist/dynamo-import/*.json
 ```
 
 Recargar la tabla desde cero: subir `dist/dynamo-import/*.json.gz` a `s3://road2tech-artifacts-510936382741/dynamo-import/<versión>/`
-y ejecutar `ImportTable` hacia una tabla nueva (Import from S3 siempre crea la tabla).
+y ejecutar `ImportTable` hacia una tabla nueva (Import from S3 siempre crea la tabla). Después: agregar la tabla al
+permiso del rol `road2tech-api-lambda` y cambiar `TABLE_NAME` en todas las Lambdas. Las sesiones viven en la tabla,
+así que al cambiarla hay que volver a iniciar sesión.

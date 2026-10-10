@@ -634,6 +634,30 @@ Credenciales incorrectas: `401 invalid_credentials`. Token vencido en cualquier 
 `POST /auth/logout` (con `Authorization`, body vacío) revoca la sesión del token: `{ "data": { "logged_out": true } }`.
 Después, ese token recibe `401 unauthorized` en cualquier ruta. Token ausente o inválido: `401 unauthorized`.
 
+### 3.19 `POST /emails`
+
+Envía un correo libre con Resend al destinatario indicado (requiere `Authorization`). No aplica `DEMO_MAILBOX`: el
+usuario elige el destinatario.
+
+Body (`text`, `htmlBody` o ambos; si van los dos, el cliente de correo muestra el HTML y `text` queda de respaldo):
+
+```json
+{ "to": "cliente@ejemplo.com", "subject": "Tu pedido", "text": "Hola...", "htmlBody": "<!DOCTYPE html>...", "from_name": "StockCopilot" }
+```
+
+`htmlBody` se envía tal cual, sin escapar ni sanitizar, así que se puede generar en el frontend con react-email
+(`await render(<MiCorreo />)` y `render(<MiCorreo />, { plainText: true })` para `text`), mjml u otra librería.
+`from_name` es opcional (por defecto `StockCopilot`); el remitente es `EMAIL_FROM_ADDRESS`.
+
+Respuesta 201:
+
+```json
+{ "data": { "status": "sent", "sent_at": "2026-10-10T12:20:11Z", "email": { "to": "cliente@ejemplo.com", "subject": "Tu pedido", "provider_message_id": "01a125c1-..." } } }
+```
+
+Errores: `400 invalid_request` (`to` inválido, falta `subject`, faltan `text` y `htmlBody`), `413 body_too_large`
+(`text` o `htmlBody` > 1 MB), `502 email_failed` (Resend rechazó el envío).
+
 ---
 
 ## 4. Formas de Strategy y Portfolio

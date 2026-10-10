@@ -12,3 +12,4 @@ artifacts/forecast/
 .aws-sam/
 samconfig.toml
 .env.sagemaker
+.env.local

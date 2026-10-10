@@ -24,6 +24,8 @@ type Message struct {
 	To       string // shown address (the supplier); DEMO_MAILBOX overrides the real recipient
 	Subject  string
 	HTML     string
+	Text     string // plain-text part; at least one of HTML or Text is required
+	Direct   bool   // send to To even when DEMO_MAILBOX is set (recipient chosen explicitly by the user)
 }
 
 type Result struct {
@@ -38,7 +40,7 @@ var ErrEmailFailed = httpx.Errorf(502, "email_failed", "No se pudo enviar el cor
 func Send(ctx context.Context, m Message) (*Result, error) {
 	res := &Result{To: m.To, Subject: m.Subject}
 	recipient := m.To
-	if demo := os.Getenv("DEMO_MAILBOX"); demo != "" {
+	if demo := os.Getenv("DEMO_MAILBOX"); demo != "" && !m.Direct {
 		recipient, res.DemoRedirect = demo, true
 	}
 	key := os.Getenv("RESEND_API_KEY")
@@ -51,10 +53,14 @@ func Send(ctx context.Context, m Message) (*Result, error) {
 	if from == "" {
 		from = "onboarding@resend.dev"
 	}
-	body, _ := json.Marshal(map[string]any{
-		"from": fmt.Sprintf("%s <%s>", m.FromName, from), "to": []string{recipient},
-		"subject": m.Subject, "html": m.HTML,
-	})
+	payload := map[string]any{"from": fmt.Sprintf("%s <%s>", m.FromName, from), "to": []string{recipient}, "subject": m.Subject}
+	if m.HTML != "" {
+		payload["html"] = m.HTML
+	}
+	if m.Text != "" {
+		payload["text"] = m.Text
+	}
+	body, _ := json.Marshal(payload)
 	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
 	req, _ := http.NewRequestWithContext(ctx, http.MethodPost, "https://api.resend.com/emails", bytes.NewReader(body))

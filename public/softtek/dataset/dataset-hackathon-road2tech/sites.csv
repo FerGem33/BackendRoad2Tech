@@ -1,0 +1,21 @@
+site_id,site_name,site_type,city,state,region,traffic_tier
+ST01,Aeropuerto Internacional de Monterrey,Aeropuerto,Apodaca,Nuevo León,Noreste,1.6
+ST02,Toluca Centro,Zona Urbana,Toluca,Estado de México,Centro,1.4
+ST03,Hermosillo Blvd. Kino,Zona Urbana,Hermosillo,Sonora,Noroeste,1.5
+ST04,Monterrey Estación Metrorrey Cuauhtémoc,Estación de Metro,Monterrey,Nuevo León,Noreste,1.3
+ST05,Guadalajara Zona Universitaria,Zona Universitaria,Guadalajara,Jalisco,Occidente,1.2
+ST06,Morelia Autopista México-Guadalajara,Gasolinera,Morelia,Michoacán,Occidente,0.6
+ST07,Culiacán Hospital Civil,Hospital,Culiacán,Sinaloa,Noroeste,0.9
+ST08,Saltillo Central de Autobuses,Central de Autobuses,Saltillo,Coahuila,Noreste,1.1
+ST09,Mérida Paseo de Montejo,Zona Urbana,Mérida,Yucatán,Sureste,0.8
+ST10,Veracruz Zona Portuaria,Zona Urbana,Veracruz,Veracruz,Sureste,0.8
+ST11,Monterrey Macroplaza,Zona Urbana,Monterrey,Nuevo León,Noreste,1.7
+ST12,Villahermosa Hospital Regional,Hospital,Villahermosa,Tabasco,Sureste,0.5
+ST13,Querétaro Parque Industrial,Parque Industrial,Querétaro,Querétaro,Bajío,1.2
+ST14,Acapulco Costera Miguel Alemán,Zona Turística,Acapulco,Guerrero,Sur,1.0
+ST15,San Nicolás Estación Metrorrey Universidad,Estación de Metro,San Nicolás de los Garza,Nuevo León,Noreste,1.4
+ST16,Los Cabos Zona Hotelera,Zona Turística,San José del Cabo,Baja California Sur,Noroeste,1.1
+ST17,Monclova Zona Industrial,Parque Industrial,Monclova,Coahuila,Noreste,0.7
+ST18,Aeropuerto Internacional de Cancún,Aeropuerto,Cancún,Quintana Roo,Sureste,0.6
+ST19,Tampico Playa Miramar,Zona Turística,Ciudad Madero,Tamaulipas,Noreste,0.5
+ST20,San Pedro Valle Oriente,Zona Corporativa,San Pedro Garza García,Nuevo León,Noreste,1.8

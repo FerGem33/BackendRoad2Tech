@@ -1,0 +1,9 @@
+supplier_id,supplier_name,category_focus,standard_lead_time_days,contract_fill_rate,contract_on_time_rate,min_order_value,delivery_days
+SUP01,Panificadora del Norte S.A. de C.V.,Panadería,1,0.95,0.93,1200,Diario
+SUP02,Distribuidora de Bebidas del Golfo S.A. de C.V.,Bebidas Embotelladas,3,0.97,0.95,3200,Lun/Jue
+SUP03,Alimentos Preparados La Sierra S.A. de C.V.,Comida Rápida,2,0.92,0.9,2400,Mar/Vie
+SUP04,Frescos y Lácteos del Bajío S.A. de C.V.,Para Llevar,1,0.94,0.92,1600,Diario
+SUP05,Comercializadora Hogar y Regalo S.A. de C.V.,Mercancía General,7,0.88,0.85,4000,Semanal
+SUP06,Café de Altura de Chiapas S.A. de C.V.,Café y Té,4,0.96,0.94,2800,Lun/Jue
+SUP07,Insumos para Eventos del Centro S.A. de C.V.,Paquetes,2,0.93,0.9,2000,Mar/Vie
+SUP08,Abarrotes Mayoristas de México S.A. de C.V.,General,3,0.9,0.88,2400,Mié

@@ -25,21 +25,22 @@ type transitOut struct {
 }
 
 type stockItem struct {
-	StoreID         string       `json:"store_id"`
-	ProductID       string       `json:"product_id"`
-	ProductName     string       `json:"product_name"`
-	CategoryID      string       `json:"category_id"`
-	ClosingQty      int          `json:"closing_qty"`
-	OnOrderQty      int          `json:"on_order_qty"`
-	InTransit       []transitOut `json:"in_transit"`
-	ReorderPoint    int          `json:"reorder_point"`
-	MaxStock        int          `json:"max_stock"`
-	CoverageDays    *float64     `json:"coverage_days"`
-	Status          string       `json:"status"`
-	EarliestExpiry  *string      `json:"earliest_expiry"`
-	ExpiringQty7d   int          `json:"expiring_qty_7d"`
-	LostDemand7d    int          `json:"lost_demand_7d"`
-	NextRestockDate *string      `json:"next_restock_date"`
+	StoreID            string       `json:"store_id"`
+	ProductID          string       `json:"product_id"`
+	ProductName        string       `json:"product_name"`
+	CategoryID         string       `json:"category_id"`
+	ClosingQty         int          `json:"closing_qty"`
+	OnOrderQty         int          `json:"on_order_qty"`
+	InTransit          []transitOut `json:"in_transit"`
+	ReorderPoint       int          `json:"reorder_point"`
+	MaxStock           int          `json:"max_stock"`
+	CoverageDays       *float64     `json:"coverage_days"`
+	Status             string       `json:"status"`
+	EarliestExpiry     *string      `json:"earliest_expiry"`
+	ExpiringQty7d      int          `json:"expiring_qty_7d"`
+	LostDemand7d       int          `json:"lost_demand_7d"`
+	NextRestockDate    *string      `json:"next_restock_date"`
+	ExpectedWasteUnits int          `json:"expected_waste_units"`
 }
 
 func loadStock(ctx context.Context, storeID string) ([]stockItem, error) {
@@ -47,14 +48,18 @@ func loadStock(ctx context.Context, storeID string) ([]stockItem, error) {
 	if err != nil {
 		return nil, err
 	}
-	lots, err := db.LotsExpiringBetween(ctx, storeID, sc.AsOf, domain.AddDays(sc.AsOf, 7))
+	lots, err := db.LotsExpiringBetween(ctx, storeID, sc.AsOf, domain.AddDays(sc.AsOf, domain.ForecastHorizonDays))
 	if err != nil {
 		return nil, err
 	}
 	expiring := map[string]int{}
+	expiringHorizon := map[string]int{}
 	for _, l := range lots {
 		if l.Status == "ACTIVE" {
-			expiring[l.ProductID] += l.QuantityRemaining
+			expiringHorizon[l.ProductID] += l.QuantityRemaining
+			if l.ExpirationDate <= domain.AddDays(sc.AsOf, 7) {
+				expiring[l.ProductID] += l.QuantityRemaining
+			}
 		}
 	}
 	items := make([]stockItem, 0, len(sc.Stocks))
@@ -83,12 +88,22 @@ func loadStock(ctx context.Context, storeID string) ([]stockItem, error) {
 		if next != "" {
 			nextPtr = &next
 		}
+		// Units that will expire without being sold: active lots expiring in the forecast horizon
+		// minus the forecast demand over that same horizon.
+		expectedWaste := 0
+		if q := expiringHorizon[s.ProductID]; q > 0 {
+			demand := int(math.Round(sc.Curve(s.ProductID).Sum(sc.AsOf, domain.ForecastHorizonDays)))
+			if q > demand {
+				expectedWaste = q - demand
+			}
+		}
 		items = append(items, stockItem{
 			StoreID: storeID, ProductID: s.ProductID, ProductName: s.ProductName, CategoryID: s.CategoryID,
 			ClosingQty: onHand, OnOrderQty: onOrder, InTransit: transit,
 			ReorderPoint: int(math.Round(s.ReorderPoint)), MaxStock: int(math.Round(s.MaxStock)),
 			CoverageDays: coverage, Status: status, EarliestExpiry: s.NextExpirationDate,
 			ExpiringQty7d: expiring[s.ProductID], LostDemand7d: s.LostDemand7d, NextRestockDate: nextPtr,
+			ExpectedWasteUnits: expectedWaste,
 		})
 	}
 	return items, nil

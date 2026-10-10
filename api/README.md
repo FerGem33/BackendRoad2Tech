@@ -1,6 +1,6 @@
 # API StockCopilot (Go + AWS Lambda)
 
-Endpoints §3.1–§3.19 de [`ENDPOINTS.md`](ENDPOINTS.md), una Lambda por carpeta, detrás de un API Gateway HTTP API, sobre la
+Endpoints §3.1–§3.21 de [`ENDPOINTS.md`](ENDPOINTS.md), una Lambda por carpeta, detrás de un API Gateway HTTP API, sobre la
 tabla única de DynamoDB descrita en [`docs/DYNAMO.md`](../docs/DYNAMO.md).
 
 Base URL: `https://avbylri05m.execute-api.us-east-1.amazonaws.com`
@@ -27,6 +27,8 @@ Base URL: `https://avbylri05m.execute-api.us-east-1.amazonaws.com`
 | 3.18 | `POST /auth/signin` | `auth-signin` |
 | 3.18 | `POST /auth/logout` | `auth-logout` |
 | 3.19 | `POST /emails` | `send-email` |
+| 3.20 | `GET /predictions/stores` | `predictions-stores` |
+| 3.21 | `GET /stores/{store_id}/predictions/products` | `predictions-products` |
 
 Todas, salvo `/auth/signin`, piden `Authorization: Bearer <token>`. Usuario demo: `demo@stockcopilot.com` / `demo1234`.
 

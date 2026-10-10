@@ -4,3 +4,6 @@ __pycache__/
 
 # Synthetic datasets are generated locally and must not be committed.
 public/softtek/dataset/
+
+# Local ML artifacts are reproducible and should not be committed.
+artifacts/forecast/

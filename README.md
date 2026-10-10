@@ -101,9 +101,26 @@ LOCAL_UID=$(id -u) LOCAL_GID=$(id -g) \
 
 This image is only for the dataset generator; it contains no credentials, AWS services, or web application. The generated `v2/README.md` documents the data dictionary and simulation assumptions. Brand names are used only to make the demo readable; all data is fictional.
 
+## Train the local forecast model
+
+The generated dataset is intentionally ignored by Git. Use Python 3.12, generate the data locally, then install the separate ML dependencies and run the commands from the repository root:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-ml.txt
+
+python -m scripts.forecast.backtest
+python -m scripts.forecast.train --require-backtest-pass
+python -m scripts.forecast.predict --store-id S001 --product-id P001
+pytest tests/forecast
+```
+
+The model predicts baseline demand as `units_sold + lost_demand`; treated promotion rows are excluded. It produces daily P50/P80/P90 forecasts for the 14-day feature-only context and stores local artifacts in `artifacts/forecast/`, which is also ignored by Git.
+
 ## AI approach
 
-1. **Probabilistic forecast:** CatBoost or LightGBM predicts store-SKU demand by horizon using P50/P80/P90 quantiles.
+1. **Probabilistic forecast:** CatBoost predicts baseline store-SKU demand by horizon using P50/P80/P90 quantiles.
 2. **Product affinity:** ticket analysis identifies complementary products and cross-sell opportunities.
 3. **Strategy simulator:** compares baseline and promotional scenarios to estimate uplift, margin, waste avoided, and stockout risk.
 4. **Portfolio optimizer:** selects compatible strategies subject to inventory, margin, time, and budget constraints.

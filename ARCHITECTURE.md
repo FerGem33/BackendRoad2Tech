@@ -103,7 +103,7 @@ S3 Curated stores cleaned tables and derived features ready for ML and analysis.
 
 Responsible for training, evaluating, and serving ML artifacts:
 
-- probabilistic demand forecast with CatBoost/LightGBM (P50/P80/P90);
+- probabilistic baseline-demand forecast with CatBoost (P50/P80/P90);
 - product affinity from tickets;
 - promotion impact/uplift model when the dataset supports it;
 - time-based backtesting and comparison with the active model.

@@ -144,8 +144,8 @@ M4 and M5 may begin with M0 fixtures. M6 requires M2 draft persistence. Final in
 
 **Build**
 
-- `date × store × SKU` features: lags, calendar, weather, zone, stock, known promotions, and lead time.
-- Time baseline and probabilistic P50/P80/P90 CatBoost/LightGBM model with rolling backtests.
+- `date × store × SKU` baseline-demand features: lagged demand, calendar, weather, zone, and product attributes; exclude treated promotions and post-treatment fields.
+- Probabilistic P50/P80/P90 CatBoost model with four fixed 14-day rolling backtests against a seasonal-naive baseline.
 - Ticket-based affinity; keep business rules distinct from observed affinity.
 - Initial uplift from treatment/control campaigns; report uncertainty and exclude post-treatment features.
 - SageMaker endpoint or adapter that returns exactly `Forecast`.

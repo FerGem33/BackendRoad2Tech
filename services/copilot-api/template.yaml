@@ -1,0 +1,48 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  StockCopilot short REST operations on AWS Lambda behind API Gateway (HTTP API).
+  The streaming LangGraph agent (/copilot) runs as a persistent container instead
+  (ECS/App Runner or Bedrock AgentCore Runtime) - see README.
+
+Parameters:
+  DatabaseUrl:
+    Type: String
+    NoEcho: true
+    Description: postgresql:// URL of the database loaded with stockcopilot.data.load_postgres
+  DemoAsOf:
+    Type: String
+    Default: "2026-09-16"
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Architectures: [arm64]
+    MemorySize: 1024
+    Timeout: 29
+
+Resources:
+  CopilotRestFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: python3.12
+    Properties:
+      CodeUri: .
+      Handler: stockcopilot.lambda_handler.handler
+      Environment:
+        Variables:
+          DATA_BACKEND: postgres
+          DATABASE_URL: !Ref DatabaseUrl
+          DEMO_AS_OF: !Ref DemoAsOf
+          LLM_MODE: offline
+      Events:
+        Api:
+          Type: HttpApi
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+
+Outputs:
+  ApiUrl:
+    Description: Base URL for COPILOT_API_URL (REST only)
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com"

@@ -1,0 +1,4 @@
+store_id,store_name,colonia,latitude,longitude,zone_type,secondary_zone_type,size_category,opening_hours,is_24h,opened_date
+S001,OXXO República Oriente,República Oriente,25.430881,-100.983762,residential,,medium,00:00-24:00,1,2022-03-26
+S016,OXXO Tec de Monterrey Campus Saltillo,Tec de Monterrey Campus Saltillo,25.450954,-100.982651,college,residential,medium,06:00-23:00,0,2012-12-15
+S018,OXXO Highway 57 - Monterrey Exit,Highway 57 - Monterrey Exit,25.478205,-100.954717,highway,industrial,large,00:00-24:00,1,2012-03-25

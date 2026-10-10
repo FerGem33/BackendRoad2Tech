@@ -2,7 +2,7 @@
 
 > **This dataset is 100% synthetic.** It contains no real sales, inventory, prices, locations or supplier data
 > from OXXO, FEMSA or any other company. Product brands are real consumer brands used only for realism, with
-> approximate shelf prices; all supplier names are fictional; store coordinates are approximate points in real
+> approximate shelf prices; all supplier names and emails are fictional; store coordinates are approximate points in real
 > Saltillo neighborhoods; Mexico's 2026 World Cup knockout results are invented. Use it only for the hackathon.
 
 ## Overview
@@ -18,7 +18,7 @@
 | `zones.csv` | 8 | 0.00 MB | Zone catalog. |
 | `categories.csv` | 20 | 0.00 MB | Category catalog (20 categories). |
 | `products.csv` | 120 | 0.01 MB | Product catalog: 120 products, identical in every store. |
-| `suppliers.csv` | 19 | 0.00 MB | Supplier catalog (19 fictional distributors). |
+| `suppliers.csv` | 19 | 0.00 MB | Supplier catalog (19 fictional distributors with contact emails). |
 | `supplier_products.csv` | 405 | 0.01 MB | Each supplier's offer per product (3-5 offers per product). |
 | `calendar.csv` | 1,004 | 0.06 MB | One row per day, 2024-01-01 to 2026-09-30. |
 | `weather.csv` | 1,004 | 0.03 MB | Daily synthetic weather for Saltillo (semi-arid). |
@@ -172,7 +172,7 @@ Product catalog: 120 products, identical in every store.
 
 ### `suppliers.csv`
 
-Supplier catalog (19 fictional distributors).
+Supplier catalog (19 fictional distributors with contact emails).
 
 | Column | Type | Unit | Description | Example |
 |---|---|---|---|---|

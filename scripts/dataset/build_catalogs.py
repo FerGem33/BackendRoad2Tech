@@ -1,5 +1,7 @@
 """Build dimension tables: zones, categories, products, stores, suppliers, supplier_products."""
 import math
+import re
+import unicodedata
 
 import numpy as np
 import pandas as pd
@@ -64,11 +66,17 @@ def build_stores() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def supplier_email(name: str) -> str:
+    ascii_name = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode().lower()
+    words = [w for w in re.split(r"[^a-z0-9]+", ascii_name) if w]
+    return ".".join(words[:3]) + "@gmail.com"
+
+
 def build_suppliers() -> pd.DataFrame:
     r = rng(2)
     rows = []
     for i, (name, city, _lt, cats) in enumerate(SUPPLIERS):
-        rows.append({"supplier_id": supplier_id(i), "supplier_name": name,
+        rows.append({"supplier_id": supplier_id(i), "supplier_name": name, "email": supplier_email(name),
                      "categories_served": "|".join(CATEGORIES[c][0] for c in cats), "city": city,
                      "reliability_score": round(float(r.uniform(0.70, 0.99)), 2)})
     return pd.DataFrame(rows)

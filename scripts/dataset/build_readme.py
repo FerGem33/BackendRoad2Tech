@@ -45,9 +45,10 @@ DICTIONARY = {
         ("weather_sensitivity", "string", "-", "hot (sells more in heat) / cold (sells more in cold) / neutral."),
         ("base_daily_demand", "float", "units/day", "Expected units/day in a medium store on a neutral day (before multipliers)."),
     ]),
-    "suppliers": ("Supplier catalog (19 fictional distributors).", [
+    "suppliers": ("Supplier catalog (19 fictional distributors with contact emails).", [
         ("supplier_id", "string", "-", "Supplier key (SUP01-SUP19)."),
         ("supplier_name", "string", "-", "Fictional supplier name."),
+        ("email", "string", "-", "Fictional supplier contact email (@gmail.com)."),
         ("categories_served", "string", "`|`-separated category_id", "Categories the supplier may sell."),
         ("city", "string", "-", "Supplier base city."),
         ("reliability_score", "float", "probability", "Probability of on-time delivery (0.70-0.99)."),
@@ -208,7 +209,7 @@ def main() -> None:
 
 > **This dataset is 100% synthetic.** It contains no real sales, inventory, prices, locations or supplier data
 > from OXXO, FEMSA or any other company. Product brands are real consumer brands used only for realism, with
-> approximate shelf prices; all supplier names are fictional; store coordinates are approximate points in real
+> approximate shelf prices; all supplier names and emails are fictional; store coordinates are approximate points in real
 > Saltillo neighborhoods; Mexico's 2026 World Cup knockout results are invented. Use it only for the hackathon.
 
 ## Overview

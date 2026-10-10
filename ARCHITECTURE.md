@@ -7,7 +7,7 @@ Fuentes operativas
   POS / tickets, stock, catálogo, proveedores, clima, eventos
                          |
                          v
-             API Gateway + EventBridge
+        API Gateway (petición) + EventBridge (evento/agenda)
                |                    |
                v                    v
       DynamoDB (estado actual)   S3 Raw (histórico)
@@ -16,22 +16,31 @@ Fuentes operativas
                |            ETL: Lambda / Glue
                |                    |
                |                    v
-               |           S3 Curated / features
+               |           S3 Curated / features ----> Athena
                |                    |
                |                    v
                +--------> SageMaker AI
-                              | forecast / afinidad / impacto
-                              v
-                    Motor de decisiones y optimizador
-                              |
-                              v
+                           forecast / afinidad / uplift
+                                      |
+                                      v
+                    Motor de simulación y optimizador
+                                      |
+                 +--------------------+-------------------+
+                 |                                        |
+                 v                                        v
+      Plan automático: hasta 5 estrategias       Estrategia por prompt
+      por tienda y periodo                        solicitada al agente
+                 |                                        |
+                 +--------------------+-------------------+
+                                      |
+                                      v
                     API de experiencia + Bedrock Agent
-                              |
-                              v
+                                      |
+                                      v
                   Dashboard / encargado de tienda
-                              |
-                              +--> aprobación, ejecución y feedback
-                                      -> EventBridge / DynamoDB / S3 Raw
+                                      |
+                                      +--> aprobación, ejecución y feedback
+                                              -> EventBridge / DynamoDB / S3 Raw
 ```
 
 ## Componentes y responsabilidades
@@ -59,6 +68,8 @@ Puede representar dos roles lógicos en el diagrama, pero puede ser una sola API
 
 Bus asíncrono de eventos. Desacopla una venta/recepción de los procesos posteriores: actualizar stock, persistir histórico, comprobar alertas y reevaluar recomendaciones. También agenda procesos diarios y semanales.
 
+**No sustituye a Lambda:** EventBridge enruta o agenda; Lambda ejecuta código. Para el MVP se pueden invocar Lambdas directamente desde API Gateway y reducir eventos internos, pero se recomienda conservar EventBridge para el plan diario, el reentrenamiento semanal y procesos que no deben acoplarse a una solicitud de usuario.
+
 ### Amazon DynamoDB
 
 Almacén operativo de baja latencia para el estado actual:
@@ -68,6 +79,7 @@ stock por tienda-SKU
 pedidos en tránsito
 alertas activas
 recomendaciones y estrategias en borrador
+plan comercial vigente por tienda y periodo
 estado de aprobación/activación
 configuración y restricciones por tienda
 ```
@@ -109,11 +121,30 @@ Servicio determinista, por ejemplo Lambda/Python, que recibe forecast, estado ac
 
 El motor es la fuente de verdad para valores económicos. El LLM no realiza estos cálculos.
 
+### Planificador de estrategias
+
+El planificador construye el **plan comercial automático** que aparece siempre en la interfaz. Se ejecuta diariamente, al cambiar una señal relevante o cuando el usuario pide regenerarlo.
+
+1. Obtiene el contexto actual, forecast base e insights históricos.
+2. Genera candidatas a partir de plantillas permitidas: combo de afinidad, combo de rescate y promoción contextual.
+3. Envía cada candidata al motor de simulación.
+4. Pasa las candidatas viables al optimizador de portafolio.
+5. Guarda hasta cinco estrategias priorizadas para la tienda y el periodo.
+
+El planificador no debe forzar cinco promociones: si existen menos oportunidades rentables y viables, devuelve sólo las que cumplan las reglas.
+
 ### Amazon Bedrock Agent / GenUI
 
 Interfaz conversacional sobre herramientas controladas. El agente interpreta la intención del encargado, solicita datos por funciones y devuelve una respuesta estructurada para renderizar componentes permitidos: tarjetas de estrategia, gráfico de forecast, calendario de reabasto o resumen del plan.
 
 El frontend nunca debe ejecutar HTML/JavaScript arbitrario generado por el modelo. El contrato debe ser JSON validado contra un esquema de componentes conocido.
+
+El agente tiene dos funciones complementarias:
+
+- **curaduría del plan automático:** puede resumir y explicar las estrategias elegidas por el motor;
+- **estrategia bajo demanda:** transforma una petición como “aumenta bebidas energéticas el sábado, con máximo 10% de descuento” en filtros y restricciones, genera candidatas y solicita su simulación.
+
+Una estrategia creada por prompt inicia como borrador. Al agregarla al plan, el optimizador recalcula el impacto del portafolio completo para evitar doble conteo o canibalización.
 
 ### Dashboard y aprobación humana
 
@@ -133,6 +164,52 @@ optimize_portfolio(candidates)
 create_promotion_draft(strategy)
 ```
 
+## Flujos de generación de estrategias
+
+### Plan automático de la interfaz
+
+```text
+EventBridge Scheduler o acción “regenerar plan”
+  -> Strategy Planner Lambda
+  -> contexto actual (DynamoDB)
+  -> forecast/impacto (SageMaker)
+  -> histórico y afinidad (Athena/S3 Curated)
+  -> simulador + optimizador (Decision Engine Lambda)
+  -> guardar plan de hasta 5 estrategias en DynamoDB
+  -> dashboard consulta el plan mediante API Gateway
+```
+
+### Estrategia solicitada por prompt
+
+```text
+Usuario escribe una intención en el dashboard
+  -> API Gateway + Copilot Lambda
+  -> Bedrock Agent convierte intención en objetivo/restricciones
+  -> herramientas de contexto, forecast e histórico
+  -> borradores candidatos
+  -> simulador y optimizador
+  -> tarjeta de estrategia y comparación contra el plan actual
+  -> usuario agrega, descarta o solicita ajuste
+```
+
+El total mostrado al usuario siempre es `impacto neto del portafolio seleccionado`; nunca se calcula como una suma ciega de impactos individuales.
+
+## Red y subredes para Lambda
+
+Una función Lambda **no es una subred**. Puede configurarse para usar subredes privadas de una VPC y un security group, normalmente en dos zonas de disponibilidad. Esto sólo es necesario si debe acceder a recursos privados, por ejemplo una base de datos privada o un endpoint interno.
+
+Configuración de referencia si se decide usar VPC:
+
+```text
+VPC
+  Private app subnet AZ-a  -> Lambdas de API, agente y motor de decisiones
+  Private app subnet AZ-b  -> Lambdas de API, agente y motor de decisiones
+  VPC endpoints            -> S3 y DynamoDB (y endpoints privados necesarios)
+  NAT Gateway (opcional)   -> sólo si una Lambda necesita salir a Internet
+```
+
+API Gateway permanece fuera de las subredes y llama a Lambda. S3 y DynamoDB son servicios regionales; no se despliegan dentro de una subred. Para un hackathon, una VPC no es imprescindible y agrega configuración. Se recomienda incluirla sólo si se desea demostrar segmentación de red o conectar recursos privados; de otro modo, usar Lambda sin VPC reduce complejidad.
+
 ## Seguridad y control
 
 - IAM de mínimo privilegio por servicio y función.
@@ -141,6 +218,7 @@ create_promotion_draft(strategy)
 - El agente sólo puede crear borradores; activar promociones requiere autorización de un usuario.
 - Registrar entradas, decisiones, simulaciones y aprobaciones para auditoría.
 - Separar datos operativos actuales de datos analíticos históricos.
+- Si Lambda se configura en una VPC, usar subredes privadas, security groups de mínimo privilegio y endpoints privados antes de abrir salida a Internet mediante NAT.
 
 ## Límites del MVP
 

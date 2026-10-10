@@ -17,6 +17,7 @@ from .. import __version__
 from ..config import Settings, get_settings
 from ..domain.catalog import NotFoundError
 from ..domain.drafts import DraftNotFoundError, InvalidTransitionError
+from ..domain.forecast_provider import ForecastUnavailableError
 from .context import AppContext, build_context, close_async, open_async
 from .routes import router
 
@@ -92,6 +93,10 @@ def create_app(settings: Settings | None = None, include_agent: bool = True) -> 
     @app.exception_handler(InvalidTransitionError)
     async def invalid_transition(request: Request, exc: InvalidTransitionError) -> JSONResponse:
         return _error(request, 409, "invalid_transition", str(exc))
+
+    @app.exception_handler(ForecastUnavailableError)
+    async def forecast_unavailable(request: Request, exc: ForecastUnavailableError) -> JSONResponse:
+        return _error(request, 503, "forecast_unavailable", str(exc))
 
     @app.exception_handler(RequestValidationError)
     async def invalid_request(request: Request, exc: RequestValidationError) -> JSONResponse:

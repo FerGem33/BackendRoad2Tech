@@ -36,7 +36,11 @@ services:
       GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
       GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.8-flash}
       DEMO_AS_OF: ${DEMO_AS_OF:-2026-09-16}
+      FORECAST_PROVIDER: ${FORECAST_PROVIDER:-local}
+      FORECAST_FILE: /artifacts/forecast/forecasts/forecasts.jsonl
       CORS_ORIGINS: '["http://localhost:3000"]'
+    volumes:
+      - ../../artifacts/forecast:/artifacts/forecast:ro
     ports: ["8000:8080"]
 
 volumes:

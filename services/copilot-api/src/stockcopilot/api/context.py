@@ -102,6 +102,14 @@ def build_context(settings: Settings, include_agent: bool = True) -> AppContext:
         from ..domain.forecast_provider import DynamoForecastProvider
 
         forecast_provider = DynamoForecastProvider(settings.forecast_table_name, settings.aws_region)
+    elif settings.forecast_provider == "jsonl":
+        if not settings.forecast_file:
+            raise RuntimeError("FORECAST_PROVIDER=jsonl requires FORECAST_FILE")
+        if not settings.demo_as_of:
+            raise RuntimeError("FORECAST_PROVIDER=jsonl requires DEMO_AS_OF")
+        from ..domain.jsonl_forecast_provider import JsonlForecastProvider
+
+        forecast_provider = JsonlForecastProvider(settings.forecast_file, settings.demo_as_of)
     svc = Services.create(repo, settings.demo_as_of, forecast_provider=forecast_provider)
     drafts = _drafts(settings, pools)
     engine = StrategyEngine(svc, drafts)

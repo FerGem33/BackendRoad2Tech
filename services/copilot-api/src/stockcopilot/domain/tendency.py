@@ -108,7 +108,11 @@ def get_product_tendency(
         model=ModelInfo(
             name=forecast.model,
             backtest_wape_14d=round(forecast.backtest_wape, 3) if forecast.backtest_wape is not None else None,
-            source="SageMaker batch forecast" if forecast.model.startswith("sagemaker-") else "deterministic baseline",
+            source=(
+                "SageMaker batch forecast" if forecast.model.startswith("sagemaker-")
+                else "local CatBoost batch forecast" if forecast.model.startswith("catboost-local-")
+                else "deterministic baseline"
+            ),
         ),
         ai_summary="",
     )

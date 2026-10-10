@@ -107,6 +107,7 @@ ERRORS = {
     404: {"model": ErrorBody, "description": "Store, product or draft not found"},
     409: {"model": ErrorBody, "description": "Invalid draft status transition"},
     422: {"model": ErrorBody, "description": "Invalid parameters"},
+    503: {"model": ErrorBody, "description": "Configured forecast is unavailable"},
 }
 
 

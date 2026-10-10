@@ -87,6 +87,8 @@ The Docker default builds lag and rolling features from the full history, then r
 
 `MODEL_ITERATIONS` and `MAX_TRAIN_ROWS` override the Docker defaults; changing either requires rerunning the holdout. `DATA_AS_OF=YYYY-MM-DD` changes the cutoff, but it must leave 14 observed days for the holdout. The generated `forecasts.jsonl` contains one record per store/SKU with 14 P50/P80/P90 points and can be inspected or consumed by a local API adapter. If a previous long-running container is still training, stop it before starting this new run and rebuild with `--build` as shown above. To run the original four-fold pipeline locally, call `python -m scripts.forecast.run_local` without `--quick` from an environment with the ML dependencies installed.
 
+To use the completed local model in the dashboard, start `services/copilot-api` with `FORECAST_PROVIDER=jsonl` and `FORECAST_FILE=../../artifacts/forecast/forecasts/forecasts.jsonl`. Keep `DEMO_AS_OF=2026-09-16` to match the model cutoff. The API reads the precomputed forecasts, so it does not need CatBoost installed or the training container running. See [the Copilot API guide](../services/copilot-api/README.md#use-the-trained-catboost-forecast-in-the-api).
+
 This local path is intentionally separate from the AWS promotion workflow below: it does not register a SageMaker Model Package, activate a DynamoDB model pointer, or invoke the scheduled publisher. Once the account quota is approved, continue with the cloud workflow to register and publish a model.
 
 Install the local operator dependencies and upload only the forecast inputs. The extra Botocore CRT dependency lets boto3 read credentials created by `aws login`:

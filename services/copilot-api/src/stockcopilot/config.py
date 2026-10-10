@@ -33,8 +33,9 @@ class Settings(BaseSettings):
     gemini_temperature: float = 0.2
     llm_mode: Literal["auto", "gemini", "offline"] = "auto"
 
-    # Forecast source. DynamoDB contains SageMaker's already-validated daily batch predictions.
-    forecast_provider: Literal["local", "dynamodb"] = "local"
+    # Forecast source: deterministic fallback, local CatBoost JSONL, or published DynamoDB batch.
+    forecast_provider: Literal["local", "jsonl", "dynamodb"] = "local"
+    forecast_file: Path | None = None
     forecast_table_name: str | None = None
     aws_region: str | None = None
 

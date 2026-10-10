@@ -113,6 +113,7 @@ El archivo `v2/README.md` documenta el diccionario de datos y las hipótesis de 
 
 - [FLOW.md](./FLOW.md): recorrido funcional, generación de estrategias y retroalimentación.
 - [ARCHITECTURE.md](./ARCHITECTURE.md): componentes AWS, responsabilidades e interfaces.
+- [milestones.md](./milestones.md): fases, contratos y ownership para implementación concurrente.
 - [Diagrama de arquitectura AWS (SVG)](./docs/stockcopilot-aws-architecture.svg): versión vectorial editable con los servicios, flujos y límites de la solución.
 - [Diagrama de arquitectura AWS (PNG)](./docs/stockcopilot-architecture.png): versión lista para visualizar o incluir en presentaciones.
 

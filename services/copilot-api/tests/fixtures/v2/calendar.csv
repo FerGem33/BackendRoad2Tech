@@ -1,0 +1,1005 @@
+date,day_of_week,is_weekend,is_holiday,holiday_name,season_name,event_name,event_scope,is_payday,is_school_vacation,is_college_vacation,demand_multiplier_hint
+2024-01-01,Monday,0,1,New Year's Day,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.716
+2024-01-02,Tuesday,0,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2024-01-03,Wednesday,0,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2024-01-04,Thursday,0,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2024-01-05,Friday,0,0,,winter,Guadalupe-Reyes Season|Three Kings' Eve,commercial|commercial,0,1,1,0.955
+2024-01-06,Saturday,1,0,,winter,Guadalupe-Reyes Season|Three Kings' Day,commercial|commercial,0,1,1,0.978
+2024-01-07,Sunday,1,0,,winter,,,0,1,1,0.917
+2024-01-08,Monday,0,0,,winter,,,0,0,1,0.953
+2024-01-09,Tuesday,0,0,,winter,,,0,0,1,0.953
+2024-01-10,Wednesday,0,0,,winter,,,0,0,1,0.953
+2024-01-11,Thursday,0,0,,winter,,,0,0,1,0.953
+2024-01-12,Friday,0,0,,winter,,,0,0,1,0.953
+2024-01-13,Saturday,1,0,,winter,,,0,0,1,0.953
+2024-01-14,Sunday,1,0,,winter,,,0,0,1,0.953
+2024-01-15,Monday,0,0,,winter,,,1,0,1,1.021
+2024-01-16,Tuesday,0,0,,winter,,,0,0,1,1.021
+2024-01-17,Wednesday,0,0,,winter,,,0,0,1,0.953
+2024-01-18,Thursday,0,0,,winter,,,0,0,1,0.953
+2024-01-19,Friday,0,0,,winter,,,0,0,1,0.953
+2024-01-20,Saturday,1,0,,winter,,,0,0,1,0.953
+2024-01-21,Sunday,1,0,,winter,,,0,0,1,0.953
+2024-01-22,Monday,0,0,,winter,,,0,0,0,1.0
+2024-01-23,Tuesday,0,0,,winter,,,0,0,0,1.0
+2024-01-24,Wednesday,0,0,,winter,,,0,0,0,1.0
+2024-01-25,Thursday,0,0,,winter,,,0,0,0,1.0
+2024-01-26,Friday,0,0,,winter,School Technical Council (no classes),school,0,0,0,0.97
+2024-01-27,Saturday,1,0,,winter,,,0,0,0,1.0
+2024-01-28,Sunday,1,0,,winter,,,0,0,0,1.0
+2024-01-29,Monday,0,0,,winter,,,0,0,0,1.0
+2024-01-30,Tuesday,0,0,,winter,,,0,0,0,1.0
+2024-01-31,Wednesday,0,0,,winter,,,1,0,0,1.071
+2024-02-01,Thursday,0,0,,winter,,,0,0,0,1.071
+2024-02-02,Friday,0,0,,winter,Candlemas,religious,0,0,0,1.014
+2024-02-03,Saturday,1,0,,winter,,,0,0,0,1.0
+2024-02-04,Sunday,1,0,,winter,,,0,0,0,1.0
+2024-02-05,Monday,0,1,Constitution Day,winter,,,0,0,0,0.886
+2024-02-06,Tuesday,0,0,,winter,,,0,0,0,1.0
+2024-02-07,Wednesday,0,0,,winter,,,0,0,0,1.0
+2024-02-08,Thursday,0,0,,winter,,,0,0,0,1.0
+2024-02-09,Friday,0,0,,winter,,,0,0,0,1.0
+2024-02-10,Saturday,1,0,,winter,,,0,0,0,1.0
+2024-02-11,Sunday,1,0,,winter,Super Bowl,sports,0,0,0,1.242
+2024-02-12,Monday,0,0,,winter,,,0,0,0,1.0
+2024-02-13,Tuesday,0,0,,winter,Valentine's Eve,commercial,0,0,0,1.023
+2024-02-14,Wednesday,0,0,,winter,Lent|Valentine's Day,religious|commercial,0,0,0,1.126
+2024-02-15,Thursday,0,0,,winter,Lent,religious,1,0,0,1.07
+2024-02-16,Friday,0,0,,winter,Lent,religious,0,0,0,1.07
+2024-02-17,Saturday,1,0,,winter,Lent,religious,0,0,0,0.999
+2024-02-18,Sunday,1,0,,winter,Lent,religious,0,0,0,0.999
+2024-02-19,Monday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-02-20,Tuesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-02-21,Wednesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-02-22,Thursday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-02-23,Friday,0,0,,winter,Lent|School Technical Council (no classes),religious|school,0,0,0,0.969
+2024-02-24,Saturday,1,0,,winter,Lent,religious,0,0,0,0.999
+2024-02-25,Sunday,1,0,,winter,Lent,religious,0,0,0,0.999
+2024-02-26,Monday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-02-27,Tuesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-02-28,Wednesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-02-29,Thursday,0,0,,winter,Lent,religious,1,0,0,1.07
+2024-03-01,Friday,0,0,,winter,Lent,religious,0,0,0,1.07
+2024-03-02,Saturday,1,0,,winter,Lent,religious,0,0,0,0.999
+2024-03-03,Sunday,1,0,,winter,Lent,religious,0,0,0,0.999
+2024-03-04,Monday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-03-05,Tuesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-03-06,Wednesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-03-07,Thursday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-03-08,Friday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-03-09,Saturday,1,0,,winter,Lent,religious,0,0,0,0.999
+2024-03-10,Sunday,1,0,,winter,Lent,religious,0,0,0,0.999
+2024-03-11,Monday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-03-12,Tuesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-03-13,Wednesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-03-14,Thursday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-03-15,Friday,0,0,,winter,Lent,religious,1,0,0,1.07
+2024-03-16,Saturday,1,0,,winter,Lent,religious,0,0,0,1.07
+2024-03-17,Sunday,1,0,,winter,Lent,religious,0,0,0,0.999
+2024-03-18,Monday,0,1,Benito Juarez's Birthday,winter,Lent,religious,0,0,0,0.885
+2024-03-19,Tuesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2024-03-20,Wednesday,0,0,,spring,Lent,religious,0,0,0,0.999
+2024-03-21,Thursday,0,0,,spring,Lent,religious,0,0,0,0.999
+2024-03-22,Friday,0,0,,spring,Lent,religious,0,0,0,0.999
+2024-03-23,Saturday,1,0,,spring,Lent,religious,0,0,1,0.952
+2024-03-24,Sunday,1,0,,spring,Holy Week,religious,0,0,1,1.004
+2024-03-25,Monday,0,0,,spring,Holy Week,religious,0,1,1,0.967
+2024-03-26,Tuesday,0,0,,spring,Holy Week,religious,0,1,1,0.967
+2024-03-27,Wednesday,0,0,,spring,Holy Week,religious,0,1,1,0.967
+2024-03-28,Thursday,0,0,,spring,Holy Week,religious,0,1,1,0.967
+2024-03-29,Friday,0,0,,spring,Holy Week,religious,0,1,1,0.967
+2024-03-30,Saturday,1,0,,spring,Holy Week,religious,0,1,1,0.967
+2024-03-31,Sunday,1,0,,spring,Holy Week,religious,1,1,1,1.037
+2024-04-01,Monday,0,0,,spring,,,0,1,1,0.982
+2024-04-02,Tuesday,0,0,,spring,,,0,1,1,0.917
+2024-04-03,Wednesday,0,0,,spring,,,0,1,1,0.917
+2024-04-04,Thursday,0,0,,spring,,,0,1,1,0.917
+2024-04-05,Friday,0,0,,spring,,,0,1,1,0.917
+2024-04-06,Saturday,1,0,,spring,,,0,0,1,0.953
+2024-04-07,Sunday,1,0,,spring,,,0,0,1,0.953
+2024-04-08,Monday,0,0,,spring,,,0,0,0,1.0
+2024-04-09,Tuesday,0,0,,spring,,,0,0,0,1.0
+2024-04-10,Wednesday,0,0,,spring,,,0,0,0,1.0
+2024-04-11,Thursday,0,0,,spring,,,0,0,0,1.0
+2024-04-12,Friday,0,0,,spring,,,0,0,0,1.0
+2024-04-13,Saturday,1,0,,spring,,,0,0,0,1.0
+2024-04-14,Sunday,1,0,,spring,,,0,0,0,1.0
+2024-04-15,Monday,0,0,,spring,,,1,0,0,1.071
+2024-04-16,Tuesday,0,0,,spring,,,0,0,0,1.071
+2024-04-17,Wednesday,0,0,,spring,,,0,0,0,1.0
+2024-04-18,Thursday,0,0,,spring,,,0,0,0,1.0
+2024-04-19,Friday,0,0,,spring,,,0,0,0,1.0
+2024-04-20,Saturday,1,0,,spring,,,0,0,0,1.0
+2024-04-21,Sunday,1,0,,spring,,,0,0,0,1.0
+2024-04-22,Monday,0,0,,spring,,,0,0,0,1.0
+2024-04-23,Tuesday,0,0,,spring,,,0,0,0,1.0
+2024-04-24,Wednesday,0,0,,spring,,,0,0,0,1.0
+2024-04-25,Thursday,0,0,,spring,,,0,0,0,1.0
+2024-04-26,Friday,0,0,,spring,School Technical Council (no classes),school,0,0,0,0.97
+2024-04-27,Saturday,1,0,,spring,,,0,0,0,1.0
+2024-04-28,Sunday,1,0,,spring,,,0,0,0,1.0
+2024-04-29,Monday,0,0,,spring,,,0,0,0,1.0
+2024-04-30,Tuesday,0,0,,spring,Children's Day,commercial,1,0,0,1.22
+2024-05-01,Wednesday,0,1,Labor Day,spring,,,0,0,0,0.951
+2024-05-02,Thursday,0,0,,spring,,,0,0,0,1.0
+2024-05-03,Friday,0,0,,spring,,,0,0,0,1.0
+2024-05-04,Saturday,1,0,,spring,,,0,0,0,1.0
+2024-05-05,Sunday,1,0,,spring,,,0,0,0,1.0
+2024-05-06,Monday,0,0,,spring,,,0,0,0,1.0
+2024-05-07,Tuesday,0,0,,spring,,,0,0,0,1.0
+2024-05-08,Wednesday,0,0,,spring,,,0,0,0,1.0
+2024-05-09,Thursday,0,0,,spring,Liga MX Playoffs Match Day|Mother's Day Eve,sports|commercial,0,0,0,1.053
+2024-05-10,Friday,0,0,,spring,Mother's Day,commercial,0,0,0,1.048
+2024-05-11,Saturday,1,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2024-05-12,Sunday,1,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2024-05-13,Monday,0,0,,spring,,,0,0,0,1.0
+2024-05-14,Tuesday,0,0,,spring,,,0,0,0,1.0
+2024-05-15,Wednesday,0,0,,spring,,,1,0,0,1.071
+2024-05-16,Thursday,0,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.115
+2024-05-17,Friday,0,0,,spring,,,0,0,0,1.0
+2024-05-18,Saturday,1,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2024-05-19,Sunday,1,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2024-05-20,Monday,0,0,,spring,,,0,0,0,1.0
+2024-05-21,Tuesday,0,0,,spring,,,0,0,0,1.0
+2024-05-22,Wednesday,0,0,,spring,,,0,0,0,1.0
+2024-05-23,Thursday,0,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2024-05-24,Friday,0,0,,spring,,,0,0,0,1.0
+2024-05-25,Saturday,1,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2024-05-26,Sunday,1,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2024-05-27,Monday,0,0,,spring,,,0,0,0,1.0
+2024-05-28,Tuesday,0,0,,spring,,,0,0,0,1.0
+2024-05-29,Wednesday,0,0,,spring,,,0,0,0,1.0
+2024-05-30,Thursday,0,0,,spring,,,0,0,0,1.0
+2024-05-31,Friday,0,0,,spring,School Technical Council (no classes),school,1,0,0,1.039
+2024-06-01,Saturday,1,0,,spring,Dry Law (alcohol sales ban),national,0,0,1,0.93
+2024-06-02,Sunday,1,1,Federal Election Day,spring,Dry Law (alcohol sales ban),national,0,0,1,0.782
+2024-06-03,Monday,0,0,,spring,,,0,0,1,0.953
+2024-06-04,Tuesday,0,0,,spring,,,0,0,1,0.953
+2024-06-05,Wednesday,0,0,,spring,,,0,0,1,0.953
+2024-06-06,Thursday,0,0,,spring,,,0,0,1,0.953
+2024-06-07,Friday,0,0,,spring,,,0,0,1,0.953
+2024-06-08,Saturday,1,0,,spring,,,0,0,1,0.953
+2024-06-09,Sunday,1,0,,spring,,,0,0,1,0.953
+2024-06-10,Monday,0,0,,spring,,,0,0,1,0.953
+2024-06-11,Tuesday,0,0,,spring,,,0,0,1,0.953
+2024-06-12,Wednesday,0,0,,spring,,,0,0,1,0.953
+2024-06-13,Thursday,0,0,,spring,,,0,0,1,0.953
+2024-06-14,Friday,0,0,,spring,,,0,0,1,0.953
+2024-06-15,Saturday,1,0,,spring,,,1,0,1,1.021
+2024-06-16,Sunday,1,0,,spring,Father's Day,commercial,0,0,1,1.066
+2024-06-17,Monday,0,0,,spring,,,0,0,1,0.953
+2024-06-18,Tuesday,0,0,,spring,,,0,0,1,0.953
+2024-06-19,Wednesday,0,0,,spring,,,0,0,1,0.953
+2024-06-20,Thursday,0,0,,spring,,,0,0,1,0.953
+2024-06-21,Friday,0,0,,summer,,,0,0,1,0.953
+2024-06-22,Saturday,1,0,,summer,,,0,0,1,0.953
+2024-06-23,Sunday,1,0,,summer,,,0,0,1,0.953
+2024-06-24,Monday,0,0,,summer,,,0,0,1,0.953
+2024-06-25,Tuesday,0,0,,summer,,,0,0,1,0.953
+2024-06-26,Wednesday,0,0,,summer,,,0,0,1,0.953
+2024-06-27,Thursday,0,0,,summer,,,0,0,1,0.953
+2024-06-28,Friday,0,0,,summer,School Technical Council (no classes),school,0,0,1,0.923
+2024-06-29,Saturday,1,0,,summer,,,0,0,1,0.953
+2024-06-30,Sunday,1,0,,summer,,,1,0,1,1.021
+2024-07-01,Monday,0,0,,summer,,,0,0,1,1.021
+2024-07-02,Tuesday,0,0,,summer,,,0,0,1,0.953
+2024-07-03,Wednesday,0,0,,summer,,,0,0,1,0.953
+2024-07-04,Thursday,0,0,,summer,,,0,0,1,0.953
+2024-07-05,Friday,0,0,,summer,,,0,0,1,0.953
+2024-07-06,Saturday,1,0,,summer,,,0,0,1,0.953
+2024-07-07,Sunday,1,0,,summer,,,0,0,1,0.953
+2024-07-08,Monday,0,0,,summer,,,0,0,1,0.953
+2024-07-09,Tuesday,0,0,,summer,,,0,0,1,0.953
+2024-07-10,Wednesday,0,0,,summer,,,0,0,1,0.953
+2024-07-11,Thursday,0,0,,summer,,,0,0,1,0.953
+2024-07-12,Friday,0,0,,summer,,,0,0,1,0.953
+2024-07-13,Saturday,1,0,,summer,,,0,0,1,0.953
+2024-07-14,Sunday,1,0,,summer,,,0,0,1,0.953
+2024-07-15,Monday,0,0,,summer,,,1,0,1,1.021
+2024-07-16,Tuesday,0,0,,summer,,,0,1,1,0.997
+2024-07-17,Wednesday,0,0,,summer,,,0,1,1,0.931
+2024-07-18,Thursday,0,0,,summer,,,0,1,1,0.931
+2024-07-19,Friday,0,0,,summer,,,0,1,1,0.931
+2024-07-20,Saturday,1,0,,summer,,,0,1,1,0.931
+2024-07-21,Sunday,1,0,,summer,,,0,1,1,0.931
+2024-07-22,Monday,0,0,,summer,,,0,1,1,0.931
+2024-07-23,Tuesday,0,0,,summer,,,0,1,1,0.931
+2024-07-24,Wednesday,0,0,,summer,,,0,1,1,0.931
+2024-07-25,Thursday,0,0,,summer,Saltillo City Anniversary,local,0,1,1,0.994
+2024-07-26,Friday,0,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2024-07-27,Saturday,1,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2024-07-28,Sunday,1,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2024-07-29,Monday,0,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2024-07-30,Tuesday,0,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2024-07-31,Wednesday,0,0,,summer,Saltillo Fair,local,1,1,1,1.054
+2024-08-01,Thursday,0,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.102
+2024-08-02,Friday,0,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.028
+2024-08-03,Saturday,1,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.028
+2024-08-04,Sunday,1,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.028
+2024-08-05,Monday,0,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.028
+2024-08-06,Tuesday,0,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.028
+2024-08-07,Wednesday,0,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2024-08-08,Thursday,0,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2024-08-09,Friday,0,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2024-08-10,Saturday,1,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2024-08-11,Sunday,1,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2024-08-12,Monday,0,0,,summer,,,0,1,0,0.978
+2024-08-13,Tuesday,0,0,,summer,,,0,1,0,0.978
+2024-08-14,Wednesday,0,0,,summer,,,0,1,0,0.978
+2024-08-15,Thursday,0,0,,summer,,,1,1,0,1.047
+2024-08-16,Friday,0,0,,summer,,,0,1,0,1.047
+2024-08-17,Saturday,1,0,,summer,,,0,1,0,0.978
+2024-08-18,Sunday,1,0,,summer,,,0,1,0,0.978
+2024-08-19,Monday,0,0,,summer,Back to School,school,0,1,0,0.978
+2024-08-20,Tuesday,0,0,,summer,Back to School,school,0,1,0,0.978
+2024-08-21,Wednesday,0,0,,summer,Back to School,school,0,1,0,0.978
+2024-08-22,Thursday,0,0,,summer,Back to School,school,0,1,0,0.978
+2024-08-23,Friday,0,0,,summer,Back to School,school,0,1,0,0.978
+2024-08-24,Saturday,1,0,,summer,Back to School,school,0,1,0,0.978
+2024-08-25,Sunday,1,0,,summer,Back to School,school,0,1,0,0.978
+2024-08-26,Monday,0,0,,summer,,,0,0,0,1.0
+2024-08-27,Tuesday,0,0,,summer,,,0,0,0,1.0
+2024-08-28,Wednesday,0,0,,summer,,,0,0,0,1.0
+2024-08-29,Thursday,0,0,,summer,,,0,0,0,1.0
+2024-08-30,Friday,0,0,,summer,,,0,0,0,1.0
+2024-08-31,Saturday,1,0,,summer,,,1,0,0,1.071
+2024-09-01,Sunday,1,0,,summer,,,0,0,0,1.071
+2024-09-02,Monday,0,0,,summer,,,0,0,0,1.0
+2024-09-03,Tuesday,0,0,,summer,,,0,0,0,1.0
+2024-09-04,Wednesday,0,0,,summer,,,0,0,0,1.0
+2024-09-05,Thursday,0,0,,summer,,,0,0,0,1.0
+2024-09-06,Friday,0,0,,summer,,,0,0,0,1.0
+2024-09-07,Saturday,1,0,,summer,,,0,0,0,1.0
+2024-09-08,Sunday,1,0,,summer,,,0,0,0,1.0
+2024-09-09,Monday,0,0,,summer,,,0,0,0,1.0
+2024-09-10,Tuesday,0,0,,summer,,,0,0,0,1.0
+2024-09-11,Wednesday,0,0,,summer,,,0,0,0,1.0
+2024-09-12,Thursday,0,0,,summer,,,0,0,0,1.0
+2024-09-13,Friday,0,0,,summer,,,0,0,0,1.0
+2024-09-14,Saturday,1,0,,summer,,,0,0,0,1.0
+2024-09-15,Sunday,1,0,,summer,Independence Eve (El Grito),national,1,0,0,1.435
+2024-09-16,Monday,0,1,Independence Day,summer,,,0,0,0,1.212
+2024-09-17,Tuesday,0,0,,summer,,,0,0,0,1.0
+2024-09-18,Wednesday,0,0,,summer,,,0,0,0,1.0
+2024-09-19,Thursday,0,0,,summer,,,0,0,0,1.0
+2024-09-20,Friday,0,0,,summer,,,0,0,0,1.0
+2024-09-21,Saturday,1,0,,summer,,,0,0,0,1.0
+2024-09-22,Sunday,1,0,,summer,,,0,0,0,1.0
+2024-09-23,Monday,0,0,,autumn,,,0,0,0,1.0
+2024-09-24,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2024-09-25,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2024-09-26,Thursday,0,0,,autumn,,,0,0,0,1.0
+2024-09-27,Friday,0,0,,autumn,School Technical Council (no classes),school,0,0,0,0.97
+2024-09-28,Saturday,1,0,,autumn,,,0,0,0,1.0
+2024-09-29,Sunday,1,0,,autumn,,,0,0,0,1.0
+2024-09-30,Monday,0,0,,autumn,,,1,0,0,1.071
+2024-10-01,Tuesday,0,1,Presidential Inauguration Day,autumn,,,0,0,0,0.951
+2024-10-02,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2024-10-03,Thursday,0,0,,autumn,,,0,0,0,1.0
+2024-10-04,Friday,0,0,,autumn,,,0,0,0,1.0
+2024-10-05,Saturday,1,0,,autumn,,,0,0,0,1.0
+2024-10-06,Sunday,1,0,,autumn,,,0,0,0,1.0
+2024-10-07,Monday,0,0,,autumn,,,0,0,0,1.0
+2024-10-08,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2024-10-09,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2024-10-10,Thursday,0,0,,autumn,,,0,0,0,1.0
+2024-10-11,Friday,0,0,,autumn,,,0,0,0,1.0
+2024-10-12,Saturday,1,0,,autumn,,,0,0,0,1.0
+2024-10-13,Sunday,1,0,,autumn,,,0,0,0,1.0
+2024-10-14,Monday,0,0,,autumn,,,0,0,0,1.0
+2024-10-15,Tuesday,0,0,,autumn,,,1,0,0,1.071
+2024-10-16,Wednesday,0,0,,autumn,,,0,0,0,1.071
+2024-10-17,Thursday,0,0,,autumn,,,0,0,0,1.0
+2024-10-18,Friday,0,0,,autumn,,,0,0,0,1.0
+2024-10-19,Saturday,1,0,,autumn,,,0,0,0,1.0
+2024-10-20,Sunday,1,0,,autumn,,,0,0,0,1.0
+2024-10-21,Monday,0,0,,autumn,,,0,0,0,1.0
+2024-10-22,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2024-10-23,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2024-10-24,Thursday,0,0,,autumn,,,0,0,0,1.0
+2024-10-25,Friday,0,0,,autumn,School Technical Council (no classes),school,0,0,0,0.97
+2024-10-26,Saturday,1,0,,autumn,,,0,0,0,1.0
+2024-10-27,Sunday,1,0,,autumn,,,0,0,0,1.0
+2024-10-28,Monday,0,0,,autumn,,,0,0,0,1.0
+2024-10-29,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2024-10-30,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2024-10-31,Thursday,0,0,,autumn,Halloween,commercial,1,0,0,1.226
+2024-11-01,Friday,0,0,,autumn,Day of the Dead,religious,0,0,0,1.147
+2024-11-02,Saturday,1,0,,autumn,Day of the Dead,religious,0,0,0,1.072
+2024-11-03,Sunday,1,0,,autumn,,,0,0,0,1.0
+2024-11-04,Monday,0,0,,autumn,,,0,0,0,1.0
+2024-11-05,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2024-11-06,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2024-11-07,Thursday,0,0,,autumn,,,0,0,0,1.0
+2024-11-08,Friday,0,0,,autumn,,,0,0,0,1.0
+2024-11-09,Saturday,1,0,,autumn,,,0,0,0,1.0
+2024-11-10,Sunday,1,0,,autumn,,,0,0,0,1.0
+2024-11-11,Monday,0,0,,autumn,,,0,0,0,1.0
+2024-11-12,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2024-11-13,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2024-11-14,Thursday,0,0,,autumn,,,0,0,0,1.0
+2024-11-15,Friday,0,0,,autumn,Buen Fin,commercial,1,0,0,1.144
+2024-11-16,Saturday,1,0,,autumn,Buen Fin,commercial,0,0,0,1.144
+2024-11-17,Sunday,1,0,,autumn,Buen Fin,commercial,0,0,0,1.068
+2024-11-18,Monday,0,1,Revolution Day,autumn,Buen Fin,commercial,0,0,0,0.949
+2024-11-19,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2024-11-20,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2024-11-21,Thursday,0,0,,autumn,,,0,0,0,1.0
+2024-11-22,Friday,0,0,,autumn,,,0,0,0,1.0
+2024-11-23,Saturday,1,0,,autumn,,,0,0,0,1.0
+2024-11-24,Sunday,1,0,,autumn,,,0,0,0,1.0
+2024-11-25,Monday,0,0,,autumn,,,0,0,0,1.0
+2024-11-26,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2024-11-27,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2024-11-28,Thursday,0,0,,autumn,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2024-11-29,Friday,0,0,,autumn,School Technical Council (no classes),school,0,0,0,0.97
+2024-11-30,Saturday,1,0,,autumn,Liga MX Playoffs Match Day,sports,1,0,0,1.115
+2024-12-01,Sunday,1,0,,autumn,Liga MX Playoffs Match Day,sports,0,0,0,1.115
+2024-12-02,Monday,0,0,,autumn,,,0,0,0,1.0
+2024-12-03,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2024-12-04,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2024-12-05,Thursday,0,0,,autumn,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2024-12-06,Friday,0,0,,autumn,,,0,0,0,1.0
+2024-12-07,Saturday,1,0,,autumn,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2024-12-08,Sunday,1,0,,autumn,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2024-12-09,Monday,0,0,,autumn,,,0,0,0,1.0
+2024-12-10,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2024-12-11,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2024-12-12,Thursday,0,0,,autumn,Our Lady of Guadalupe Day|Guadalupe-Reyes Season,religious|commercial,0,0,0,1.027
+2024-12-13,Friday,0,0,,autumn,Guadalupe-Reyes Season,commercial,0,0,0,1.027
+2024-12-14,Saturday,1,0,,autumn,Guadalupe-Reyes Season,commercial,0,0,1,0.978
+2024-12-15,Sunday,1,0,,autumn,Guadalupe-Reyes Season,commercial,1,0,1,1.049
+2024-12-16,Monday,0,0,,autumn,Guadalupe-Reyes Season,commercial,0,0,1,1.049
+2024-12-17,Tuesday,0,0,,autumn,Guadalupe-Reyes Season,commercial,0,0,1,0.978
+2024-12-18,Wednesday,0,0,,autumn,Guadalupe-Reyes Season,commercial,0,0,1,0.978
+2024-12-19,Thursday,0,0,,autumn,Guadalupe-Reyes Season,commercial,0,0,1,0.978
+2024-12-20,Friday,0,0,,autumn,Guadalupe-Reyes Season,commercial,0,0,1,0.978
+2024-12-21,Saturday,1,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2024-12-22,Sunday,1,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2024-12-23,Monday,0,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2024-12-24,Tuesday,0,0,,winter,Christmas Eve|Guadalupe-Reyes Season,commercial|commercial,0,1,1,1.149
+2024-12-25,Wednesday,0,1,Christmas Day,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.684
+2024-12-26,Thursday,0,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2024-12-27,Friday,0,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2024-12-28,Saturday,1,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2024-12-29,Sunday,1,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2024-12-30,Monday,0,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2024-12-31,Tuesday,0,0,,winter,Guadalupe-Reyes Season|New Year's Eve,commercial|commercial,1,1,1,1.272
+2025-01-01,Wednesday,0,1,New Year's Day,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.767
+2025-01-02,Thursday,0,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2025-01-03,Friday,0,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2025-01-04,Saturday,1,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2025-01-05,Sunday,1,0,,winter,Guadalupe-Reyes Season|Three Kings' Eve,commercial|commercial,0,1,1,0.955
+2025-01-06,Monday,0,0,,winter,Guadalupe-Reyes Season|Three Kings' Day,commercial|commercial,0,1,1,0.978
+2025-01-07,Tuesday,0,0,,winter,,,0,1,1,0.917
+2025-01-08,Wednesday,0,0,,winter,,,0,0,1,0.953
+2025-01-09,Thursday,0,0,,winter,,,0,0,1,0.953
+2025-01-10,Friday,0,0,,winter,,,0,0,1,0.953
+2025-01-11,Saturday,1,0,,winter,,,0,0,1,0.953
+2025-01-12,Sunday,1,0,,winter,,,0,0,1,0.953
+2025-01-13,Monday,0,0,,winter,,,0,0,1,0.953
+2025-01-14,Tuesday,0,0,,winter,,,0,0,1,0.953
+2025-01-15,Wednesday,0,0,,winter,,,1,0,1,1.021
+2025-01-16,Thursday,0,0,,winter,,,0,0,1,1.021
+2025-01-17,Friday,0,0,,winter,,,0,0,1,0.953
+2025-01-18,Saturday,1,0,,winter,,,0,0,1,0.953
+2025-01-19,Sunday,1,0,,winter,,,0,0,1,0.953
+2025-01-20,Monday,0,0,,winter,,,0,0,0,1.0
+2025-01-21,Tuesday,0,0,,winter,,,0,0,0,1.0
+2025-01-22,Wednesday,0,0,,winter,,,0,0,0,1.0
+2025-01-23,Thursday,0,0,,winter,,,0,0,0,1.0
+2025-01-24,Friday,0,0,,winter,,,0,0,0,1.0
+2025-01-25,Saturday,1,0,,winter,,,0,0,0,1.0
+2025-01-26,Sunday,1,0,,winter,,,0,0,0,1.0
+2025-01-27,Monday,0,0,,winter,,,0,0,0,1.0
+2025-01-28,Tuesday,0,0,,winter,,,0,0,0,1.0
+2025-01-29,Wednesday,0,0,,winter,,,0,0,0,1.0
+2025-01-30,Thursday,0,0,,winter,,,0,0,0,1.0
+2025-01-31,Friday,0,0,,winter,School Technical Council (no classes),school,1,0,0,1.039
+2025-02-01,Saturday,1,0,,winter,,,0,0,0,1.071
+2025-02-02,Sunday,1,0,,winter,Candlemas,religious,0,0,0,1.014
+2025-02-03,Monday,0,1,Constitution Day,winter,,,0,0,0,0.886
+2025-02-04,Tuesday,0,0,,winter,,,0,0,0,1.0
+2025-02-05,Wednesday,0,0,,winter,,,0,0,0,1.0
+2025-02-06,Thursday,0,0,,winter,,,0,0,0,1.0
+2025-02-07,Friday,0,0,,winter,,,0,0,0,1.0
+2025-02-08,Saturday,1,0,,winter,,,0,0,0,1.0
+2025-02-09,Sunday,1,0,,winter,Super Bowl,sports,0,0,0,1.242
+2025-02-10,Monday,0,0,,winter,,,0,0,0,1.0
+2025-02-11,Tuesday,0,0,,winter,,,0,0,0,1.0
+2025-02-12,Wednesday,0,0,,winter,,,0,0,0,1.0
+2025-02-13,Thursday,0,0,,winter,Valentine's Eve,commercial,0,0,0,1.023
+2025-02-14,Friday,0,0,,winter,Valentine's Day,commercial,0,0,0,1.128
+2025-02-15,Saturday,1,0,,winter,,,1,0,0,1.071
+2025-02-16,Sunday,1,0,,winter,,,0,0,0,1.071
+2025-02-17,Monday,0,0,,winter,,,0,0,0,1.0
+2025-02-18,Tuesday,0,0,,winter,,,0,0,0,1.0
+2025-02-19,Wednesday,0,0,,winter,,,0,0,0,1.0
+2025-02-20,Thursday,0,0,,winter,,,0,0,0,1.0
+2025-02-21,Friday,0,0,,winter,,,0,0,0,1.0
+2025-02-22,Saturday,1,0,,winter,,,0,0,0,1.0
+2025-02-23,Sunday,1,0,,winter,,,0,0,0,1.0
+2025-02-24,Monday,0,0,,winter,,,0,0,0,1.0
+2025-02-25,Tuesday,0,0,,winter,,,0,0,0,1.0
+2025-02-26,Wednesday,0,0,,winter,,,0,0,0,1.0
+2025-02-27,Thursday,0,0,,winter,,,0,0,0,1.0
+2025-02-28,Friday,0,0,,winter,School Technical Council (no classes),school,1,0,0,1.039
+2025-03-01,Saturday,1,0,,winter,,,0,0,0,1.071
+2025-03-02,Sunday,1,0,,winter,,,0,0,0,1.0
+2025-03-03,Monday,0,0,,winter,,,0,0,0,1.0
+2025-03-04,Tuesday,0,0,,winter,,,0,0,0,1.0
+2025-03-05,Wednesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2025-03-06,Thursday,0,0,,winter,Lent,religious,0,0,0,0.999
+2025-03-07,Friday,0,0,,winter,Lent,religious,0,0,0,0.999
+2025-03-08,Saturday,1,0,,winter,Lent,religious,0,0,0,0.999
+2025-03-09,Sunday,1,0,,winter,Lent,religious,0,0,0,0.999
+2025-03-10,Monday,0,0,,winter,Lent,religious,0,0,0,0.999
+2025-03-11,Tuesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2025-03-12,Wednesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2025-03-13,Thursday,0,0,,winter,Lent,religious,0,0,0,0.999
+2025-03-14,Friday,0,0,,winter,Lent,religious,0,0,0,0.999
+2025-03-15,Saturday,1,0,,winter,Lent,religious,1,0,0,1.07
+2025-03-16,Sunday,1,0,,winter,Lent,religious,0,0,0,1.07
+2025-03-17,Monday,0,1,Benito Juarez's Birthday,winter,Lent,religious,0,0,0,0.885
+2025-03-18,Tuesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2025-03-19,Wednesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2025-03-20,Thursday,0,0,,spring,Lent,religious,0,0,0,0.999
+2025-03-21,Friday,0,0,,spring,Lent,religious,0,0,0,0.999
+2025-03-22,Saturday,1,0,,spring,Lent,religious,0,0,0,0.999
+2025-03-23,Sunday,1,0,,spring,Lent,religious,0,0,0,0.999
+2025-03-24,Monday,0,0,,spring,Lent,religious,0,0,0,0.999
+2025-03-25,Tuesday,0,0,,spring,Lent,religious,0,0,0,0.999
+2025-03-26,Wednesday,0,0,,spring,Lent,religious,0,0,0,0.999
+2025-03-27,Thursday,0,0,,spring,Lent,religious,0,0,0,0.999
+2025-03-28,Friday,0,0,,spring,Lent|School Technical Council (no classes),religious|school,0,0,0,0.969
+2025-03-29,Saturday,1,0,,spring,Lent,religious,0,0,0,0.999
+2025-03-30,Sunday,1,0,,spring,Lent,religious,0,0,0,0.999
+2025-03-31,Monday,0,0,,spring,Lent,religious,1,0,0,1.07
+2025-04-01,Tuesday,0,0,,spring,Lent,religious,0,0,0,1.07
+2025-04-02,Wednesday,0,0,,spring,Lent,religious,0,0,0,0.999
+2025-04-03,Thursday,0,0,,spring,Lent,religious,0,0,0,0.999
+2025-04-04,Friday,0,0,,spring,Lent,religious,0,0,0,0.999
+2025-04-05,Saturday,1,0,,spring,Lent,religious,0,0,0,0.999
+2025-04-06,Sunday,1,0,,spring,Lent,religious,0,0,0,0.999
+2025-04-07,Monday,0,0,,spring,Lent,religious,0,0,0,0.999
+2025-04-08,Tuesday,0,0,,spring,Lent,religious,0,0,0,0.999
+2025-04-09,Wednesday,0,0,,spring,Lent,religious,0,0,0,0.999
+2025-04-10,Thursday,0,0,,spring,Lent,religious,0,0,0,0.999
+2025-04-11,Friday,0,0,,spring,Lent,religious,0,0,0,0.999
+2025-04-12,Saturday,1,0,,spring,Lent,religious,0,0,1,0.952
+2025-04-13,Sunday,1,0,,spring,Holy Week,religious,0,0,1,1.004
+2025-04-14,Monday,0,0,,spring,Holy Week,religious,0,1,1,0.967
+2025-04-15,Tuesday,0,0,,spring,Holy Week,religious,1,1,1,1.037
+2025-04-16,Wednesday,0,0,,spring,Holy Week,religious,0,1,1,1.037
+2025-04-17,Thursday,0,0,,spring,Holy Week,religious,0,1,1,0.967
+2025-04-18,Friday,0,0,,spring,Holy Week,religious,0,1,1,0.967
+2025-04-19,Saturday,1,0,,spring,Holy Week,religious,0,1,1,0.967
+2025-04-20,Sunday,1,0,,spring,Holy Week,religious,0,1,1,0.967
+2025-04-21,Monday,0,0,,spring,,,0,1,1,0.917
+2025-04-22,Tuesday,0,0,,spring,,,0,1,1,0.917
+2025-04-23,Wednesday,0,0,,spring,,,0,1,1,0.917
+2025-04-24,Thursday,0,0,,spring,,,0,1,1,0.917
+2025-04-25,Friday,0,0,,spring,,,0,1,1,0.917
+2025-04-26,Saturday,1,0,,spring,,,0,0,1,0.953
+2025-04-27,Sunday,1,0,,spring,,,0,0,1,0.953
+2025-04-28,Monday,0,0,,spring,,,0,0,0,1.0
+2025-04-29,Tuesday,0,0,,spring,,,0,0,0,1.0
+2025-04-30,Wednesday,0,0,,spring,Children's Day,commercial,1,0,0,1.22
+2025-05-01,Thursday,0,1,Labor Day,spring,,,0,0,0,0.951
+2025-05-02,Friday,0,0,,spring,,,0,0,0,1.0
+2025-05-03,Saturday,1,0,,spring,,,0,0,0,1.0
+2025-05-04,Sunday,1,0,,spring,,,0,0,0,1.0
+2025-05-05,Monday,0,0,,spring,,,0,0,0,1.0
+2025-05-06,Tuesday,0,0,,spring,,,0,0,0,1.0
+2025-05-07,Wednesday,0,0,,spring,,,0,0,0,1.0
+2025-05-08,Thursday,0,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2025-05-09,Friday,0,0,,spring,Mother's Day Eve,commercial,0,0,0,1.015
+2025-05-10,Saturday,1,0,,spring,Liga MX Playoffs Match Day|Mother's Day,sports|commercial,0,0,0,1.087
+2025-05-11,Sunday,1,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2025-05-12,Monday,0,0,,spring,,,0,0,0,1.0
+2025-05-13,Tuesday,0,0,,spring,,,0,0,0,1.0
+2025-05-14,Wednesday,0,0,,spring,,,0,0,0,1.0
+2025-05-15,Thursday,0,0,,spring,Liga MX Playoffs Match Day,sports,1,0,0,1.115
+2025-05-16,Friday,0,0,,spring,,,0,0,0,1.071
+2025-05-17,Saturday,1,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2025-05-18,Sunday,1,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2025-05-19,Monday,0,0,,spring,,,0,0,0,1.0
+2025-05-20,Tuesday,0,0,,spring,,,0,0,0,1.0
+2025-05-21,Wednesday,0,0,,spring,,,0,0,0,1.0
+2025-05-22,Thursday,0,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2025-05-23,Friday,0,0,,spring,,,0,0,0,1.0
+2025-05-24,Saturday,1,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2025-05-25,Sunday,1,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2025-05-26,Monday,0,0,,spring,,,0,0,0,1.0
+2025-05-27,Tuesday,0,0,,spring,,,0,0,0,1.0
+2025-05-28,Wednesday,0,0,,spring,,,0,0,0,1.0
+2025-05-29,Thursday,0,0,,spring,,,0,0,0,1.0
+2025-05-30,Friday,0,0,,spring,School Technical Council (no classes),school,0,0,0,0.97
+2025-05-31,Saturday,1,0,,spring,,,1,0,0,1.071
+2025-06-01,Sunday,1,0,,spring,,,0,0,1,1.021
+2025-06-02,Monday,0,0,,spring,,,0,0,1,0.953
+2025-06-03,Tuesday,0,0,,spring,,,0,0,1,0.953
+2025-06-04,Wednesday,0,0,,spring,,,0,0,1,0.953
+2025-06-05,Thursday,0,0,,spring,,,0,0,1,0.953
+2025-06-06,Friday,0,0,,spring,,,0,0,1,0.953
+2025-06-07,Saturday,1,0,,spring,,,0,0,1,0.953
+2025-06-08,Sunday,1,0,,spring,,,0,0,1,0.953
+2025-06-09,Monday,0,0,,spring,,,0,0,1,0.953
+2025-06-10,Tuesday,0,0,,spring,,,0,0,1,0.953
+2025-06-11,Wednesday,0,0,,spring,,,0,0,1,0.953
+2025-06-12,Thursday,0,0,,spring,,,0,0,1,0.953
+2025-06-13,Friday,0,0,,spring,,,0,0,1,0.953
+2025-06-14,Saturday,1,0,,spring,,,0,0,1,0.953
+2025-06-15,Sunday,1,0,,spring,Father's Day,commercial,1,0,1,1.066
+2025-06-16,Monday,0,0,,spring,,,0,0,1,1.021
+2025-06-17,Tuesday,0,0,,spring,,,0,0,1,0.953
+2025-06-18,Wednesday,0,0,,spring,,,0,0,1,0.953
+2025-06-19,Thursday,0,0,,spring,,,0,0,1,0.953
+2025-06-20,Friday,0,0,,spring,,,0,0,1,0.953
+2025-06-21,Saturday,1,0,,summer,,,0,0,1,0.953
+2025-06-22,Sunday,1,0,,summer,,,0,0,1,0.953
+2025-06-23,Monday,0,0,,summer,,,0,0,1,0.953
+2025-06-24,Tuesday,0,0,,summer,,,0,0,1,0.953
+2025-06-25,Wednesday,0,0,,summer,,,0,0,1,0.953
+2025-06-26,Thursday,0,0,,summer,,,0,0,1,0.953
+2025-06-27,Friday,0,0,,summer,School Technical Council (no classes),school,0,0,1,0.923
+2025-06-28,Saturday,1,0,,summer,,,0,0,1,0.953
+2025-06-29,Sunday,1,0,,summer,,,0,0,1,0.953
+2025-06-30,Monday,0,0,,summer,,,1,0,1,1.021
+2025-07-01,Tuesday,0,0,,summer,,,0,0,1,1.021
+2025-07-02,Wednesday,0,0,,summer,,,0,0,1,0.953
+2025-07-03,Thursday,0,0,,summer,,,0,0,1,0.953
+2025-07-04,Friday,0,0,,summer,,,0,0,1,0.953
+2025-07-05,Saturday,1,0,,summer,,,0,0,1,0.953
+2025-07-06,Sunday,1,0,,summer,,,0,0,1,0.953
+2025-07-07,Monday,0,0,,summer,,,0,0,1,0.953
+2025-07-08,Tuesday,0,0,,summer,,,0,0,1,0.953
+2025-07-09,Wednesday,0,0,,summer,,,0,0,1,0.953
+2025-07-10,Thursday,0,0,,summer,,,0,0,1,0.953
+2025-07-11,Friday,0,0,,summer,,,0,0,1,0.953
+2025-07-12,Saturday,1,0,,summer,,,0,0,1,0.953
+2025-07-13,Sunday,1,0,,summer,,,0,0,1,0.953
+2025-07-14,Monday,0,0,,summer,,,0,0,1,0.953
+2025-07-15,Tuesday,0,0,,summer,,,1,0,1,1.021
+2025-07-16,Wednesday,0,0,,summer,,,0,1,1,0.997
+2025-07-17,Thursday,0,0,,summer,,,0,1,1,0.931
+2025-07-18,Friday,0,0,,summer,,,0,1,1,0.931
+2025-07-19,Saturday,1,0,,summer,,,0,1,1,0.931
+2025-07-20,Sunday,1,0,,summer,,,0,1,1,0.931
+2025-07-21,Monday,0,0,,summer,,,0,1,1,0.931
+2025-07-22,Tuesday,0,0,,summer,,,0,1,1,0.931
+2025-07-23,Wednesday,0,0,,summer,,,0,1,1,0.931
+2025-07-24,Thursday,0,0,,summer,,,0,1,1,0.931
+2025-07-25,Friday,0,0,,summer,Saltillo City Anniversary|Saltillo Fair,local|local,0,1,1,1.052
+2025-07-26,Saturday,1,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2025-07-27,Sunday,1,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2025-07-28,Monday,0,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2025-07-29,Tuesday,0,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2025-07-30,Wednesday,0,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2025-07-31,Thursday,0,0,,summer,Saltillo Fair,local,1,1,1,1.054
+2025-08-01,Friday,0,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.102
+2025-08-02,Saturday,1,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.028
+2025-08-03,Sunday,1,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.028
+2025-08-04,Monday,0,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.028
+2025-08-05,Tuesday,0,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.028
+2025-08-06,Wednesday,0,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.028
+2025-08-07,Thursday,0,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2025-08-08,Friday,0,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2025-08-09,Saturday,1,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2025-08-10,Sunday,1,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2025-08-11,Monday,0,0,,summer,,,0,1,0,0.978
+2025-08-12,Tuesday,0,0,,summer,,,0,1,0,0.978
+2025-08-13,Wednesday,0,0,,summer,,,0,1,0,0.978
+2025-08-14,Thursday,0,0,,summer,,,0,1,0,0.978
+2025-08-15,Friday,0,0,,summer,,,1,1,0,1.047
+2025-08-16,Saturday,1,0,,summer,,,0,1,0,1.047
+2025-08-17,Sunday,1,0,,summer,,,0,1,0,0.978
+2025-08-18,Monday,0,0,,summer,,,0,1,0,0.978
+2025-08-19,Tuesday,0,0,,summer,,,0,1,0,0.978
+2025-08-20,Wednesday,0,0,,summer,,,0,1,0,0.978
+2025-08-21,Thursday,0,0,,summer,,,0,1,0,0.978
+2025-08-22,Friday,0,0,,summer,,,0,1,0,0.978
+2025-08-23,Saturday,1,0,,summer,,,0,1,0,0.978
+2025-08-24,Sunday,1,0,,summer,,,0,1,0,0.978
+2025-08-25,Monday,0,0,,summer,Back to School,school,0,1,0,0.978
+2025-08-26,Tuesday,0,0,,summer,Back to School,school,0,1,0,0.978
+2025-08-27,Wednesday,0,0,,summer,Back to School,school,0,1,0,0.978
+2025-08-28,Thursday,0,0,,summer,Back to School,school,0,1,0,0.978
+2025-08-29,Friday,0,0,,summer,Back to School,school,0,1,0,0.978
+2025-08-30,Saturday,1,0,,summer,Back to School,school,0,1,0,0.978
+2025-08-31,Sunday,1,0,,summer,Back to School,school,1,1,0,1.048
+2025-09-01,Monday,0,0,,summer,,,0,0,0,1.071
+2025-09-02,Tuesday,0,0,,summer,,,0,0,0,1.0
+2025-09-03,Wednesday,0,0,,summer,,,0,0,0,1.0
+2025-09-04,Thursday,0,0,,summer,,,0,0,0,1.0
+2025-09-05,Friday,0,0,,summer,,,0,0,0,1.0
+2025-09-06,Saturday,1,0,,summer,,,0,0,0,1.0
+2025-09-07,Sunday,1,0,,summer,,,0,0,0,1.0
+2025-09-08,Monday,0,0,,summer,,,0,0,0,1.0
+2025-09-09,Tuesday,0,0,,summer,,,0,0,0,1.0
+2025-09-10,Wednesday,0,0,,summer,,,0,0,0,1.0
+2025-09-11,Thursday,0,0,,summer,,,0,0,0,1.0
+2025-09-12,Friday,0,0,,summer,,,0,0,0,1.0
+2025-09-13,Saturday,1,0,,summer,,,0,0,0,1.0
+2025-09-14,Sunday,1,0,,summer,,,0,0,0,1.0
+2025-09-15,Monday,0,0,,summer,Independence Eve (El Grito),national,1,0,0,1.435
+2025-09-16,Tuesday,0,1,Independence Day,summer,,,0,0,0,1.212
+2025-09-17,Wednesday,0,0,,summer,,,0,0,0,1.0
+2025-09-18,Thursday,0,0,,summer,,,0,0,0,1.0
+2025-09-19,Friday,0,0,,summer,,,0,0,0,1.0
+2025-09-20,Saturday,1,0,,summer,,,0,0,0,1.0
+2025-09-21,Sunday,1,0,,summer,,,0,0,0,1.0
+2025-09-22,Monday,0,0,,summer,,,0,0,0,1.0
+2025-09-23,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2025-09-24,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2025-09-25,Thursday,0,0,,autumn,,,0,0,0,1.0
+2025-09-26,Friday,0,0,,autumn,School Technical Council (no classes),school,0,0,0,0.97
+2025-09-27,Saturday,1,0,,autumn,,,0,0,0,1.0
+2025-09-28,Sunday,1,0,,autumn,,,0,0,0,1.0
+2025-09-29,Monday,0,0,,autumn,,,0,0,0,1.0
+2025-09-30,Tuesday,0,0,,autumn,,,1,0,0,1.071
+2025-10-01,Wednesday,0,0,,autumn,,,0,0,0,1.071
+2025-10-02,Thursday,0,0,,autumn,,,0,0,0,1.0
+2025-10-03,Friday,0,0,,autumn,,,0,0,0,1.0
+2025-10-04,Saturday,1,0,,autumn,,,0,0,0,1.0
+2025-10-05,Sunday,1,0,,autumn,,,0,0,0,1.0
+2025-10-06,Monday,0,0,,autumn,,,0,0,0,1.0
+2025-10-07,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2025-10-08,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2025-10-09,Thursday,0,0,,autumn,,,0,0,0,1.0
+2025-10-10,Friday,0,0,,autumn,,,0,0,0,1.0
+2025-10-11,Saturday,1,0,,autumn,,,0,0,0,1.0
+2025-10-12,Sunday,1,0,,autumn,,,0,0,0,1.0
+2025-10-13,Monday,0,0,,autumn,,,0,0,0,1.0
+2025-10-14,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2025-10-15,Wednesday,0,0,,autumn,,,1,0,0,1.071
+2025-10-16,Thursday,0,0,,autumn,,,0,0,0,1.071
+2025-10-17,Friday,0,0,,autumn,,,0,0,0,1.0
+2025-10-18,Saturday,1,0,,autumn,,,0,0,0,1.0
+2025-10-19,Sunday,1,0,,autumn,,,0,0,0,1.0
+2025-10-20,Monday,0,0,,autumn,,,0,0,0,1.0
+2025-10-21,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2025-10-22,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2025-10-23,Thursday,0,0,,autumn,,,0,0,0,1.0
+2025-10-24,Friday,0,0,,autumn,,,0,0,0,1.0
+2025-10-25,Saturday,1,0,,autumn,,,0,0,0,1.0
+2025-10-26,Sunday,1,0,,autumn,,,0,0,0,1.0
+2025-10-27,Monday,0,0,,autumn,,,0,0,0,1.0
+2025-10-28,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2025-10-29,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2025-10-30,Thursday,0,0,,autumn,,,0,0,0,1.0
+2025-10-31,Friday,0,0,,autumn,Halloween|School Technical Council (no classes),commercial|school,1,0,0,1.186
+2025-11-01,Saturday,1,0,,autumn,Day of the Dead,religious,0,0,0,1.147
+2025-11-02,Sunday,1,0,,autumn,Day of the Dead,religious,0,0,0,1.072
+2025-11-03,Monday,0,0,,autumn,,,0,0,0,1.0
+2025-11-04,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2025-11-05,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2025-11-06,Thursday,0,0,,autumn,,,0,0,0,1.0
+2025-11-07,Friday,0,0,,autumn,,,0,0,0,1.0
+2025-11-08,Saturday,1,0,,autumn,,,0,0,0,1.0
+2025-11-09,Sunday,1,0,,autumn,,,0,0,0,1.0
+2025-11-10,Monday,0,0,,autumn,,,0,0,0,1.0
+2025-11-11,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2025-11-12,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2025-11-13,Thursday,0,0,,autumn,,,0,0,0,1.0
+2025-11-14,Friday,0,0,,autumn,Buen Fin,commercial,0,0,0,1.068
+2025-11-15,Saturday,1,0,,autumn,Buen Fin,commercial,1,0,0,1.144
+2025-11-16,Sunday,1,0,,autumn,Buen Fin,commercial,0,0,0,1.144
+2025-11-17,Monday,0,1,Revolution Day,autumn,Buen Fin,commercial,0,0,0,0.949
+2025-11-18,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2025-11-19,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2025-11-20,Thursday,0,0,,autumn,,,0,0,0,1.0
+2025-11-21,Friday,0,0,,autumn,,,0,0,0,1.0
+2025-11-22,Saturday,1,0,,autumn,,,0,0,0,1.0
+2025-11-23,Sunday,1,0,,autumn,,,0,0,0,1.0
+2025-11-24,Monday,0,0,,autumn,,,0,0,0,1.0
+2025-11-25,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2025-11-26,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2025-11-27,Thursday,0,0,,autumn,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2025-11-28,Friday,0,0,,autumn,School Technical Council (no classes),school,0,0,0,0.97
+2025-11-29,Saturday,1,0,,autumn,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2025-11-30,Sunday,1,0,,autumn,Liga MX Playoffs Match Day,sports,1,0,0,1.115
+2025-12-01,Monday,0,0,,autumn,,,0,0,0,1.071
+2025-12-02,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2025-12-03,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2025-12-04,Thursday,0,0,,autumn,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2025-12-05,Friday,0,0,,autumn,,,0,0,0,1.0
+2025-12-06,Saturday,1,0,,autumn,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2025-12-07,Sunday,1,0,,autumn,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2025-12-08,Monday,0,0,,autumn,,,0,0,0,1.0
+2025-12-09,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2025-12-10,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2025-12-11,Thursday,0,0,,autumn,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2025-12-12,Friday,0,0,,autumn,Our Lady of Guadalupe Day|Guadalupe-Reyes Season,religious|commercial,0,0,0,1.027
+2025-12-13,Saturday,1,0,,autumn,Guadalupe-Reyes Season|Liga MX Playoffs Match Day,commercial|sports,0,0,1,1.018
+2025-12-14,Sunday,1,0,,autumn,Guadalupe-Reyes Season|Liga MX Playoffs Match Day,commercial|sports,0,0,1,1.018
+2025-12-15,Monday,0,0,,autumn,Guadalupe-Reyes Season,commercial,1,0,1,1.049
+2025-12-16,Tuesday,0,0,,autumn,Guadalupe-Reyes Season,commercial,0,0,1,1.049
+2025-12-17,Wednesday,0,0,,autumn,Guadalupe-Reyes Season,commercial,0,0,1,0.978
+2025-12-18,Thursday,0,0,,autumn,Guadalupe-Reyes Season,commercial,0,0,1,0.978
+2025-12-19,Friday,0,0,,autumn,Guadalupe-Reyes Season,commercial,0,0,1,0.978
+2025-12-20,Saturday,1,0,,autumn,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2025-12-21,Sunday,1,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2025-12-22,Monday,0,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2025-12-23,Tuesday,0,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2025-12-24,Wednesday,0,0,,winter,Christmas Eve|Guadalupe-Reyes Season,commercial|commercial,0,1,1,1.149
+2025-12-25,Thursday,0,1,Christmas Day,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.684
+2025-12-26,Friday,0,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2025-12-27,Saturday,1,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2025-12-28,Sunday,1,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2025-12-29,Monday,0,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2025-12-30,Tuesday,0,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2025-12-31,Wednesday,0,0,,winter,Guadalupe-Reyes Season|New Year's Eve,commercial|commercial,1,1,1,1.272
+2026-01-01,Thursday,0,1,New Year's Day,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.767
+2026-01-02,Friday,0,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2026-01-03,Saturday,1,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2026-01-04,Sunday,1,0,,winter,Guadalupe-Reyes Season,commercial,0,1,1,0.941
+2026-01-05,Monday,0,0,,winter,Guadalupe-Reyes Season|Three Kings' Eve,commercial|commercial,0,1,1,0.955
+2026-01-06,Tuesday,0,0,,winter,Guadalupe-Reyes Season|Three Kings' Day,commercial|commercial,0,1,1,0.978
+2026-01-07,Wednesday,0,0,,winter,,,0,1,1,0.917
+2026-01-08,Thursday,0,0,,winter,,,0,1,1,0.917
+2026-01-09,Friday,0,0,,winter,,,0,1,1,0.917
+2026-01-10,Saturday,1,0,,winter,,,0,1,1,0.917
+2026-01-11,Sunday,1,0,,winter,,,0,1,1,0.917
+2026-01-12,Monday,0,0,,winter,,,0,0,1,0.953
+2026-01-13,Tuesday,0,0,,winter,,,0,0,1,0.953
+2026-01-14,Wednesday,0,0,,winter,,,0,0,1,0.953
+2026-01-15,Thursday,0,0,,winter,,,1,0,1,1.021
+2026-01-16,Friday,0,0,,winter,,,0,0,1,1.021
+2026-01-17,Saturday,1,0,,winter,,,0,0,1,0.953
+2026-01-18,Sunday,1,0,,winter,,,0,0,1,0.953
+2026-01-19,Monday,0,0,,winter,,,0,0,0,1.0
+2026-01-20,Tuesday,0,0,,winter,,,0,0,0,1.0
+2026-01-21,Wednesday,0,0,,winter,,,0,0,0,1.0
+2026-01-22,Thursday,0,0,,winter,,,0,0,0,1.0
+2026-01-23,Friday,0,0,,winter,,,0,0,0,1.0
+2026-01-24,Saturday,1,0,,winter,,,0,0,0,1.0
+2026-01-25,Sunday,1,0,,winter,,,0,0,0,1.0
+2026-01-26,Monday,0,0,,winter,,,0,0,0,1.0
+2026-01-27,Tuesday,0,0,,winter,,,0,0,0,1.0
+2026-01-28,Wednesday,0,0,,winter,,,0,0,0,1.0
+2026-01-29,Thursday,0,0,,winter,,,0,0,0,1.0
+2026-01-30,Friday,0,0,,winter,School Technical Council (no classes),school,0,0,0,0.97
+2026-01-31,Saturday,1,0,,winter,,,1,0,0,1.071
+2026-02-01,Sunday,1,0,,winter,,,0,0,0,1.071
+2026-02-02,Monday,0,1,Constitution Day,winter,Candlemas,religious,0,0,0,0.898
+2026-02-03,Tuesday,0,0,,winter,,,0,0,0,1.0
+2026-02-04,Wednesday,0,0,,winter,,,0,0,0,1.0
+2026-02-05,Thursday,0,0,,winter,,,0,0,0,1.0
+2026-02-06,Friday,0,0,,winter,,,0,0,0,1.0
+2026-02-07,Saturday,1,0,,winter,,,0,0,0,1.0
+2026-02-08,Sunday,1,0,,winter,Super Bowl,sports,0,0,0,1.242
+2026-02-09,Monday,0,0,,winter,,,0,0,0,1.0
+2026-02-10,Tuesday,0,0,,winter,,,0,0,0,1.0
+2026-02-11,Wednesday,0,0,,winter,,,0,0,0,1.0
+2026-02-12,Thursday,0,0,,winter,,,0,0,0,1.0
+2026-02-13,Friday,0,0,,winter,Valentine's Eve,commercial,0,0,0,1.023
+2026-02-14,Saturday,1,0,,winter,Valentine's Day,commercial,0,0,0,1.128
+2026-02-15,Sunday,1,0,,winter,,,1,0,0,1.071
+2026-02-16,Monday,0,0,,winter,,,0,0,0,1.071
+2026-02-17,Tuesday,0,0,,winter,,,0,0,0,1.0
+2026-02-18,Wednesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-02-19,Thursday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-02-20,Friday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-02-21,Saturday,1,0,,winter,Lent,religious,0,0,0,0.999
+2026-02-22,Sunday,1,0,,winter,Lent,religious,0,0,0,0.999
+2026-02-23,Monday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-02-24,Tuesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-02-25,Wednesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-02-26,Thursday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-02-27,Friday,0,0,,winter,Lent|School Technical Council (no classes),religious|school,0,0,0,0.969
+2026-02-28,Saturday,1,0,,winter,Lent,religious,1,0,0,1.07
+2026-03-01,Sunday,1,0,,winter,Lent,religious,0,0,0,1.07
+2026-03-02,Monday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-03,Tuesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-04,Wednesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-05,Thursday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-06,Friday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-07,Saturday,1,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-08,Sunday,1,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-09,Monday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-10,Tuesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-11,Wednesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-12,Thursday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-13,Friday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-14,Saturday,1,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-15,Sunday,1,0,,winter,Lent,religious,1,0,0,1.07
+2026-03-16,Monday,0,1,Benito Juarez's Birthday,winter,Lent,religious,0,0,0,0.95
+2026-03-17,Tuesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-18,Wednesday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-19,Thursday,0,0,,winter,Lent,religious,0,0,0,0.999
+2026-03-20,Friday,0,0,,spring,Lent,religious,0,0,0,0.999
+2026-03-21,Saturday,1,0,,spring,Lent,religious,0,0,0,0.999
+2026-03-22,Sunday,1,0,,spring,Lent,religious,0,0,0,0.999
+2026-03-23,Monday,0,0,,spring,Lent,religious,0,0,0,0.999
+2026-03-24,Tuesday,0,0,,spring,Lent,religious,0,0,0,0.999
+2026-03-25,Wednesday,0,0,,spring,Lent,religious,0,0,0,0.999
+2026-03-26,Thursday,0,0,,spring,Lent,religious,0,0,0,0.999
+2026-03-27,Friday,0,0,,spring,Lent|School Technical Council (no classes),religious|school,0,0,0,0.969
+2026-03-28,Saturday,1,0,,spring,Lent,religious,0,0,1,0.952
+2026-03-29,Sunday,1,0,,spring,Holy Week,religious,0,0,1,1.004
+2026-03-30,Monday,0,0,,spring,Holy Week,religious,0,1,1,0.967
+2026-03-31,Tuesday,0,0,,spring,Holy Week,religious,1,1,1,1.037
+2026-04-01,Wednesday,0,0,,spring,Holy Week,religious,0,1,1,1.037
+2026-04-02,Thursday,0,0,,spring,Holy Week,religious,0,1,1,0.967
+2026-04-03,Friday,0,0,,spring,Holy Week,religious,0,1,1,0.967
+2026-04-04,Saturday,1,0,,spring,Holy Week,religious,0,1,1,0.967
+2026-04-05,Sunday,1,0,,spring,Holy Week,religious,0,1,1,0.967
+2026-04-06,Monday,0,0,,spring,,,0,1,1,0.917
+2026-04-07,Tuesday,0,0,,spring,,,0,1,1,0.917
+2026-04-08,Wednesday,0,0,,spring,,,0,1,1,0.917
+2026-04-09,Thursday,0,0,,spring,,,0,1,1,0.917
+2026-04-10,Friday,0,0,,spring,,,0,1,1,0.917
+2026-04-11,Saturday,1,0,,spring,,,0,0,1,0.953
+2026-04-12,Sunday,1,0,,spring,,,0,0,1,0.953
+2026-04-13,Monday,0,0,,spring,,,0,0,0,1.0
+2026-04-14,Tuesday,0,0,,spring,,,0,0,0,1.0
+2026-04-15,Wednesday,0,0,,spring,,,1,0,0,1.071
+2026-04-16,Thursday,0,0,,spring,,,0,0,0,1.071
+2026-04-17,Friday,0,0,,spring,,,0,0,0,1.0
+2026-04-18,Saturday,1,0,,spring,,,0,0,0,1.0
+2026-04-19,Sunday,1,0,,spring,,,0,0,0,1.0
+2026-04-20,Monday,0,0,,spring,,,0,0,0,1.0
+2026-04-21,Tuesday,0,0,,spring,,,0,0,0,1.0
+2026-04-22,Wednesday,0,0,,spring,,,0,0,0,1.0
+2026-04-23,Thursday,0,0,,spring,,,0,0,0,1.0
+2026-04-24,Friday,0,0,,spring,School Technical Council (no classes),school,0,0,0,0.97
+2026-04-25,Saturday,1,0,,spring,,,0,0,0,1.0
+2026-04-26,Sunday,1,0,,spring,,,0,0,0,1.0
+2026-04-27,Monday,0,0,,spring,,,0,0,0,1.0
+2026-04-28,Tuesday,0,0,,spring,,,0,0,0,1.0
+2026-04-29,Wednesday,0,0,,spring,,,0,0,0,1.0
+2026-04-30,Thursday,0,0,,spring,Children's Day,commercial,1,0,0,1.22
+2026-05-01,Friday,0,1,Labor Day,spring,,,0,0,0,0.951
+2026-05-02,Saturday,1,0,,spring,,,0,0,0,1.0
+2026-05-03,Sunday,1,0,,spring,,,0,0,0,1.0
+2026-05-04,Monday,0,0,,spring,,,0,0,0,1.0
+2026-05-05,Tuesday,0,0,,spring,,,0,0,0,1.0
+2026-05-06,Wednesday,0,0,,spring,,,0,0,0,1.0
+2026-05-07,Thursday,0,0,,spring,,,0,0,0,1.0
+2026-05-08,Friday,0,0,,spring,,,0,0,0,1.0
+2026-05-09,Saturday,1,0,,spring,Mother's Day Eve,commercial,0,0,0,1.015
+2026-05-10,Sunday,1,0,,spring,Mother's Day,commercial,0,0,0,1.048
+2026-05-11,Monday,0,0,,spring,,,0,0,0,1.0
+2026-05-12,Tuesday,0,0,,spring,,,0,0,0,1.0
+2026-05-13,Wednesday,0,0,,spring,,,0,0,0,1.0
+2026-05-14,Thursday,0,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2026-05-15,Friday,0,0,,spring,,,1,0,0,1.071
+2026-05-16,Saturday,1,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.115
+2026-05-17,Sunday,1,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2026-05-18,Monday,0,0,,spring,,,0,0,0,1.0
+2026-05-19,Tuesday,0,0,,spring,,,0,0,0,1.0
+2026-05-20,Wednesday,0,0,,spring,,,0,0,0,1.0
+2026-05-21,Thursday,0,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2026-05-22,Friday,0,0,,spring,,,0,0,0,1.0
+2026-05-23,Saturday,1,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2026-05-24,Sunday,1,0,,spring,Liga MX Playoffs Match Day,sports,0,0,0,1.039
+2026-05-25,Monday,0,0,,spring,,,0,0,0,1.0
+2026-05-26,Tuesday,0,0,,spring,,,0,0,0,1.0
+2026-05-27,Wednesday,0,0,,spring,,,0,0,0,1.0
+2026-05-28,Thursday,0,0,,spring,,,0,0,0,1.0
+2026-05-29,Friday,0,0,,spring,School Technical Council (no classes),school,0,0,0,0.97
+2026-05-30,Saturday,1,0,,spring,,,0,0,1,0.953
+2026-05-31,Sunday,1,0,,spring,,,1,0,1,1.021
+2026-06-01,Monday,0,0,,spring,,,0,0,1,1.021
+2026-06-02,Tuesday,0,0,,spring,,,0,0,1,0.953
+2026-06-03,Wednesday,0,0,,spring,,,0,0,1,0.953
+2026-06-04,Thursday,0,0,,spring,,,0,0,1,0.953
+2026-06-05,Friday,0,0,,spring,,,0,0,1,0.953
+2026-06-06,Saturday,1,0,,spring,,,0,0,1,0.953
+2026-06-07,Sunday,1,0,,spring,,,0,0,1,0.953
+2026-06-08,Monday,0,0,,spring,,,0,0,1,0.953
+2026-06-09,Tuesday,0,0,,spring,,,0,0,1,0.953
+2026-06-10,Wednesday,0,0,,spring,,,0,0,1,0.953
+2026-06-11,Thursday,0,0,,spring,Mexico Match Day|FIFA World Cup 2026,sports|sports,0,0,1,1.272
+2026-06-12,Friday,0,0,,spring,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-06-13,Saturday,1,0,,spring,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-06-14,Sunday,1,0,,spring,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-06-15,Monday,0,0,,spring,FIFA World Cup 2026,sports,1,0,1,1.042
+2026-06-16,Tuesday,0,0,,spring,FIFA World Cup 2026,sports,0,0,1,1.042
+2026-06-17,Wednesday,0,0,,spring,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-06-18,Thursday,0,0,,spring,Mexico Match Day|FIFA World Cup 2026,sports|sports,0,0,1,1.272
+2026-06-19,Friday,0,0,,spring,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-06-20,Saturday,1,0,,spring,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-06-21,Sunday,1,0,,summer,Father's Day|FIFA World Cup 2026,commercial|sports,0,0,1,1.015
+2026-06-22,Monday,0,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-06-23,Tuesday,0,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-06-24,Wednesday,0,0,,summer,Mexico Match Day|FIFA World Cup 2026,sports|sports,0,0,1,1.272
+2026-06-25,Thursday,0,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-06-26,Friday,0,0,,summer,School Technical Council (no classes)|FIFA World Cup 2026,school|sports,0,0,1,0.942
+2026-06-27,Saturday,1,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-06-28,Sunday,1,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-06-29,Monday,0,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-06-30,Tuesday,0,0,,summer,Mexico Match Day|FIFA World Cup 2026,sports|sports,1,0,1,1.374
+2026-07-01,Wednesday,0,0,,summer,FIFA World Cup 2026,sports,0,0,1,1.042
+2026-07-02,Thursday,0,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-07-03,Friday,0,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-07-04,Saturday,1,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-07-05,Sunday,1,0,,summer,Mexico Match Day|FIFA World Cup 2026,sports|sports,0,0,1,1.272
+2026-07-06,Monday,0,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-07-07,Tuesday,0,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-07-08,Wednesday,0,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-07-09,Thursday,0,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-07-10,Friday,0,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-07-11,Saturday,1,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-07-12,Sunday,1,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-07-13,Monday,0,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-07-14,Tuesday,0,0,,summer,FIFA World Cup 2026,sports,0,0,1,0.973
+2026-07-15,Wednesday,0,0,,summer,FIFA World Cup 2026,sports,1,0,1,1.042
+2026-07-16,Thursday,0,0,,summer,FIFA World Cup 2026,sports,0,1,1,1.018
+2026-07-17,Friday,0,0,,summer,FIFA World Cup 2026,sports,0,1,1,0.95
+2026-07-18,Saturday,1,0,,summer,FIFA World Cup 2026,sports,0,1,1,0.95
+2026-07-19,Sunday,1,0,,summer,FIFA World Cup 2026,sports,0,1,1,0.95
+2026-07-20,Monday,0,0,,summer,,,0,1,1,0.931
+2026-07-21,Tuesday,0,0,,summer,,,0,1,1,0.931
+2026-07-22,Wednesday,0,0,,summer,,,0,1,1,0.931
+2026-07-23,Thursday,0,0,,summer,,,0,1,1,0.931
+2026-07-24,Friday,0,0,,summer,,,0,1,1,0.931
+2026-07-25,Saturday,1,0,,summer,Saltillo City Anniversary,local,0,1,1,0.994
+2026-07-26,Sunday,1,0,,summer,,,0,1,1,0.931
+2026-07-27,Monday,0,0,,summer,,,0,1,1,0.931
+2026-07-28,Tuesday,0,0,,summer,,,0,1,1,0.931
+2026-07-29,Wednesday,0,0,,summer,,,0,1,1,0.931
+2026-07-30,Thursday,0,0,,summer,,,0,1,1,0.931
+2026-07-31,Friday,0,0,,summer,Saltillo Fair,local,1,1,1,1.054
+2026-08-01,Saturday,1,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.102
+2026-08-02,Sunday,1,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.028
+2026-08-03,Monday,0,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.028
+2026-08-04,Tuesday,0,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.028
+2026-08-05,Wednesday,0,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.028
+2026-08-06,Thursday,0,0,,summer,Saltillo Fair|Santo Cristo de la Capilla Festivities,local|local,0,1,1,1.028
+2026-08-07,Friday,0,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2026-08-08,Saturday,1,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2026-08-09,Sunday,1,0,,summer,Saltillo Fair,local,0,1,1,0.983
+2026-08-10,Monday,0,0,,summer,Saltillo Fair,local,0,1,0,1.033
+2026-08-11,Tuesday,0,0,,summer,Saltillo Fair,local,0,1,0,1.033
+2026-08-12,Wednesday,0,0,,summer,Saltillo Fair,local,0,1,0,1.033
+2026-08-13,Thursday,0,0,,summer,Saltillo Fair,local,0,1,0,1.033
+2026-08-14,Friday,0,0,,summer,Saltillo Fair,local,0,1,0,1.033
+2026-08-15,Saturday,1,0,,summer,Saltillo Fair,local,1,1,0,1.108
+2026-08-16,Sunday,1,0,,summer,Saltillo Fair,local,0,1,0,1.108
+2026-08-17,Monday,0,0,,summer,,,0,1,0,0.978
+2026-08-18,Tuesday,0,0,,summer,,,0,1,0,0.978
+2026-08-19,Wednesday,0,0,,summer,,,0,1,0,0.978
+2026-08-20,Thursday,0,0,,summer,,,0,1,0,0.978
+2026-08-21,Friday,0,0,,summer,,,0,1,0,0.978
+2026-08-22,Saturday,1,0,,summer,,,0,1,0,0.978
+2026-08-23,Sunday,1,0,,summer,,,0,1,0,0.978
+2026-08-24,Monday,0,0,,summer,Back to School,school,0,1,0,0.978
+2026-08-25,Tuesday,0,0,,summer,Back to School,school,0,1,0,0.978
+2026-08-26,Wednesday,0,0,,summer,Back to School,school,0,1,0,0.978
+2026-08-27,Thursday,0,0,,summer,Back to School,school,0,1,0,0.978
+2026-08-28,Friday,0,0,,summer,Back to School,school,0,1,0,0.978
+2026-08-29,Saturday,1,0,,summer,Back to School,school,0,1,0,0.978
+2026-08-30,Sunday,1,0,,summer,Back to School,school,0,1,0,0.978
+2026-08-31,Monday,0,0,,summer,,,1,0,0,1.071
+2026-09-01,Tuesday,0,0,,summer,,,0,0,0,1.071
+2026-09-02,Wednesday,0,0,,summer,,,0,0,0,1.0
+2026-09-03,Thursday,0,0,,summer,,,0,0,0,1.0
+2026-09-04,Friday,0,0,,summer,,,0,0,0,1.0
+2026-09-05,Saturday,1,0,,summer,,,0,0,0,1.0
+2026-09-06,Sunday,1,0,,summer,,,0,0,0,1.0
+2026-09-07,Monday,0,0,,summer,,,0,0,0,1.0
+2026-09-08,Tuesday,0,0,,summer,,,0,0,0,1.0
+2026-09-09,Wednesday,0,0,,summer,,,0,0,0,1.0
+2026-09-10,Thursday,0,0,,summer,,,0,0,0,1.0
+2026-09-11,Friday,0,0,,summer,,,0,0,0,1.0
+2026-09-12,Saturday,1,0,,summer,,,0,0,0,1.0
+2026-09-13,Sunday,1,0,,summer,,,0,0,0,1.0
+2026-09-14,Monday,0,0,,summer,,,0,0,0,1.0
+2026-09-15,Tuesday,0,0,,summer,Independence Eve (El Grito),national,1,0,0,1.435
+2026-09-16,Wednesday,0,1,Independence Day,summer,,,0,0,0,1.212
+2026-09-17,Thursday,0,0,,summer,,,0,0,0,1.0
+2026-09-18,Friday,0,0,,summer,,,0,0,0,1.0
+2026-09-19,Saturday,1,0,,summer,,,0,0,0,1.0
+2026-09-20,Sunday,1,0,,summer,,,0,0,0,1.0
+2026-09-21,Monday,0,0,,summer,,,0,0,0,1.0
+2026-09-22,Tuesday,0,0,,summer,,,0,0,0,1.0
+2026-09-23,Wednesday,0,0,,autumn,,,0,0,0,1.0
+2026-09-24,Thursday,0,0,,autumn,,,0,0,0,1.0
+2026-09-25,Friday,0,0,,autumn,School Technical Council (no classes),school,0,0,0,0.97
+2026-09-26,Saturday,1,0,,autumn,,,0,0,0,1.0
+2026-09-27,Sunday,1,0,,autumn,,,0,0,0,1.0
+2026-09-28,Monday,0,0,,autumn,,,0,0,0,1.0
+2026-09-29,Tuesday,0,0,,autumn,,,0,0,0,1.0
+2026-09-30,Wednesday,0,0,,autumn,,,1,0,0,1.071

@@ -1,0 +1,43 @@
+# Local stack: PostgreSQL + one-off dataset loader + Copilot API.
+# Generate the dataset first (repo root: python scripts/dataset/run_all.py), then:
+#   GOOGLE_API_KEY=... docker compose up --build
+services:
+  db:
+    image: postgres:16.4
+    environment:
+      POSTGRES_USER: stockcopilot
+      POSTGRES_PASSWORD: stockcopilot
+      POSTGRES_DB: stockcopilot
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U stockcopilot"]
+      interval: 3s
+      retries: 20
+
+  load-dataset:
+    build: .
+    depends_on:
+      db: { condition: service_healthy }
+    volumes:
+      - ${DATASET_DIR:-../../public/softtek/dataset/dataset-hackathon-road2tech/v2}:/dataset
+    command: ["python", "-m", "stockcopilot.data.load_postgres", "--dataset-dir", "/dataset",
+              "--database-url", "postgresql://stockcopilot:stockcopilot@db:5432/stockcopilot"]
+    restart: "no"
+
+  api:
+    build: .
+    depends_on:
+      load-dataset: { condition: service_completed_successfully }
+    environment:
+      DATA_BACKEND: postgres
+      CHECKPOINTER: postgres
+      DATABASE_URL: postgresql://stockcopilot:stockcopilot@db:5432/stockcopilot
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash}
+      DEMO_AS_OF: ${DEMO_AS_OF:-2026-09-16}
+      CORS_ORIGINS: '["http://localhost:3000"]'
+    ports: ["8000:8080"]
+
+volumes:
+  pgdata:

@@ -114,5 +114,6 @@ This image is only for the dataset generator; it contains no credentials, AWS se
 - [FLOW.md](./FLOW.md): functional journey, strategy generation, and feedback.
 - [ARCHITECTURE.md](./ARCHITECTURE.md): AWS components, responsibilities, and interfaces.
 - [milestones.md](./milestones.md): phases, contracts, and ownership for concurrent implementation.
+- [services/copilot-api](./services/copilot-api/README.md): FastAPI + LangGraph copilot, REST/Lambda endpoints, strategy simulator.
 - [AWS architecture diagram (SVG)](./docs/stockcopilot-aws-architecture.svg): editable vector diagram with services, flows, and solution boundaries.
 - [AWS architecture diagram (PNG)](./docs/stockcopilot-architecture.png): presentation-ready diagram.

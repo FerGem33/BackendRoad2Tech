@@ -1,0 +1,73 @@
+campaign_id,strategy_type,objective,anchor_product_id,promoted_product_id,discount_pct,uplift_anchor_pct,uplift_promoted_pct,start_date,end_date,trigger_reason
+CMP0001,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2024-01-01,2024-01-04,Coffee and sweet-bread affinity observed in morning baskets
+CMP0002,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2024-01-15,2024-01-18,Move short-life fruit cups with a high-velocity cold drink
+CMP0003,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2024-01-29,2024-02-01,Warm-weather hydration and ice-cream opportunity
+CMP0004,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2024-02-12,2024-02-15,Coffee and sweet-bread affinity observed in morning baskets
+CMP0005,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2024-02-26,2024-02-29,Move short-life fruit cups with a high-velocity cold drink
+CMP0006,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2024-03-11,2024-03-14,Warm-weather hydration and ice-cream opportunity
+CMP0007,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2024-03-25,2024-03-28,Coffee and sweet-bread affinity observed in morning baskets
+CMP0008,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2024-04-08,2024-04-11,Move short-life fruit cups with a high-velocity cold drink
+CMP0009,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2024-04-22,2024-04-25,Warm-weather hydration and ice-cream opportunity
+CMP0010,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2024-05-06,2024-05-09,Coffee and sweet-bread affinity observed in morning baskets
+CMP0011,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2024-05-20,2024-05-23,Move short-life fruit cups with a high-velocity cold drink
+CMP0012,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2024-06-03,2024-06-06,Warm-weather hydration and ice-cream opportunity
+CMP0013,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2024-06-17,2024-06-20,Coffee and sweet-bread affinity observed in morning baskets
+CMP0014,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2024-07-01,2024-07-04,Move short-life fruit cups with a high-velocity cold drink
+CMP0015,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2024-07-15,2024-07-18,Warm-weather hydration and ice-cream opportunity
+CMP0016,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2024-07-29,2024-08-01,Coffee and sweet-bread affinity observed in morning baskets
+CMP0017,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2024-08-12,2024-08-15,Move short-life fruit cups with a high-velocity cold drink
+CMP0018,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2024-08-26,2024-08-29,Warm-weather hydration and ice-cream opportunity
+CMP0019,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2024-09-09,2024-09-12,Coffee and sweet-bread affinity observed in morning baskets
+CMP0020,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2024-09-23,2024-09-26,Move short-life fruit cups with a high-velocity cold drink
+CMP0021,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2024-10-07,2024-10-10,Warm-weather hydration and ice-cream opportunity
+CMP0022,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2024-10-21,2024-10-24,Coffee and sweet-bread affinity observed in morning baskets
+CMP0023,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2024-11-04,2024-11-07,Move short-life fruit cups with a high-velocity cold drink
+CMP0024,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2024-11-18,2024-11-21,Warm-weather hydration and ice-cream opportunity
+CMP0025,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2024-12-02,2024-12-05,Coffee and sweet-bread affinity observed in morning baskets
+CMP0026,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2024-12-16,2024-12-19,Move short-life fruit cups with a high-velocity cold drink
+CMP0027,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2024-12-30,2025-01-02,Warm-weather hydration and ice-cream opportunity
+CMP0028,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2025-01-13,2025-01-16,Coffee and sweet-bread affinity observed in morning baskets
+CMP0029,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2025-01-27,2025-01-30,Move short-life fruit cups with a high-velocity cold drink
+CMP0030,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2025-02-10,2025-02-13,Warm-weather hydration and ice-cream opportunity
+CMP0031,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2025-02-24,2025-02-27,Coffee and sweet-bread affinity observed in morning baskets
+CMP0032,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2025-03-10,2025-03-13,Move short-life fruit cups with a high-velocity cold drink
+CMP0033,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2025-03-24,2025-03-27,Warm-weather hydration and ice-cream opportunity
+CMP0034,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2025-04-07,2025-04-10,Coffee and sweet-bread affinity observed in morning baskets
+CMP0035,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2025-04-21,2025-04-24,Move short-life fruit cups with a high-velocity cold drink
+CMP0036,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2025-05-05,2025-05-08,Warm-weather hydration and ice-cream opportunity
+CMP0037,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2025-05-19,2025-05-22,Coffee and sweet-bread affinity observed in morning baskets
+CMP0038,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2025-06-02,2025-06-05,Move short-life fruit cups with a high-velocity cold drink
+CMP0039,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2025-06-16,2025-06-19,Warm-weather hydration and ice-cream opportunity
+CMP0040,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2025-06-30,2025-07-03,Coffee and sweet-bread affinity observed in morning baskets
+CMP0041,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2025-07-14,2025-07-17,Move short-life fruit cups with a high-velocity cold drink
+CMP0042,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2025-07-28,2025-07-31,Warm-weather hydration and ice-cream opportunity
+CMP0043,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2025-08-11,2025-08-14,Coffee and sweet-bread affinity observed in morning baskets
+CMP0044,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2025-08-25,2025-08-28,Move short-life fruit cups with a high-velocity cold drink
+CMP0045,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2025-09-08,2025-09-11,Warm-weather hydration and ice-cream opportunity
+CMP0046,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2025-09-22,2025-09-25,Coffee and sweet-bread affinity observed in morning baskets
+CMP0047,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2025-10-06,2025-10-09,Move short-life fruit cups with a high-velocity cold drink
+CMP0048,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2025-10-20,2025-10-23,Warm-weather hydration and ice-cream opportunity
+CMP0049,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2025-11-03,2025-11-06,Coffee and sweet-bread affinity observed in morning baskets
+CMP0050,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2025-11-17,2025-11-20,Move short-life fruit cups with a high-velocity cold drink
+CMP0051,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2025-12-01,2025-12-04,Warm-weather hydration and ice-cream opportunity
+CMP0052,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2025-12-15,2025-12-18,Coffee and sweet-bread affinity observed in morning baskets
+CMP0053,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2025-12-29,2026-01-01,Move short-life fruit cups with a high-velocity cold drink
+CMP0054,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2026-01-12,2026-01-15,Warm-weather hydration and ice-cream opportunity
+CMP0055,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2026-01-26,2026-01-29,Coffee and sweet-bread affinity observed in morning baskets
+CMP0056,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2026-02-09,2026-02-12,Move short-life fruit cups with a high-velocity cold drink
+CMP0057,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2026-02-23,2026-02-26,Warm-weather hydration and ice-cream opportunity
+CMP0058,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2026-03-09,2026-03-12,Coffee and sweet-bread affinity observed in morning baskets
+CMP0059,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2026-03-23,2026-03-26,Move short-life fruit cups with a high-velocity cold drink
+CMP0060,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2026-04-06,2026-04-09,Warm-weather hydration and ice-cream opportunity
+CMP0061,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2026-04-20,2026-04-23,Coffee and sweet-bread affinity observed in morning baskets
+CMP0062,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2026-05-04,2026-05-07,Move short-life fruit cups with a high-velocity cold drink
+CMP0063,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2026-05-18,2026-05-21,Warm-weather hydration and ice-cream opportunity
+CMP0064,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2026-06-01,2026-06-04,Coffee and sweet-bread affinity observed in morning baskets
+CMP0065,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2026-06-15,2026-06-18,Move short-life fruit cups with a high-velocity cold drink
+CMP0066,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2026-06-29,2026-07-02,Warm-weather hydration and ice-cream opportunity
+CMP0067,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2026-07-13,2026-07-16,Coffee and sweet-bread affinity observed in morning baskets
+CMP0068,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2026-07-27,2026-07-30,Move short-life fruit cups with a high-velocity cold drink
+CMP0069,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2026-08-10,2026-08-13,Warm-weather hydration and ice-cream opportunity
+CMP0070,affinity_combo,increase_ticket,P069,P085,0.100,0.060,0.280,2026-08-24,2026-08-27,Coffee and sweet-bread affinity observed in morning baskets
+CMP0071,rescue_bundle,reduce_waste,P001,P117,0.200,0.040,0.340,2026-09-07,2026-09-10,Move short-life fruit cups with a high-velocity cold drink
+CMP0072,contextual_offer,increase_volume,P010,P097,0.120,0.030,0.240,2026-09-21,2026-09-24,Warm-weather hydration and ice-cream opportunity

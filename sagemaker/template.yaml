@@ -2,6 +2,13 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: StockCopilot SageMaker CatBoost training and scheduled batch forecasting.
 
+Parameters:
+  ForecastBucketName:
+    Type: String
+    Description: Existing private S3 bucket for curated data, model artifacts, forecast outputs, and SAM deployment artifacts.
+    AllowedPattern: "^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$"
+    ConstraintDescription: Must be the name of an existing S3 bucket in this deployment Region.
+
 Globals:
   Function:
     Runtime: python3.12
@@ -14,47 +21,6 @@ Globals:
       Component: Forecast
 
 Resources:
-  ForecastBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketEncryption:
-        ServerSideEncryptionConfiguration:
-          - ServerSideEncryptionByDefault:
-              SSEAlgorithm: AES256
-      PublicAccessBlockConfiguration:
-        BlockPublicAcls: true
-        BlockPublicPolicy: true
-        IgnorePublicAcls: true
-        RestrictPublicBuckets: true
-      VersioningConfiguration:
-        Status: Enabled
-      LifecycleConfiguration:
-        Rules:
-          - Id: ExpireForecastRuns
-            Status: Enabled
-            Prefix: forecast-runs/
-            ExpirationInDays: 30
-            NoncurrentVersionExpiration:
-              NoncurrentDays: 7
-
-  ForecastBucketPolicy:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: !Ref ForecastBucket
-      PolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Sid: DenyInsecureTransport
-            Effect: Deny
-            Principal: "*"
-            Action: s3:*
-            Resource:
-              - !GetAtt ForecastBucket.Arn
-              - !Sub "${ForecastBucket.Arn}/*"
-            Condition:
-              Bool:
-                aws:SecureTransport: false
-
   ForecastRepository:
     Type: AWS::ECR::Repository
     Properties:
@@ -108,15 +74,15 @@ Resources:
             Statement:
               - Effect: Allow
                 Action: s3:ListBucket
-                Resource: !GetAtt ForecastBucket.Arn
+                Resource: !Sub "arn:${AWS::Partition}:s3:::${ForecastBucketName}"
               - Effect: Allow
                 Action:
                   - s3:GetObject
                   - s3:PutObject
                 Resource:
-                  - !Sub "${ForecastBucket.Arn}/curated/forecast/*"
-                  - !Sub "${ForecastBucket.Arn}/model-runs/*"
-                  - !Sub "${ForecastBucket.Arn}/forecast-runs/*"
+                  - !Sub "arn:${AWS::Partition}:s3:::${ForecastBucketName}/curated/forecast/*"
+                  - !Sub "arn:${AWS::Partition}:s3:::${ForecastBucketName}/model-runs/*"
+                  - !Sub "arn:${AWS::Partition}:s3:::${ForecastBucketName}/forecast-runs/*"
               - Effect: Allow
                 Action: ecr:GetAuthorizationToken
                 Resource: "*"
@@ -155,7 +121,7 @@ Resources:
                 Resource: !GetAtt ForecastTable.Arn
               - Effect: Allow
                 Action: s3:GetObject
-                Resource: !Sub "${ForecastBucket.Arn}/curated/forecast/latest.json"
+                Resource: !Sub "arn:${AWS::Partition}:s3:::${ForecastBucketName}/curated/forecast/latest.json"
               - Effect: Allow
                 Action:
                   - sagemaker:AddTags
@@ -196,7 +162,7 @@ Resources:
                 Resource: !Sub "arn:${AWS::Partition}:sagemaker:${AWS::Region}:${AWS::AccountId}:processing-job/stockcopilot-forecast-*"
               - Effect: Allow
                 Action: s3:GetObject
-                Resource: !Sub "${ForecastBucket.Arn}/forecast-runs/*"
+                Resource: !Sub "arn:${AWS::Partition}:s3:::${ForecastBucketName}/forecast-runs/*"
               - Effect: Allow
                 Action:
                   - dynamodb:BatchWriteItem
@@ -219,7 +185,7 @@ Resources:
               StringEquals:
                 aws:SourceAccount: !Ref AWS::AccountId
               ArnLike:
-                aws:SourceArn: !Sub "arn:${AWS::Partition}:scheduler:${AWS::Region}:${AWS::AccountId}:schedule/default/*"
+                aws:SourceArn: !Sub "arn:${AWS::Partition}:scheduler:${AWS::Region}:${AWS::AccountId}:schedule-group/default"
       Policies:
         - PolicyName: InvokeForecastRunner
           PolicyDocument:
@@ -237,7 +203,7 @@ Resources:
       Role: !GetAtt ForecastRunnerRole.Arn
       Environment:
         Variables:
-          FORECAST_BUCKET_NAME: !Ref ForecastBucket
+          FORECAST_BUCKET_NAME: !Ref ForecastBucketName
           FORECAST_TABLE_NAME: !Ref ForecastTable
           SAGEMAKER_EXECUTION_ROLE_ARN: !GetAtt SageMakerExecutionRole.Arn
       Events:
@@ -277,7 +243,7 @@ Resources:
 
 Outputs:
   ForecastBucketName:
-    Value: !Ref ForecastBucket
+    Value: !Ref ForecastBucketName
   ForecastRepositoryUri:
     Value: !GetAtt ForecastRepository.RepositoryUri
   ForecastTableName:

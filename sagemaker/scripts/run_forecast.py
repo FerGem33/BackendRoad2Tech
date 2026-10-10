@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 
 from botocore.exceptions import ClientError
@@ -14,7 +15,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--function-name", required=True)
     parser.add_argument("--profile", default=None)
-    parser.add_argument("--region", default="us-east-1")
+    parser.add_argument("--region", default=os.environ.get("AWS_REGION", "us-east-1"))
     return parser.parse_args()
 
 

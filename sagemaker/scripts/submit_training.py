@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import time
 from datetime import UTC, datetime
@@ -119,7 +120,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model-package-group", required=True)
     parser.add_argument("--forecast-table", required=True)
     parser.add_argument("--profile", default=None)
-    parser.add_argument("--region", default="us-east-1")
+    parser.add_argument("--region", default=os.environ.get("AWS_REGION", "us-east-1"))
     parser.add_argument("--instance-type", default="ml.m5.2xlarge")
     parser.add_argument("--iterations", type=int, default=750)
     parser.add_argument("--data-as-of", default=None, help="Forecast cutoff date; defaults to the staged sales maximum.")

@@ -12,9 +12,10 @@ The model predicts `units_sold + lost_demand`, excludes treated campaign rows, a
 
 ## Prerequisites
 
-- AWS CLI profile `road2tech` authenticated in `us-east-1`.
+- AWS CLI profile `road2tech` authenticated in the deployment Region.
 - Docker, AWS SAM CLI, Python 3.12, and a generated v2 dataset.
 - IAM permission for the deployer to create the stack, push ECR images, start SageMaker jobs, register model packages, and pass only the stack's SageMaker execution role.
+- An existing private general-purpose S3 bucket in the same Region as the stack. The shared hackathon account blocks `s3:CreateBucket`; `r2t-sam-artifacts` is available in `us-east-2`.
 
 No key or secret is stored in this repository, container image, or Lambda environment.
 
@@ -27,7 +28,7 @@ uvx iam-policy-autopilot@latest generate-policies \
   "$(pwd)/sagemaker/scripts/run_forecast.py" \
   "$(pwd)/sagemaker/handlers/forecast_runner.py" \
   "$(pwd)/sagemaker/handlers/forecast_publisher.py" \
-  --region us-east-1 \
+  --region us-east-2 \
   --service-hints s3 dynamodb sagemaker lambda \
   --pretty
 ```
@@ -40,11 +41,23 @@ From the repository root:
 
 ```bash
 export AWS_PROFILE=road2tech
-export AWS_REGION=us-east-1
+export AWS_REGION=us-east-2
+export FORECAST_BUCKET_NAME=r2t-sam-artifacts
 
 sam build --template-file sagemaker/template.yaml
-sam deploy --guided --template-file sagemaker/template.yaml --stack-name stockcopilot-forecast
+sam deploy \
+  --template-file .aws-sam/build/template.yaml \
+  --stack-name stockcopilot-forecast \
+  --region "$AWS_REGION" \
+  --s3-bucket "$FORECAST_BUCKET_NAME" \
+  --s3-prefix sam-artifacts/stockcopilot-forecast \
+  --parameter-overrides ForecastBucketName="$FORECAST_BUCKET_NAME" \
+  --capabilities CAPABILITY_IAM \
+  --confirm-changeset \
+  --no-fail-on-empty-changeset
 ```
+
+The template does not create or modify the supplied bucket. Before deployment, its owner must keep Block Public Access enabled and default server-side encryption enabled. The deployer needs access to the `sam-artifacts/stockcopilot-forecast/` prefix; the SageMaker execution role created by the stack is limited to `curated/forecast/`, `model-runs/`, and `forecast-runs/`.
 
 Keep the stack outputs in shell variables:
 
@@ -116,6 +129,6 @@ sam deploy --guided \
 ## Operations and cleanup
 
 - Training and Processing Jobs terminate after completion; no SageMaker endpoint is created or billed while idle.
-- S3 keeps versioned inputs and model artifacts. Forecast-run outputs expire after 30 days; empty the versioned bucket before deleting the stack when the hackathon ends.
+- S3 keeps versioned inputs and model artifacts. Configure the existing bucket owner to expire `forecast-runs/` objects after 30 days and noncurrent versions after 7 days; empty only the StockCopilot prefixes when the hackathon ends.
 - CloudWatch Logs contains training/processing diagnostics and Lambda traces. Use the processing-job name and request ID for troubleshooting.
 - The stack uses no VPC or NAT because it accesses only regional AWS services. Add a VPC only when a private data source is introduced.

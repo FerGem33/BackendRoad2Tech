@@ -5,6 +5,7 @@ import argparse
 import csv
 import hashlib
 import json
+import os
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -86,7 +87,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--data-dir", type=Path, default=DEFAULT_DATA_DIR)
     parser.add_argument("--prefix", default=None)
     parser.add_argument("--profile", default=None)
-    parser.add_argument("--region", default="us-east-1")
+    parser.add_argument("--region", default=os.environ.get("AWS_REGION", "us-east-1"))
     return parser.parse_args()
 
 

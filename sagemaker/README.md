@@ -72,12 +72,12 @@ RUNNER=$(aws cloudformation describe-stacks --stack-name "$STACK" --query "Stack
 
 ## Stage, train, and publish
 
-Install the local operator dependencies and upload only the forecast inputs:
+Install the local operator dependencies and upload only the forecast inputs. The extra Botocore CRT dependency lets boto3 read credentials created by `aws login`:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements-ml.txt
+pip install -r requirements-sagemaker-operator.txt
 python -m sagemaker.scripts.stage_data --bucket "$BUCKET" --profile road2tech
 ```
 

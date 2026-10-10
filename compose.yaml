@@ -24,7 +24,10 @@ services:
       - --data-as-of
       - ${DATA_AS_OF:-2026-09-16}
       - --iterations
-      - ${MODEL_ITERATIONS:-750}
+      - ${MODEL_ITERATIONS:-400}
+      - --quick
+      - --max-train-rows
+      - ${MAX_TRAIN_ROWS:-600000}
     volumes:
       - ./public/softtek/dataset/dataset-hackathon-road2tech/v2:/data:ro
       - ./artifacts/forecast:/artifacts

@@ -1,0 +1,178 @@
+sku,product_name,department,category,subcategory,brand,supplier_id,unit_cost,list_price_base,case_size,shelf_life_days,is_perishable,storage_type,inventory_tracked,is_seasonal,launch_date,discontinued_date,status
+SKU-100003,Donitas Glaseadas 2 pzas,Panadería,Pan Dulce y Donas,Donas,Marca Propia,SUP01,1.28,4.0,12,1,1,Ambiente,1,0,2024-10-27,,Activo
+SKU-100004,Café de Olla Chico,Bebidas,Bebidas Especiales,Bebidas Calientes,Andatti,SUP08,4.08,17.5,1,,0,Ambiente,0,0,2025-01-24,,Activo
+SKU-100008,Latte Light Chico,Bebidas,Café y Té,Café Espresso,Andatti,SUP06,5.12,20.0,1,,0,Ambiente,0,0,2025-01-03,,Activo
+SKU-100011,"Sándwich de Jamón, Huevo y Queso",Comida Rápida,Sándwiches y Burritos,Desayunos,Marca Propia,SUP03,7.76,32.0,10,3,1,Congelado,1,0,2022-11-28,,Activo
+SKU-100014,Cuernito Salado,Panadería,Pan Dulce y Donas,Pan Salado,Marca Propia,SUP01,3.68,11.0,12,2,1,Ambiente,1,0,2023-01-17,,Activo
+SKU-100018,Chocolate Caliente Amargo Grande,Bebidas,Bebidas Especiales,Bebidas Calientes,Andatti,SUP08,4.88,20.5,1,,0,Ambiente,0,0,2022-04-16,,Activo
+SKU-100021,Lata Coleccionable para Donitas,Extras,Extras e Ingredientes,Extras,Marca Propia,SUP08,13.76,88.0,1,,0,Ambiente,0,0,2022-06-20,,Activo
+SKU-100023,Torta de Jamón y Queso,Comida Rápida,Sándwiches y Burritos,Sándwiches y Tortas,Marca Propia,SUP03,12.96,40.0,10,3,1,Congelado,1,0,2023-07-25,,Activo
+SKU-100030,Burrito de Picadillo,Comida Rápida,Sándwiches y Burritos,Burritos y Wraps,Marca Propia,SUP03,5.68,20.0,10,3,1,Congelado,1,0,2022-12-24,,Activo
+SKU-100032,Café en Grano Descafeinado 454 g,Bebidas,Café y Té,Café para Casa,Andatti,SUP06,10.72,72.0,6,150,0,Ambiente,1,0,2024-01-02,,Activo
+SKU-100034,Sincronizada de Jamón y Queso,Comida Rápida,Sándwiches y Burritos,Desayunos,Marca Propia,SUP03,13.2,44.0,10,3,1,Congelado,1,0,2025-02-02,,Activo
+SKU-100037,Matcha Latte Frío Grande,Bebidas,Café y Té,Té y Chai,Andatti,SUP06,8.96,56.5,1,,0,Ambiente,0,0,2022-03-05,,Activo
+SKU-100040,Sándwich Integral de Pavo y Claras,Comida Rápida,Sándwiches y Burritos,Desayunos,Marca Propia,SUP03,14.88,39.0,10,3,1,Refrigerado,1,0,2022-02-20,,Activo
+SKU-100045,Termo Edición Fiestas Patrias 710 ml,Mercancía General,Termos y Accesorios,Termos y Vasos,Marca Propia,SUP05,65.28,136.0,6,730,0,Ambiente,1,1,2022-12-07,,Activo
+SKU-100047,Paquete 6 Galletas Grandes,Paquetes,Paquetes para Compartir,Paquetes para Reuniones,Marca Propia,SUP07,15.68,55.0,1,,0,Ambiente,0,0,2024-11-27,,Activo
+SKU-100049,Chocolate Caliente Grande,Bebidas,Bebidas Especiales,Bebidas Calientes,Andatti,SUP08,9.36,39.0,1,,0,Ambiente,0,0,2023-08-22,,Activo
+SKU-100054,"Sándwich de Salchicha, Huevo y Queso",Comida Rápida,Sándwiches y Burritos,Desayunos,Marca Propia,SUP03,14.4,45.5,10,3,1,Refrigerado,1,0,2023-04-29,,Activo
+SKU-100055,Cápsulas de Café Descafeinado 12 pzas,Bebidas,Café y Té,Café para Casa,Andatti,SUP06,15.2,96.0,6,150,0,Ambiente,1,0,2025-03-20,,Activo
+SKU-100061,Combo + Café Frío Grande,Bebidas,Café y Té,Combos de Bebida,Andatti,SUP06,1.44,6.5,1,,0,Ambiente,0,0,2021-09-28,,Activo
+SKU-100065,Frappé Matcha Mediano,Bebidas,Café y Té,Frappés y Granizados,Andatti,SUP06,12.8,53.5,1,,0,Ambiente,0,0,2022-03-28,,Activo
+SKU-100068,Bálsamo Labial con Llavero,Mercancía General,Termos y Accesorios,Accesorios,Marca Propia,SUP05,23.12,40.0,6,730,0,Ambiente,1,1,2022-12-20,,Activo
+SKU-100070,Taza de Cerámica 355 ml,Mercancía General,Termos y Accesorios,Tazas,Marca Propia,SUP05,68.72,112.0,6,730,0,Ambiente,1,0,2023-08-27,,Activo
+SKU-100075,Sándwich de Atún,Comida Rápida,Sándwiches y Burritos,Sándwiches y Tortas,Marca Propia,SUP03,10.96,31.0,10,3,1,Refrigerado,1,0,2024-01-20,,Activo
+SKU-100077,Macchiato Mediano,Bebidas,Café y Té,Café Espresso,Andatti,SUP06,11.28,47.5,1,,0,Ambiente,0,0,2024-12-19,,Activo
+SKU-100080,Torta de Pollo Empanizado,Comida Rápida,Sándwiches y Burritos,Sándwiches y Tortas,Marca Propia,SUP03,16.4,48.0,10,3,1,Refrigerado,1,0,2024-02-25,,Activo
+SKU-100086,Botella Térmica 830 ml,Mercancía General,Termos y Accesorios,Termos y Vasos,Marca Propia,SUP05,104.4,184.0,6,730,0,Ambiente,1,0,2024-02-22,,Activo
+SKU-100090,Moka Extra Grande,Bebidas,Bebidas Especiales,Bebidas Calientes,Andatti,SUP08,6.16,33.0,1,,0,Ambiente,0,0,2023-09-02,,Activo
+SKU-100092,Sándwich de Tocino y Huevo,Comida Rápida,Sándwiches y Burritos,Desayunos,Marca Propia,SUP03,13.58,44.5,10,3,1,Congelado,1,0,2022-07-03,,Activo
+SKU-100096,Granizado de Limón Mediano,Bebidas,Café y Té,Frappés y Granizados,Andatti,SUP06,7.28,30.5,1,,0,Ambiente,0,0,2025-04-17,,Activo
+SKU-100098,Vaso Acrílico Doble Pared 710 ml,Mercancía General,Termos y Accesorios,Termos y Vasos,Marca Propia,SUP05,43.6,80.0,6,730,0,Ambiente,1,0,2023-10-25,,Activo
+SKU-100101,Molletes con Frijol y Queso,Comida Rápida,Sándwiches y Burritos,Desayunos,Marca Propia,SUP03,9.44,39.5,10,3,1,Refrigerado,1,0,2021-11-05,,Activo
+SKU-100104,Café Molido 907 g,Bebidas,Café y Té,Café para Casa,Andatti,SUP06,22.0,104.0,6,150,0,Ambiente,1,0,2023-11-18,,Activo
+SKU-100108,Burrito de Huevo con Chorizo,Comida Rápida,Sándwiches y Burritos,Burritos y Wraps,Marca Propia,SUP03,13.2,53.0,10,3,1,Refrigerado,1,0,2025-06-23,,Activo
+SKU-100109,Frappé Chai Vainilla Mediano,Bebidas,Café y Té,Frappés y Granizados,Andatti,SUP06,7.92,45.5,1,,0,Ambiente,0,0,2024-07-23,,Activo
+SKU-100115,Muffin Doble Chocolate,Panadería,Pan Dulce y Donas,Panqués y Muffins,Marca Propia,SUP01,7.6,27.0,12,2,1,Ambiente,1,0,2024-11-16,,Activo
+SKU-100118,Combo + Café Frío Mediano,Bebidas,Café y Té,Combos de Bebida,Andatti,SUP06,0.56,4.0,1,,0,Ambiente,0,0,2021-11-22,,Activo
+SKU-100123,Chilaquiles Rojos con Pollo,Comida Rápida,Sándwiches y Burritos,Desayunos,Marca Propia,SUP03,9.92,40.0,10,3,1,Refrigerado,1,0,2024-08-05,,Activo
+SKU-100125,Empanada de Piña,Panadería,Pan Dulce y Donas,Pan Dulce,Marca Propia,SUP01,4.72,14.5,12,2,1,Ambiente,1,0,2024-12-28,,Activo
+SKU-100128,Frappé Galleta Mediano,Bebidas,Café y Té,Frappés y Granizados,Andatti,SUP06,6.48,32.0,1,,0,Ambiente,0,0,2024-11-30,,Activo
+SKU-100131,Bisquet con Mantequilla,Panadería,Pan Dulce y Donas,Pan Dulce,Marca Propia,SUP01,7.68,28.5,12,2,1,Ambiente,1,0,2022-07-28,,Activo
+SKU-100133,"Cuernito de Pavo, Huevo y Queso",Comida Rápida,Sándwiches y Burritos,Desayunos,Marca Propia,SUP03,16.24,62.5,10,3,1,Refrigerado,1,0,2023-05-14,,Activo
+SKU-100138,Burrito de Tocino con Guacamole,Comida Rápida,Sándwiches y Burritos,Burritos y Wraps,Marca Propia,SUP03,8.48,35.0,10,3,1,Refrigerado,1,0,2025-02-14,,Activo
+SKU-100140,Cold Brew Mediano,Bebidas,Café y Té,Café Frío,Andatti,SUP06,9.36,47.0,1,,0,Ambiente,0,0,2022-07-06,,Activo
+SKU-100142,Agranda tu Café a Grande,Bebidas,Café y Té,Café Americano,Andatti,SUP06,0.56,2.5,1,,0,Ambiente,0,0,2021-11-03,,Activo
+SKU-100147,Vaso Térmico 590 ml,Mercancía General,Termos y Accesorios,Termos y Vasos,Marca Propia,SUP05,39.36,80.0,6,730,0,Ambiente,1,0,2024-09-07,,Activo
+SKU-100150,Macchiato Grande,Bebidas,Café y Té,Café Espresso,Andatti,SUP06,9.68,48.5,1,,0,Ambiente,0,0,2023-02-21,,Activo
+SKU-100153,Chocolate Caliente con Galleta Extra Grande,Bebidas,Bebidas Especiales,Bebidas Calientes,Andatti,SUP08,6.64,26.5,1,,0,Ambiente,0,0,2023-07-11,,Activo
+SKU-100155,Frappé Cookies & Cream Grande,Bebidas,Café y Té,Frappés y Granizados,Andatti,SUP06,9.2,55.0,1,,0,Ambiente,0,0,2023-08-18,,Activo
+SKU-100159,Cuernito Relleno de Salchicha,Comida Rápida,Sándwiches y Burritos,Sándwiches y Tortas,Marca Propia,SUP03,8.24,26.5,10,3,1,Refrigerado,1,0,2023-05-05,,Activo
+SKU-100161,Hot Dog Jumbo,Comida Rápida,Sándwiches y Burritos,Hot Dogs,Marca Propia,SUP03,6.96,20.0,10,3,1,Refrigerado,1,0,2025-02-02,,Activo
+SKU-100164,Café Moka Remolino,Bebidas,Café y Té,Café Espresso,Andatti,SUP06,0.0,0.0,1,,0,Ambiente,0,0,2021-12-02,2024-06-03,Descontinuado
+SKU-100170,Dona Rellena de Crema,Panadería,Pan Dulce y Donas,Donas,Marca Propia,SUP01,5.12,20.0,12,1,1,Ambiente,1,0,2023-12-22,,Activo
+SKU-100177,Chai Latte Caliente Mediano,Bebidas,Bebidas Especiales,Bebidas Calientes,Andatti,SUP08,6.48,45.0,1,,0,Ambiente,0,0,2022-03-21,,Activo
+SKU-100178,Granizado de Limonada Mediano,Bebidas,Café y Té,Frappés y Granizados,Andatti,SUP06,8.08,49.0,1,,0,Ambiente,0,1,2023-10-16,,Activo
+SKU-100183,Hot Cakes con Tocino y Huevo,Comida Rápida,Sándwiches y Burritos,Desayunos,Marca Propia,SUP03,10.64,29.0,10,3,1,Refrigerado,1,0,2022-03-17,,Activo
+SKU-100185,Vaso Térmico Edición Otoño,Mercancía General,Termos y Accesorios,Termos y Vasos,Marca Propia,SUP05,57.44,120.0,6,730,0,Ambiente,1,1,2024-11-11,,Activo
+SKU-100189,Vaso de Silicona con Popote 590 ml,Mercancía General,Termos y Accesorios,Termos y Vasos,Marca Propia,SUP05,50.8,96.0,6,730,0,Ambiente,1,0,2024-06-04,,Activo
+SKU-100191,Atole de Vainilla Chico,Bebidas,Bebidas Especiales,Bebidas Calientes,Andatti,SUP08,0.96,6.5,1,,0,Ambiente,0,0,2022-12-19,,Activo
+SKU-100194,Quesadilla de Queso Oaxaca,Comida Rápida,Sándwiches y Burritos,Desayunos,Marca Propia,SUP03,7.6,28.0,10,3,1,Refrigerado,1,0,2025-03-06,,Activo
+SKU-100198,Ponche de Frutas Chico,Bebidas,Bebidas Especiales,Bebidas Calientes,Andatti,SUP08,4.8,21.5,1,,0,Ambiente,0,1,2023-10-11,,Activo
+SKU-100201,Empanada de Carne Molida,Comida Rápida,Sándwiches y Burritos,Desayunos,Marca Propia,SUP03,8.16,32.0,10,3,1,Congelado,1,0,2023-10-01,,Activo
+SKU-100203,Vaso Térmico con Popote,Mercancía General,Termos y Accesorios,Termos y Vasos,Marca Propia,SUP05,48.08,104.0,6,730,0,Ambiente,1,0,2022-06-03,,Activo
+SKU-100205,Galletas Mini Chispas de Chocolate 8 pzas,Panadería,Pan Dulce y Donas,Galletas,Marca Propia,SUP01,5.2,15.0,12,2,1,Ambiente,1,0,2025-02-21,,Activo
+SKU-100211,Chilaquiles Verdes con Huevo,Comida Rápida,Sándwiches y Burritos,Desayunos,Marca Propia,SUP03,11.36,40.0,10,3,1,Refrigerado,1,0,2024-08-01,,Activo
+SKU-100215,Malteada de Vainilla Mediana,Bebidas,Bebidas Especiales,Malteadas,Andatti,SUP08,11.52,52.0,1,,0,Ambiente,0,0,2023-07-26,,Activo
+SKU-100217,Wrap de Papa con Chipotle,Para Llevar,Snacks Refrigerados,Sándwiches Fríos,Marca Propia,SUP04,9.76,31.0,6,3,1,Refrigerado,1,0,2024-12-07,,Activo
+SKU-100222,Torta de Salchicha Doble y Huevo,Comida Rápida,Sándwiches y Burritos,Sándwiches y Tortas,Marca Propia,SUP03,15.76,54.0,10,3,1,Refrigerado,1,0,2025-01-19,,Activo
+SKU-100225,Latte Frío Grande,Bebidas,Café y Té,Café Espresso,Andatti,SUP06,8.08,53.5,1,,0,Ambiente,0,0,2023-07-24,,Activo
+SKU-100228,Capuchino Frío Mediano,Bebidas,Bebidas Especiales,Bebidas Frías,Andatti,SUP08,12.08,53.0,1,,0,Ambiente,0,0,2024-11-26,,Activo
+SKU-100230,Frappé Vainilla Grande,Bebidas,Café y Té,Frappés y Granizados,Andatti,SUP06,10.0,55.0,1,,0,Ambiente,0,0,2021-12-09,,Activo
+SKU-100232,Burrito de Arrachera con Queso,Comida Rápida,Sándwiches y Burritos,Burritos y Wraps,Marca Propia,SUP03,8.96,24.0,10,3,1,Refrigerado,1,0,2024-12-20,,Activo
+SKU-100237,Frappé Moka Grande,Bebidas,Café y Té,Frappés y Granizados,Andatti,SUP06,12.24,55.0,1,,0,Ambiente,0,0,2024-05-09,,Activo
+SKU-100239,Vaso Tritán Día de Muertos 473 ml,Mercancía General,Termos y Accesorios,Termos y Vasos,Marca Propia,SUP05,64.24,120.0,6,730,0,Ambiente,1,1,2021-10-25,,Activo
+SKU-100241,Wrap Vegetariano,Comida Rápida,Sándwiches y Burritos,Burritos y Wraps,Marca Propia,SUP03,15.76,45.5,10,3,1,Refrigerado,1,0,2023-01-31,,Activo
+SKU-100250,Wrap de Pollo,Comida Rápida,Sándwiches y Burritos,Burritos y Wraps,Marca Propia,SUP03,11.44,32.0,10,3,1,Refrigerado,1,0,2025-07-18,,Activo
+SKU-100253,Burrita de Huevo con Tocino,Comida Rápida,Sándwiches y Burritos,Burritos y Wraps,Marca Propia,SUP03,11.39,37.5,10,3,1,Congelado,1,0,2024-12-13,,Activo
+SKU-100257,Donitas Glaseadas 4 pzas,Panadería,Pan Dulce y Donas,Donas,Marca Propia,SUP01,2.8,12.0,12,1,1,Ambiente,1,0,2022-05-28,,Activo
+SKU-100263,Burrito de Frijol con Queso,Comida Rápida,Sándwiches y Burritos,Burritos y Wraps,Marca Propia,SUP03,11.68,36.5,10,3,1,Congelado,1,0,2023-12-17,,Activo
+SKU-100270,Combo + Té Helado Mediano,Bebidas,Café y Té,Combos de Bebida,Andatti,SUP06,0.8,4.0,1,,0,Ambiente,0,0,2021-12-27,,Activo
+SKU-100279,Café Molido Tostado Oscuro 454 g,Bebidas,Café y Té,Café para Casa,Andatti,SUP06,11.68,80.0,6,150,0,Ambiente,1,0,2021-09-14,,Activo
+SKU-100281,Chai Latte Frío Mediano,Bebidas,Café y Té,Té y Chai,Andatti,SUP06,7.76,52.0,1,,0,Ambiente,0,0,2023-07-04,,Activo
+SKU-100292,Barra de Avena con Fruta,Panadería,Pan Dulce y Donas,Pan Dulce,Marca Propia,SUP01,6.4,17.5,12,2,1,Ambiente,1,0,2022-12-28,,Activo
+SKU-100304,Paquete 6 Donas Surtidas,Panadería,Pan Dulce y Donas,Paquetes de Pan,Marca Propia,SUP01,22.16,97.0,12,1,1,Ambiente,1,0,2024-04-11,,Activo
+SKU-100323,Capuchino Descafeinado Grande,Bebidas,Café y Té,Café Espresso,Andatti,SUP06,5.1,25.5,1,,0,Ambiente,0,0,2021-11-02,,Activo
+SKU-100329,Muffin de Mora Azul,Panadería,Pan Dulce y Donas,Panqués y Muffins,Marca Propia,SUP01,12.64,48.0,12,2,1,Ambiente,1,0,2024-03-05,,Activo
+SKU-100357,Café Frío Grande,Bebidas,Café y Té,Café Frío,Andatti,SUP06,4.56,31.5,1,,0,Ambiente,0,0,2023-03-17,,Activo
+SKU-100363,Cold Brew Energético Grande,Bebidas,Café y Té,Café Americano,Andatti,SUP06,7.84,56.0,1,,0,Ambiente,0,0,2024-11-21,,Activo
+SKU-100364,Brownie de Chocolate,Panadería,Pan Dulce y Donas,Pan Dulce,Marca Propia,SUP01,5.44,16.0,12,2,1,Ambiente,1,0,2021-12-14,,Activo
+SKU-100371,Té Helado Negro Chico,Bebidas,Café y Té,Té y Chai,Andatti,SUP06,9.76,37.0,1,,0,Ambiente,0,0,2023-02-23,,Activo
+SKU-100375,Macchiato Descafeinado Chico,Bebidas,Café y Té,Café Espresso,Andatti,SUP06,6.24,25.5,1,,0,Ambiente,0,0,2024-05-13,,Activo
+SKU-100383,Café Americano Grande (Combo),Bebidas,Café y Té,Café Americano,Andatti,SUP06,0.0,0.0,1,,0,Ambiente,0,0,2023-05-24,2024-12-15,Descontinuado
+SKU-100386,Termo Premium Acero Inoxidable,Mercancía General,Termos y Accesorios,Termos y Vasos,Marca Propia,SUP05,62.96,104.0,6,730,0,Ambiente,1,0,2025-07-31,,Activo
+SKU-100392,Chai Latte Vainilla Grande,Bebidas,Café y Té,Té y Chai,Andatti,SUP06,7.6,46.0,1,,0,Ambiente,0,0,2022-05-14,,Activo
+SKU-100396,Salsa Chipotle Extra,Extras,Extras e Ingredientes,Extras,Marca Propia,SUP08,0.56,2.5,1,,0,Ambiente,0,0,2025-02-05,,Activo
+SKU-100397,Café Americano Mediano,Bebidas,Café y Té,Café Americano,Andatti,SUP06,1.58,8.0,1,,0,Ambiente,0,0,2023-06-19,,Activo
+SKU-100403,Mantecadas 2 pzas,Panadería,Pan Dulce y Donas,Panqués y Muffins,Marca Propia,SUP01,7.68,27.0,12,2,1,Ambiente,1,0,2021-12-02,,Activo
+SKU-100429,Panini de Pavo y Tocino,Comida Rápida,Sándwiches y Burritos,Sándwiches y Tortas,Marca Propia,SUP03,7.28,28.5,10,3,1,Refrigerado,0,0,2022-08-11,2025-03-31,Descontinuado
+SKU-100444,Taza Recuerdo México 414 ml,Mercancía General,Termos y Accesorios,Tazas,Marca Propia,SUP05,53.04,104.0,6,730,0,Ambiente,1,0,2021-10-24,,Activo
+SKU-100466,Sándwich de Queso Gratinado,Comida Rápida,Sándwiches y Burritos,Sándwiches y Tortas,Marca Propia,SUP03,10.24,36.0,10,3,1,Refrigerado,0,0,2022-12-11,2024-03-02,Descontinuado
+SKU-100471,Botella de Silicona 800 ml,Mercancía General,Termos y Accesorios,Termos y Vasos,Marca Propia,SUP05,52.96,104.0,6,730,0,Ambiente,1,0,2023-05-04,,Activo
+SKU-100473,Paquete 6 Donas de Chocolate,Panadería,Pan Dulce y Donas,Paquetes de Pan,Marca Propia,SUP01,23.68,101.0,12,1,1,Ambiente,1,0,2025-01-21,,Activo
+SKU-100484,Vaso Edición Halloween 710 ml,Mercancía General,Termos y Accesorios,Termos y Vasos,Marca Propia,SUP05,54.64,104.0,6,730,0,Ambiente,1,1,2024-11-08,,Activo
+SKU-100502,Paquete 12 Donas Rellenas,Panadería,Pan Dulce y Donas,Paquetes de Pan,Marca Propia,SUP01,39.28,160.0,12,1,1,Ambiente,1,0,2024-01-24,,Activo
+SKU-100506,Paquete 12 Bisquets,Panadería,Pan Dulce y Donas,Paquetes de Pan,Marca Propia,SUP01,24.56,91.5,12,2,1,Ambiente,1,0,2025-02-27,,Activo
+SKU-100514,Donitas Rellenas de Cajeta 5 pzas,Panadería,Pan Dulce y Donas,Donas,Marca Propia,SUP01,6.16,21.0,12,1,1,Ambiente,1,0,2022-02-16,,Activo
+SKU-100524,Donitas Glaseadas 3 pzas,Panadería,Pan Dulce y Donas,Donas,Marca Propia,SUP01,1.44,6.0,12,1,1,Ambiente,1,0,2022-01-25,,Activo
+SKU-100526,Burrita de Tocino con Maple,Comida Rápida,Sándwiches y Burritos,Burritos y Wraps,Marca Propia,SUP03,9.44,30.0,10,3,1,Refrigerado,0,0,2022-04-09,2024-09-03,Descontinuado
+SKU-100536,Gelatina de Mosaico,Para Llevar,Snacks Refrigerados,Postres Refrigerados,Marca Propia,SUP04,3.6,16.0,6,3,1,Refrigerado,1,0,2021-11-07,,Activo
+SKU-100554,Rol de Jalapeño con Queso,Panadería,Pan Dulce y Donas,Pan Salado,Marca Propia,SUP01,2.8,10.5,12,2,1,Ambiente,1,0,2023-03-27,,Activo
+SKU-100599,Donitas Glaseadas 8 pzas,Panadería,Pan Dulce y Donas,Donas,Marca Propia,SUP01,8.72,33.5,12,1,1,Ambiente,1,0,2024-07-09,,Activo
+SKU-100601,Orejitas de Hojaldre,Panadería,Pan Dulce y Donas,Pan Dulce,Marca Propia,SUP01,4.56,16.0,12,2,1,Ambiente,1,0,2024-08-26,,Activo
+SKU-100604,Café Americano Descafeinado Chico,Bebidas,Café y Té,Café Americano,Andatti,SUP06,2.88,12.0,1,,0,Ambiente,0,0,2022-08-15,2024-07-23,Descontinuado
+SKU-100612,Café Frío Enlatado Canela 325 ml,Bebidas,Bebidas Embotelladas,Café Embotellado,Andatti,SUP02,12.96,53.0,12,60,0,Refrigerado,1,0,2025-02-17,,Activo
+SKU-100616,Donitas Espolvoreadas 10 pzas,Panadería,Pan Dulce y Donas,Donas,Marca Propia,SUP01,8.79,32.0,12,1,1,Ambiente,1,0,2025-06-25,,Activo
+SKU-100661,Panqué de Calabaza Rebanada,Panadería,Pan Dulce y Donas,Panqués y Muffins,Marca Propia,SUP01,7.36,32.0,12,2,1,Ambiente,1,1,2025-02-01,,Activo
+SKU-100664,Muffin Clásico de Canela,Panadería,Pan Dulce y Donas,Panqués y Muffins,Marca Propia,SUP01,17.28,48.0,12,2,1,Ambiente,1,0,2022-09-18,,Activo
+SKU-100694,Caja 50 Donitas Surtidas,Panadería,Pan Dulce y Donas,Paquetes de Pan,Marca Propia,SUP01,37.04,161.0,12,1,1,Ambiente,1,0,2023-06-29,,Activo
+SKU-100715,Paquete 6 Bisquets,Paquetes,Paquetes para Compartir,Paquetes para Reuniones,Marca Propia,SUP07,11.16,39.0,1,,0,Ambiente,0,0,2021-10-11,,Activo
+SKU-100734,Termo de Café Americano 3 L,Paquetes,Paquetes para Compartir,Paquetes para Reuniones,Andatti,SUP07,99.52,280.0,1,,0,Ambiente,0,0,2024-12-06,,Activo
+SKU-100741,Caja 12 Donas Surtidas para Compartir,Paquetes,Paquetes para Compartir,Paquetes para Reuniones,Marca Propia,SUP07,46.0,161.0,1,,0,Ambiente,0,0,2024-07-05,,Activo
+SKU-100768,Cuernito de Queso Manchego,Panadería,Pan Dulce y Donas,Pan Salado,Marca Propia,SUP01,4.08,14.5,12,2,1,Ambiente,1,0,2025-03-16,,Activo
+SKU-100779,Cápsulas de Café Clásico 12 pzas,Bebidas,Café y Té,Café para Casa,Andatti,SUP06,22.24,96.0,6,150,0,Ambiente,0,0,2023-05-24,2024-06-20,Descontinuado
+SKU-100808,Rol de Manzana y Canela,Panadería,Pan Dulce y Donas,Pan Dulce,Marca Propia,SUP01,2.8,12.0,12,2,1,Ambiente,1,0,2021-10-03,,Activo
+SKU-100827,Pay de Queso Rebanada,Panadería,Pan Dulce y Donas,Pan Dulce,Marca Propia,SUP01,5.92,20.0,12,2,1,Ambiente,1,0,2021-08-25,,Activo
+SKU-100897,Chocolate Caliente Amargo Mediano,Bebidas,Bebidas Especiales,Bebidas Calientes,Andatti,SUP08,4.8,18.5,1,,0,Ambiente,0,0,2024-01-11,2024-03-26,Descontinuado
+SKU-100900,Rol de Canela Glaseado,Panadería,Pan Dulce y Donas,Pan Dulce,Marca Propia,SUP01,9.2,27.0,12,2,1,Ambiente,1,0,2022-11-17,,Activo
+SKU-100936,Concha de Chocolate,Panadería,Pan Dulce y Donas,Pan Dulce,Marca Propia,SUP01,2.56,9.5,12,2,1,Ambiente,1,0,2023-06-16,,Activo
+SKU-100973,Café Frío Embotellado Moka 405 ml,Bebidas,Bebidas Embotelladas,Café Embotellado,Andatti,SUP02,7.2,40.0,12,60,0,Refrigerado,1,0,2023-02-28,,Activo
+SKU-101002,Huevos a la Mexicana con Pan (Combo),Comida Rápida,Sándwiches y Burritos,Desayunos,Marca Propia,SUP03,15.28,50.5,10,3,1,Refrigerado,0,0,2022-05-27,2025-05-11,Descontinuado
+SKU-101017,Pepino con Chile y Limón,Para Llevar,Snacks Refrigerados,Snacks Frescos,Marca Propia,SUP04,3.52,10.0,6,3,1,Refrigerado,1,0,2024-04-12,,Activo
+SKU-101052,Bebida Energética Preparada Grande,Bebidas,Bebidas Especiales,Bebidas Frías,Andatti,SUP08,9.04,50.0,1,,0,Ambiente,0,0,2024-02-20,2024-12-28,Descontinuado
+SKU-101075,Manzana Roja pieza,Para Llevar,Fruta,Fruta Entera,Sin Marca,SUP04,2.56,8.5,12,5,1,Refrigerado,1,0,2023-04-01,,Activo
+SKU-101109,Té Helado con Limonada Chico,Bebidas,Café y Té,Té y Chai,Andatti,SUP06,2.0,8.0,1,,0,Ambiente,0,1,2024-06-24,2025-06-25,Descontinuado
+SKU-101141,Azúcar Sobre Extra,Bebidas,Café y Té,Café Americano,Andatti,SUP06,0.0,0.0,1,,0,Ambiente,0,0,2023-04-18,2024-05-08,Descontinuado
+SKU-101156,Galletas de Avena 2 pzas,Panadería,Pan Dulce y Donas,Galletas,Marca Propia,SUP01,4.16,12.0,12,2,1,Ambiente,0,0,2023-05-19,2025-06-01,Descontinuado
+SKU-101251,Pan Inglés Extra,Panadería,Pan Dulce y Donas,Pan Salado,Marca Propia,SUP01,0.0,0.0,12,2,1,Ambiente,0,0,2025-01-30,2025-07-03,Descontinuado
+SKU-101316,Guacamole Extra,Extras,Extras e Ingredientes,Extras,Marca Propia,SUP08,1.84,8.0,1,,0,Ambiente,0,0,2023-04-16,,Activo
+SKU-101412,Cápsulas Moka Menta 12 pzas,Bebidas,Café y Té,Café para Casa,Andatti,SUP06,20.24,96.0,6,150,0,Ambiente,0,1,2024-11-25,2024-11-26,Descontinuado
+SKU-101467,Plátano pieza,Para Llevar,Fruta,Fruta Entera,Sin Marca,SUP04,2.88,9.5,12,5,1,Refrigerado,1,0,2023-08-30,,Activo
+SKU-101523,Galleta Decorada de Temporada,Panadería,Galletas y Postres,Galletas,Marca Propia,SUP01,6.88,24.0,12,5,1,Ambiente,1,0,2022-06-29,,Activo
+SKU-101540,Frappé Frutos Rojos Grande,Bebidas,Café y Té,Frappés y Granizados,Andatti,SUP06,14.48,55.0,1,,0,Ambiente,0,0,2024-04-02,2024-08-04,Descontinuado
+SKU-101570,Paquete 12 Donas de Chocolate,Panadería,Pan Dulce y Donas,Paquetes de Pan,Marca Propia,SUP01,73.56,267.0,12,1,1,Ambiente,0,0,2023-06-14,2025-05-02,Descontinuado
+SKU-101607,Frappé Galleta Grande,Bebidas,Café y Té,Frappés y Granizados,Andatti,SUP06,12.0,55.0,1,,0,Ambiente,0,0,2023-12-29,2024-05-03,Descontinuado
+SKU-101611,Chocolate Caliente con Menta Mediano,Bebidas,Bebidas Especiales,Bebidas Calientes,Andatti,SUP08,3.53,16.0,1,,0,Ambiente,0,1,2021-11-23,2023-07-12,Descontinuado
+SKU-101635,Pan Bisquet Extra,Extras,Extras e Ingredientes,Extras,Marca Propia,SUP08,5.28,24.0,1,,0,Ambiente,0,0,2023-02-23,,Activo
+SKU-101664,Galleta con Trozos de Chocolate,Panadería,Galletas y Postres,Galletas,Marca Propia,SUP01,5.6,24.0,12,5,1,Ambiente,1,0,2021-10-19,,Activo
+SKU-101675,Bebida Congelada Mediana,Bebidas,Bebidas Especiales,Bebidas Frías,Andatti,SUP08,8.0,54.0,1,,0,Ambiente,0,0,2023-10-16,2025-07-15,Descontinuado
+SKU-101689,Termo Edición Fiestas Patrias 2020,Mercancía General,Termos y Accesorios,Termos y Vasos,Marca Propia,SUP05,86.88,176.0,6,730,0,Ambiente,0,1,2021-12-01,2024-12-13,Descontinuado
+SKU-101720,Helado Extra para Bebida,Extras,Extras e Ingredientes,Extras,Marca Propia,SUP08,0.56,3.0,1,,0,Ambiente,0,0,2024-02-10,,Activo
+SKU-101723,Leche de Avena Extra,Extras,Extras e Ingredientes,Extras,Marca Propia,SUP08,0.0,0.0,1,,0,Ambiente,0,0,2022-07-28,,Activo
+SKU-101742,Vaso de Acero con Popote,Mercancía General,Termos y Accesorios,Termos y Vasos,Marca Propia,SUP05,54.8,120.0,6,730,0,Ambiente,0,0,2022-09-29,2024-05-22,Descontinuado
+SKU-101773,Granizado Mango-Naranja Extra Grande,Bebidas,Café y Té,Frappés y Granizados,Andatti,SUP06,5.52,36.5,1,,0,Ambiente,0,0,2023-02-27,2023-12-26,Descontinuado
+SKU-101776,Tocino Extra,Extras,Extras e Ingredientes,Extras,Marca Propia,SUP08,0.96,5.0,1,,0,Ambiente,0,0,2022-03-29,,Activo
+SKU-101777,Paquete 6 Cuernitos,Paquetes,Paquetes para Compartir,Paquetes para Reuniones,Marca Propia,SUP07,23.44,83.0,1,,0,Ambiente,0,0,2024-04-28,2024-07-22,Descontinuado
+SKU-101809,Café Frío Embotellado Caramelo 405 ml,Bebidas,Bebidas Embotelladas,Café Embotellado,Andatti,SUP02,5.04,31.0,12,60,0,Refrigerado,1,0,2024-12-12,,Activo
+SKU-101828,Café en Grano 454 g,Bebidas,Café y Té,Café para Casa,Andatti,SUP06,15.36,80.0,6,150,0,Ambiente,0,0,2023-08-26,2025-04-27,Descontinuado
+SKU-101842,Donitas Glaseadas 10 pzas,Panadería,Pan Dulce y Donas,Donas,Marca Propia,SUP01,10.56,42.0,12,1,1,Ambiente,0,0,2023-06-24,2024-12-09,Descontinuado
+SKU-102001,Chai Latte Caliente Chico,Bebidas,Bebidas Especiales,Bebidas Calientes,Andatti,SUP08,6.72,41.0,1,,0,Ambiente,0,0,2022-10-11,2023-05-29,Descontinuado
+SKU-102038,Cambio a Limonada Mineral,Extras,Extras e Ingredientes,Extras,Marca Propia,SUP08,1.2,5.0,1,,0,Ambiente,0,1,2024-02-12,,Activo
+SKU-102052,Limonada Mineral Mediana,Bebidas,Bebidas Especiales,Bebidas Frías,Andatti,SUP08,7.36,42.5,1,,0,Ambiente,0,0,2024-01-07,2024-08-16,Descontinuado
+SKU-102171,Sándwich de Pavo,Comida Rápida,Sándwiches y Burritos,Sándwiches y Tortas,Marca Propia,SUP03,15.44,48.0,10,3,1,Refrigerado,0,0,2022-04-27,2024-04-03,Descontinuado
+SKU-102185,Café Frío Embotellado Original 405 ml,Bebidas,Bebidas Embotelladas,Café Embotellado,Andatti,SUP02,8.24,40.0,12,60,0,Refrigerado,1,0,2022-03-06,,Activo
+SKU-102199,Cuernito de Ensalada de Pollo,Para Llevar,Snacks Refrigerados,Sándwiches Fríos,Marca Propia,SUP04,9.92,44.0,6,3,1,Refrigerado,1,0,2023-10-04,,Activo
+SKU-102286,Cold Brew Chico,Bebidas,Café y Té,Café Frío,Andatti,SUP06,11.28,44.5,1,,0,Ambiente,0,0,2022-12-24,2024-06-19,Descontinuado
+SKU-102358,Café Frío Enlatado Vainilla 325 ml,Bebidas,Bebidas Embotelladas,Café Embotellado,Andatti,SUP02,8.4,53.0,12,60,0,Refrigerado,1,0,2024-01-30,,Activo
+SKU-102414,Agua Natural Extra,Extras,Extras e Ingredientes,Extras,Marca Propia,SUP08,0.88,4.0,1,,0,Ambiente,0,0,2023-01-01,,Activo
+SKU-102548,Té Caliente Mediano,Bebidas,Café y Té,Té y Chai,Andatti,SUP06,6.96,35.0,1,,0,Ambiente,0,0,2024-01-05,2024-04-16,Descontinuado
+SKU-102552,Pan Tostado con Aguacate,Comida Rápida,Sándwiches y Burritos,Desayunos,Marca Propia,SUP03,12.72,48.5,10,3,1,Refrigerado,0,0,2022-10-05,2025-06-20,Descontinuado
+SKU-102560,Rollitos de Jamón con Queso,Para Llevar,Snacks Refrigerados,Snacks Frescos,Marca Propia,SUP04,5.52,16.0,6,3,1,Refrigerado,1,0,2022-10-02,,Activo
+SKU-102613,Café Americano Tostado Oscuro Chico,Bebidas,Café y Té,Café Americano,Andatti,SUP06,1.36,8.0,1,,0,Ambiente,0,0,2022-06-14,2024-09-25,Descontinuado
+SKU-102694,Taza Retro de Cerámica 355 ml,Mercancía General,Termos y Accesorios,Tazas,Marca Propia,SUP05,59.2,104.0,6,730,0,Ambiente,0,0,2022-05-20,2025-04-15,Descontinuado
+SKU-102831,Sándwich de Ensalada de Pollo,Comida Rápida,Sándwiches y Burritos,Sándwiches y Tortas,Marca Propia,SUP03,13.36,44.5,10,3,1,Refrigerado,0,0,2023-06-17,2023-11-18,Descontinuado
+SKU-102876,Café Americano Mediano (Combo),Bebidas,Café y Té,Café Americano,Andatti,SUP06,0.0,0.0,1,,0,Ambiente,0,0,2023-05-15,2023-09-30,Descontinuado
+SKU-102913,Yogurt Griego con Granola,Para Llevar,Snacks Refrigerados,Postres Refrigerados,Marca Propia,SUP04,14.08,48.0,6,3,1,Refrigerado,1,1,2023-03-02,,Activo
+SKU-102920,Salsa Verde Extra,Extras,Extras e Ingredientes,Extras,Marca Propia,SUP08,0.8,5.0,1,,0,Ambiente,0,0,2021-09-11,,Activo
+SKU-102945,Bisquet Sencillo Extra,Panadería,Pan Dulce y Donas,Pan Salado,Marca Propia,SUP01,0.0,0.0,12,2,1,Ambiente,0,0,2023-06-23,2025-04-28,Descontinuado
+SKU-102967,Hot Dog Doble Salchicha,Comida Rápida,Sándwiches y Burritos,Hot Dogs,Marca Propia,SUP03,11.2,36.0,10,3,1,Congelado,0,0,2024-02-26,2024-03-02,Descontinuado

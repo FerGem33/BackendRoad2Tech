@@ -1,0 +1,13 @@
+promo_id,promo_name,promo_type,start_date,end_date,discount_pct,department,category,region_scope,expected_uplift_pct
+PR001,Octubre de Café Andatti,Porcentaje,2025-10-01,2025-10-31,10,Bebidas,,Nacional,18
+PR002,Paquete Panadería Buen Fin,Paquete,2025-11-03,2025-11-16,15,Panadería,Pan Dulce y Donas,Nacional,30
+PR003,Regalos Navideños,Porcentaje,2025-11-24,2025-12-24,20,Mercancía General,,Nacional,45
+PR004,Combo Desayuno Cuesta de Enero,Paquete,2026-01-05,2026-01-25,12,Comida Rápida,Sándwiches y Burritos,Nacional,25
+PR005,Antojos del Amor y la Amistad,Porcentaje,2026-02-09,2026-02-15,15,Panadería,,Nacional,30
+PR006,Bebidas Frías de Semana Santa,Porcentaje,2026-03-23,2026-04-12,10,Bebidas,Café y Té,Nacional,15
+PR007,Para Llevar de Fin de Mes,Porcentaje,2026-05-18,2026-05-25,10,Para Llevar,,Nacional,20
+PR008,Día de la Dona,Porcentaje,2026-06-05,2026-06-05,25,Panadería,Pan Dulce y Donas,Nacional,60
+PR009,Semana del Café Frío,Porcentaje,2026-07-06,2026-07-19,15,Bebidas,Café y Té,Nacional,25
+PR010,Regreso a Clases Sándwiches,Porcentaje,2026-08-24,2026-09-13,10,Comida Rápida,Sándwiches y Burritos,Nacional,15
+PR011,Día Internacional del Café,Porcentaje,2026-09-28,2026-09-30,20,Bebidas,Café y Té,Nacional,30
+PR012,Frente Frío Noreste,Porcentaje,2026-01-12,2026-02-08,10,Bebidas,Café y Té,Noreste,12

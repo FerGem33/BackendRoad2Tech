@@ -1,0 +1,39 @@
+store_id,site_id,store_name,format,operator_type,opening_time,closing_time,opened_date,closed_date,area_m2
+S001,ST01,OXXO Aeropuerto MTY Terminal A,Tradicional,Comisionista,03:00,21:00,2024-04-21,,31.5
+S002,ST01,OXXO Aeropuerto MTY Llegadas,Compacta,Comisionista,00:00,00:00,2020-11-08,,7.1
+S003,ST01,OXXO Aeropuerto MTY Terminal C,Tradicional,Comisionista,05:00,21:00,2023-04-02,,33.3
+S004,ST01,OXXO Aeropuerto MTY Salidas,Compacta,Comisionista,00:00,00:00,2024-08-02,,11.1
+S005,ST02,OXXO Toluca Portal Madero,Compacta,Comisionista,04:00,23:00,2026-04-29,,6.7
+S006,ST02,OXXO Toluca Hidalgo,Kiosko,Comisionista,06:00,20:00,2019-06-18,,12.4
+S007,ST02,OXXO Toluca Los Portales,Kiosko,Corporativa,04:00,22:00,2022-10-08,,7.9
+S008,ST02,OXXO Toluca Lerdo,Compacta,Comisionista,00:00,00:00,2019-12-12,,10.4
+S009,ST03,OXXO Hermosillo Kino,Tradicional,Comisionista,04:00,23:00,2019-12-06,,31.9
+S010,ST03,OXXO Hermosillo Rosales,Compacta,Comisionista,00:00,00:00,2021-03-29,2026-07-13,9.2
+S011,ST03,OXXO Hermosillo Navarrete,Kiosko,Corporativa,05:00,21:00,2022-02-23,,13.0
+S012,ST04,OXXO Metro Cuauhtémoc,Tradicional,Corporativa,04:00,23:00,2020-03-14,,24.3
+S013,ST04,OXXO Metro Cuauhtémoc Andén,Compacta,Comisionista,04:00,22:00,2025-01-28,,7.5
+S014,ST04,OXXO Cuauhtémoc Colón,Tradicional,Comisionista,03:00,21:00,2021-03-26,,37.3
+S015,ST05,OXXO Guadalajara Av. Juárez,Tradicional,Comisionista,06:00,20:00,2026-07-18,,40.1
+S016,ST05,OXXO Guadalajara CUCEA,Kiosko,Corporativa,05:00,21:00,2022-07-29,,14.0
+S017,ST05,OXXO Guadalajara Revolución,Tradicional,Corporativa,00:00,00:00,2022-05-23,2026-08-21,31.4
+S018,ST06,OXXO Gas Morelia Autopista,Kiosko,Corporativa,05:00,22:00,2023-10-23,,13.0
+S019,ST06,OXXO Gas Morelia Salida Guadalajara,Compacta,Comisionista,04:00,23:00,2024-01-17,,10.6
+S020,ST07,OXXO Culiacán Hospital Civil,Kiosko,Corporativa,00:00,00:00,2020-03-09,,10.1
+S021,ST07,OXXO Culiacán Álvaro Obregón,Compacta,Comisionista,04:00,23:00,2019-09-16,,9.8
+S022,ST08,OXXO Central Saltillo Andén,Compacta,Comisionista,05:00,21:00,2021-12-26,,5.9
+S023,ST08,OXXO Central Saltillo Taquillas,Tradicional,Corporativa,05:00,22:00,2025-11-10,,28.2
+S024,ST09,OXXO Mérida Montejo,Tradicional,Comisionista,04:00,22:00,2026-03-10,,29.2
+S025,ST09,OXXO Mérida Calle 60,Kiosko,Comisionista,04:00,22:00,2026-01-04,,10.4
+S026,ST10,OXXO Veracruz Malecón,Kiosko,Comisionista,05:00,22:00,2021-11-03,,15.2
+S027,ST10,OXXO Veracruz Independencia,Compacta,Comisionista,04:00,22:00,2020-04-29,,9.7
+S028,ST11,OXXO Macroplaza Zaragoza,Tradicional,Comisionista,03:00,21:00,2019-04-10,,30.8
+S029,ST11,OXXO Macroplaza Padre Mier,Tradicional,Corporativa,05:00,22:00,2022-09-20,,21.5
+S030,ST12,OXXO Villahermosa Hospital Regional,Compacta,Comisionista,04:00,22:00,2022-09-13,,10.1
+S031,ST13,OXXO Querétaro Parque Industrial,Kiosko,Comisionista,06:00,20:00,2021-05-25,,12.8
+S032,ST14,OXXO Acapulco Costera,Kiosko,Corporativa,05:00,21:00,2020-04-15,,8.4
+S033,ST15,OXXO Metro Universidad,Kiosko,Comisionista,04:00,23:00,2024-06-27,,9.7
+S034,ST16,OXXO Los Cabos Zona Hotelera,Tradicional,Corporativa,00:00,00:00,2024-11-05,,34.2
+S035,ST17,OXXO Monclova Zona Industrial,Kiosko,Corporativa,04:00,23:00,2022-07-27,,13.2
+S036,ST18,OXXO Aeropuerto Cancún Terminal 3,Kiosko,Comisionista,05:00,22:00,2023-10-18,,14.4
+S037,ST19,OXXO Miramar Playa,Tradicional,Comisionista,03:00,21:00,2023-09-17,,21.6
+S038,ST20,OXXO Valle Oriente,Compacta,Comisionista,00:00,00:00,2021-05-15,,11.5

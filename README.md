@@ -72,6 +72,12 @@ El repositorio contiene un dataset sintético del hackathon. Se puede ampliar o 
 4. **Optimizador de portafolio:** selecciona estrategias compatibles bajo restricciones de inventario, margen, tiempo y presupuesto.
 5. **Agente LLM:** recibe objetivos en lenguaje natural, consulta herramientas controladas y devuelve explicaciones/UI estructurada; no inventa cálculos ni escribe cambios sin aprobación humana.
 
+## Acceso remoto con Claude
+
+Para permitir que Claude se conecte remotamente al repositorio, la **Claude GitHub App** debe estar instalada y autorizada para `BackendRoad2Tech`.
+
+Esta configuración debe realizarla **FerGem33**, propietario del repositorio, desde [Claude GitHub App — seleccionar instalación](https://github.com/apps/claude/installations/select_target), eligiendo `BackendRoad2Tech`.
+
 ## Documentos relacionados
 
 - [FLOW.md](./FLOW.md): recorrido funcional, generación de estrategias y retroalimentación.

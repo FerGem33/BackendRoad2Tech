@@ -34,7 +34,7 @@ services:
       CHECKPOINTER: postgres
       DATABASE_URL: postgresql://stockcopilot:stockcopilot@db:5432/stockcopilot
       GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
-      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.8-flash}
       DEMO_AS_OF: ${DEMO_AS_OF:-2026-09-16}
       CORS_ORIGINS: '["http://localhost:3000"]'
     ports: ["8000:8080"]

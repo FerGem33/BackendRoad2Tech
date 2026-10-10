@@ -29,7 +29,7 @@ class Settings(BaseSettings):
     # LLM: Gemini through the Google AI Studio API key. Without a key the agent runs in
     # offline mode (rule-based intent parsing + templated summaries) so the demo still works.
     google_api_key: str | None = None
-    gemini_model: str = "gemini-2.5-flash"
+    gemini_model: str = "gemini-3.8-flash"
     gemini_temperature: float = 0.2
     llm_mode: Literal["auto", "gemini", "offline"] = "auto"
 

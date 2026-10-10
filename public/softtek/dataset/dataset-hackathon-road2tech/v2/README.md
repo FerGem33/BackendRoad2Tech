@@ -178,6 +178,7 @@ Supplier catalog (19 fictional distributors).
 |---|---|---|---|---|
 | `supplier_id` | string | - | Supplier key (SUP01-SUP19). | `SUP01` |
 | `supplier_name` | string | - | Fictional supplier name. | `Northern Beverage Distributors` |
+| `email` | string | - | Fictional supplier contact email (@gmail.com). | `northern.beverage.distributors@gmail.com` |
 | `categories_served` | string | `|`-separated category_id | Categories the supplier may sell. | `C01|C02|C11` |
 | `city` | string | - | Supplier base city. | `Saltillo` |
 | `reliability_score` | float | probability | Probability of on-time delivery (0.70-0.99). | `0.78` |

@@ -1,21 +1,21 @@
-# StockCopilot — hitos de implementación concurrente
+# StockCopilot — concurrent implementation milestones
 
-Este documento divide la arquitectura en entregables integrables. No se trata de asignar áreas aisladas: cada hito deja un contrato verificable que habilita al siguiente. Si el equipo es pequeño, una persona puede tomar varios hitos de la misma fase; si es grande, los hitos dentro de una misma fase se pueden trabajar en paralelo.
+This document divides the architecture into integrable deliverables. The goal is not to assign isolated areas: every milestone produces a verified contract that unlocks the next one. A small team can take multiple milestones in the same phase; a larger team can work on milestones within a phase concurrently.
 
-## Reglas de colaboración
+## Collaboration rules
 
-1. Nadie cambia un contrato compartido sin actualizar este archivo, el esquema correspondiente y sus fixtures en el mismo pull request.
-2. Los identificadores son strings estables: `store_id`, `product_id`, `campaign_id`, `draft_id`; fechas ISO `YYYY-MM-DD`; timestamps ISO-8601 UTC; dinero en MXN con dos decimales.
-3. El LLM no calcula ni persiste decisiones económicas. Las herramientas y el motor determinista son la fuente de verdad.
-4. Una promoción sólo puede pasar a `approved` mediante un endpoint explícito de usuario. El agente sólo crea `draft`.
-5. Cada equipo trabaja en una rama con prefijo de hito: `m1-data/...`, `m2-api/...`, `m5-agent/...`. Evitar cambios no necesarios en archivos de otro hito.
-6. Todo endpoint y evento debe tener un fixture de éxito, uno de error y validación de esquema antes de integrarse.
+1. Do not change a shared contract without updating this file, the corresponding schema, and fixtures in the same pull request.
+2. Identifiers are stable strings: `store_id`, `product_id`, `campaign_id`, and `draft_id`; dates use ISO `YYYY-MM-DD`; timestamps use UTC ISO-8601; money is MXN with two decimals.
+3. The LLM does not calculate or persist economic decisions. Tools and the deterministic engine are the source of truth.
+4. A promotion can reach `approved` only through an explicit user endpoint. The copilot creates `draft` only.
+5. Work on milestone-prefixed branches: `m1-data/...`, `m2-api/...`, `m5-agent/...`. Avoid unrelated edits in another milestone's files.
+6. Every endpoint and event needs a success fixture, an error fixture, and schema validation before integration.
 
-## Contratos compartidos — congelados en fase 0
+## Shared contracts — frozen in phase 0
 
-Estos contratos permiten que frontend, agente y motor usen mocks mientras los servicios reales se terminan.
+These contracts let the frontend, copilot, and engine work with mocks while real services are completed.
 
-### Entidades mínimas
+### Minimum entities
 
 ```text
 StoreContext: store_id, as_of, inventory[], in_transit[], alerts[], constraints
@@ -29,7 +29,7 @@ PromotionDraft: draft_id, status, strategy, simulation, created_at, requires_app
 Portfolio: store_id, period, strategies[], net_expected_margin_increment, conflicts[]
 ```
 
-### API inicial
+### Initial API
 
 ```text
 GET  /stores/{store_id}/tendency?product_id=&history_days=&forecast_days=
@@ -41,213 +41,213 @@ POST /drafts/{draft_id}/reject
 GET  /stores/{store_id}/plan?from=&to=
 ```
 
-Las respuestas deben incluir `request_id`, `data_as_of` y `data`. Los errores usan `code`, `message`, `request_id` y no exponen excepciones internas.
+Responses include `request_id`, `data_as_of`, and `data`. Errors use `code`, `message`, and `request_id`, and never expose internal exceptions.
 
-### Estados y eventos
+### States and events
 
 ```text
 draft -> selected -> approved -> scheduled -> active -> measured -> expired
 draft -> rejected
 ```
 
-Eventos con versión: `stock.updated.v1`, `promotion.draft_created.v1`, `promotion.approved.v1`, `promotion.measured.v1`, `plan.regenerated.v1`. Los productores no suponen qué consumidor los recibirá.
+Version events as `stock.updated.v1`, `promotion.draft_created.v1`, `promotion.approved.v1`, `promotion.measured.v1`, and `plan.regenerated.v1`. Producers must not assume which consumer receives an event.
 
 ---
 
-## Fase 0 — Base común (secuencial, hito M0)
+## Phase 0 — common foundation (sequential, M0)
 
-**Por qué es secuencial:** desbloquea mocks compatibles y evita que varios equipos inventen formatos distintos.
+**Why sequential:** it unlocks compatible mocks and prevents teams from inventing different formats.
 
-### M0. Contratos, entorno y datos demostrables
+### M0. Contracts, environment, and demonstrable data
 
-**Responsable sugerido:** líder técnico + una persona de datos.
+**Suggested owners:** technical lead and one data engineer.
 
-**Entregables**
+**Deliverables**
 
-- Crear `contracts/` con esquemas JSON o OpenAPI de las entidades y endpoints anteriores.
-- Crear `fixtures/` con una tienda, tres SKUs, forecast, estrategia viable, estrategia rechazada y borrador.
-- Regenerar y validar el dataset con Docker; publicar el diccionario generado de `v2/README.md`.
-- Definir una fecha de demo `data_as_of` dentro del histórico y un horizonte de 7/14 días.
-- Configurar `.env.example` sin secretos y un comando de desarrollo documentado.
+- Create `contracts/` with JSON Schema or OpenAPI for the entities and endpoints above.
+- Create `fixtures/` with one store, three SKUs, a forecast, a viable strategy, a rejected strategy, and a draft.
+- Regenerate and validate the dataset with Docker; publish the generated `v2/README.md` dictionary.
+- Define a demo `data_as_of` date within history and a 7/14-day horizon.
+- Add `.env.example` without secrets and document a development command.
 
-**Gate de integración**
+**Integration gate**
 
 ```bash
 docker compose build dataset
 LOCAL_UID=$(id -u) LOCAL_GID=$(id -g) docker compose run --rm dataset
 ```
 
-Los esquemas deben validar fixtures y los equipos M1–M3 deben poder desarrollar usando esos fixtures sin servicios AWS.
+Schemas must validate fixtures, and M1–M3 teams must be able to develop from those fixtures without AWS services.
 
 ---
 
-## Fase 1 — Fundaciones paralelas (M1, M2 y M3)
+## Phase 1 — parallel foundations (M1, M2, M3)
 
-Los tres hitos dependen de M0, pero no entre sí. Usan contratos/fixtures congelados.
+All milestones depend on M0 but not on one another. They use frozen contracts and fixtures.
 
-### M1. Datos Curated y capa analítica
+### M1. Curated data and analytics layer
 
-**Responsable sugerido:** data engineer / ML engineer.
+**Suggested owner:** data engineer / ML engineer.
 
-**Construir**
+**Build**
 
-- Ingesta de los CSV a S3 Raw y transformación a S3 Curated particionada por fecha.
-- Tablas: ventas, inventario diario, tickets, campañas, calendario/clima, catálogo y proveedores.
-- Consultas Athena para tendencia, histórico promocional, afinidad y riesgo de caducidad.
-- Pruebas de calidad: llaves foráneas, balance inventario–ventas, nulos, duplicados y separación temporal train/test.
+- Ingest CSVs to S3 Raw and transform them into date-partitioned S3 Curated data.
+- Curate sales, daily inventory, tickets, campaigns, calendar/weather, catalog, and supplier tables.
+- Add Athena queries for trend, promotion history, affinity, and expiry risk.
+- Add quality tests for foreign keys, inventory-sales balance, nulls, duplicates, and time-based train/test separation.
 
-**Contrato que entrega:** adaptadores de sólo lectura equivalentes a `get_historical_insights` y `get_current_store_context`, con fixtures de respuesta M0.
+**Delivered contract:** read-only adapters equivalent to `get_historical_insights` and `get_current_store_context`, using M0 response fixtures.
 
-**No modificar:** contratos de API ni la lógica de negocio del motor.
+**Do not modify:** API contracts or decision-engine business logic.
 
-### M2. API operativa, persistencia y aprobación
+### M2. Operational API, persistence, and approval
 
-**Responsable sugerido:** backend engineer.
+**Suggested owner:** backend engineer.
 
-**Construir**
+**Build**
 
-- API Gateway y handlers/Lambdas para los endpoints M0.
-- DynamoDB para stock actual, alertas, borradores, planes, auditoría de aprobación y configuración por tienda.
-- Máquina de estados de promociones con transiciones inválidas rechazadas.
-- Idempotencia en `approve`, `reject` y eventos operativos; registrar `request_id`.
+- API Gateway and Lambda handlers for M0 endpoints.
+- DynamoDB for current stock, alerts, drafts, plans, approval audit, and store configuration.
+- Promotion state machine that rejects invalid transitions.
+- Idempotency for `approve`, `reject`, and operational events; record `request_id`.
 
-**Contrato que entrega:** API funcional contra repositorios in-memory o DynamoDB, que devuelva fixtures M0 antes de conectar ML.
+**Delivered contract:** a functional API backed by in-memory repositories or DynamoDB that returns M0 fixtures before ML integration.
 
-**No modificar:** tablas Curated ni cálculos del modelo.
+**Do not modify:** Curated tables or model calculations.
 
-### M3. Dashboard y UX de decisión
+### M3. Dashboard and decision UX
 
-**Responsable sugerido:** frontend engineer / diseñador.
+**Suggested owner:** frontend engineer / designer.
 
-**Construir**
+**Build**
 
-- Selector de tienda y periodo; KPIs; serie histórica + P50/P80/P90; alertas y mapa/lista de demanda.
-- Vista de hasta cinco estrategias: escenario base vs. tratado, impacto individual y total de portafolio.
-- Flujo de prompt, tarjeta de borrador, agregar al plan, aprobar/rechazar y estados visibles.
-- Cliente HTTP tipado generado desde OpenAPI o validado contra fixtures.
+- Store and period selectors; KPIs; historical series plus P50/P80/P90; alerts; demand map/list.
+- Up to five strategy cards showing baseline vs. treated, individual impact, and portfolio total.
+- Prompt flow, draft card, add-to-plan, approve/reject, and visible states.
+- Typed HTTP client generated from OpenAPI or validated against fixtures.
 
-**Contrato que entrega:** interfaz totalmente navegable con datos fixture y sin cálculos financieros en frontend.
+**Delivered contract:** a fully navigable interface using fixture data and no financial calculations in the frontend.
 
-**No modificar:** formatos de respuesta ni archivos de infraestructura de otros equipos.
+**Do not modify:** response formats or other teams' infrastructure files.
 
-**Gate de fase 1:** una demo local puede mostrar datos, una estrategia viable y una rechazada usando exclusivamente contratos M0.
+**Phase 1 gate:** a local demo can show data, a viable strategy, and a rejected strategy using only M0 contracts.
 
 ---
 
-## Fase 2 — Inteligencia de decisión (M4, M5 y M6)
+## Phase 2 — decision intelligence (M4, M5, M6)
 
-M4 y M5 pueden comenzar con fixtures tras M0; M6 requiere que M2 exponga persistencia de borradores. La integración final de los tres requiere M1.
+M4 and M5 may begin with M0 fixtures. M6 requires M2 draft persistence. Final integration of all three requires M1.
 
-### M4. Forecast y modelos analíticos
+### M4. Forecast and analytical models
 
-**Responsable sugerido:** ML engineer.
+**Suggested owner:** ML engineer.
 
-**Construir**
+**Build**
 
-- Features `fecha × tienda × SKU`: lags, calendario, clima, zona, stock, promociones conocidas y lead time.
-- Baseline temporal y CatBoost/LightGBM probabilístico P50/P80/P90; backtesting por ventanas temporales.
-- Afinidad a partir de `ticket_lines`; separar reglas de negocio de afinidad observada.
-- Uplift inicial con campañas treatment/control; reportar incertidumbre y no entrenar con variables posteriores al tratamiento.
-- Endpoint/adaptador SageMaker que responde exactamente `Forecast`.
+- `date × store × SKU` features: lags, calendar, weather, zone, stock, known promotions, and lead time.
+- Time baseline and probabilistic P50/P80/P90 CatBoost/LightGBM model with rolling backtests.
+- Ticket-based affinity; keep business rules distinct from observed affinity.
+- Initial uplift from treatment/control campaigns; report uncertainty and exclude post-treatment features.
+- SageMaker endpoint or adapter that returns exactly `Forecast`.
 
-**Gate:** métricas de backtest registradas y una inferencia reproducible para el `data_as_of` de demo.
+**Gate:** backtest metrics are recorded and inference is reproducible for the demo `data_as_of`.
 
-### M5. Motor determinista y optimizador
+### M5. Deterministic engine and optimizer
 
-**Responsable sugerido:** backend/operations-research engineer.
+**Suggested owner:** backend / operations-research engineer.
 
-**Construir**
+**Build**
 
-- Generador de candidatas únicamente desde plantillas permitidas: afinidad, rescate y contextual.
-- Simulación de inventario por día: baseline vs. tratado, descuento, costo, merma, stockout y canibalización.
-- Validador de margen mínimo, inventario, fechas, vida útil, descuento máximo, presupuesto y conflictos.
-- Optimizador de portafolio; calcula el impacto conjunto sin sumar tarjetas ciegamente.
-- Tests deterministas por caso viable, margen negativo, quiebre, caducidad y conflicto entre estrategias.
+- Candidate generator limited to affinity, waste-rescue, and contextual templates.
+- Daily inventory simulation: baseline vs. treated, discount, cost, waste, stockout, and cannibalization.
+- Validator for minimum margin, inventory, dates, shelf life, maximum discount, budget, and conflicts.
+- Portfolio optimizer that calculates joint impact instead of blindly summing cards.
+- Deterministic tests for viable cases, negative margin, stockout, expiry, and conflicting strategies.
 
-**Contrato que entrega:** `simulate_strategy`, `optimize_portfolio` y respuestas `StrategySimulation`/`Portfolio` de M0.
+**Delivered contract:** `simulate_strategy`, `optimize_portfolio`, and M0 `StrategySimulation`/`Portfolio` responses.
 
-**Regla:** el motor no llama al LLM.
+**Rule:** the engine does not call the LLM.
 
 ### M6. Copilot Orchestrator — LangGraph + Bedrock
 
-**Responsable sugerido:** AI/backend engineer.
+**Suggested owner:** AI/backend engineer.
 
-**Construir**
+**Build**
 
-- Grafo: `intent -> context -> forecast_insights -> candidates -> simulate -> validate -> optimize -> response -> approval_wait -> persist`.
-- LangChain `ChatBedrockConverse` para interpretación y explicación; salida JSON validada contra esquema.
-- Herramientas con permisos mínimos: tendencia, contexto, forecast, insights, restricciones, simulación, optimización y borrador.
-- Respuestas para `get_product_tendency` y `get_product_sell_strategy` que muestran números provenientes de herramientas.
-- Checkpoints por `conversation_id`/`draft_id`; reintentos idempotentes; protección contra prompt injection en parámetros de herramientas.
+- Graph: `intent -> context -> forecast_insights -> candidates -> simulate -> validate -> optimize -> response -> approval_wait -> persist`.
+- LangChain `ChatBedrockConverse` for interpretation and explanation; validate output JSON against schema.
+- Least-privilege tools for tendency, context, forecast, insights, constraints, simulation, optimization, and drafts.
+- `get_product_tendency` and `get_product_sell_strategy` responses showing tool-produced numbers.
+- Checkpoints by `conversation_id`/`draft_id`, idempotent retries, and prompt-injection protection for tool parameters.
 
-**Contrato que entrega:** el orquestador puede operar primero sobre mocks M0/M5 y después intercambiar adaptadores reales sin cambiar frontend.
+**Delivered contract:** the orchestrator first works with M0/M5 mocks and can later replace adapters without a frontend change.
 
-**Regla:** no usar Bedrock Agents Classic. Para AWS, desplegar el contenedor LangGraph ARM64 en AgentCore Runtime con protocolo HTTP (`/ping`, `/invocations`), autenticación y rol IAM mínimo.
+**Rule:** do not use Bedrock Agents Classic. On AWS, deploy an ARM64 LangGraph container to AgentCore Runtime using HTTP (`/ping`, `/invocations`), authentication, and a least-privilege IAM role.
 
-**Gate de fase 2:** desde una petición en lenguaje natural se crea un borrador trazable, con baseline/tratado, restricciones y `requires_approval: true`.
-
----
-
-## Fase 3 — Integración operacional (M7 y M8)
-
-Estos hitos requieren M1, M2, M4 y M5. M7 y M8 pueden desarrollarse en paralelo cuando los contratos ya respondan datos reales.
-
-### M7. Automatización y ciclo de aprendizaje
-
-**Responsable sugerido:** backend/cloud engineer.
-
-**Construir**
-
-- EventBridge para `stock.updated.v1`, generación diaria de planes, alertas y reentrenamiento semanal.
-- Flujo de medición al terminar una promoción: ventas, margen, merma, quiebres, aceptación y grupo control.
-- Persistencia Raw/Curated de resultados y actualización de datasets de evaluación.
-- Reintentos, DLQ y observabilidad de eventos.
-
-**Gate:** una aprobación genera evento, cambia estado de promoción y deja una medición consultable.
-
-### M8. Integración de experiencia y seguridad
-
-**Responsable sugerido:** frontend + backend + cloud.
-
-**Construir**
-
-- Conectar dashboard M3 a endpoints reales; sustituir fixtures gradualmente por feature flags.
-- Autenticación/autorización por rol; el rol de encargado sólo aprueba para sus tiendas.
-- Telemetría: `request_id`, latencia, errores de herramientas, calidad de forecast y resultado de estrategias.
-- Validación de JSON del agente, rate limiting y sanitización de mensajes.
-
-**Gate:** recorrido completo: consulta de tendencia → estrategia por prompt → simulación → borrador → aprobación → plan actualizado.
+**Phase 2 gate:** a natural-language request creates a traceable draft with baseline/treated scenarios, constraints, and `requires_approval: true`.
 
 ---
 
-## Fase 4 — Cierre de hackathon (M9, secuencial)
+## Phase 3 — operational integration (M7, M8)
 
-### M9. Ensayo, evidencia y demo
+These milestones require M1, M2, M4, and M5. M7 and M8 can be built in parallel once contracts return real data.
 
-**Responsable sugerido:** todo el equipo, con un dueño de integración.
+### M7. Automation and learning loop
 
-1. Ejecutar la regeneración Docker y todas las validaciones de datos.
-2. Ejecutar pruebas de contratos, motor y API; congelar versiones de modelos/dataset.
-3. Preparar dos narrativas: evitar quiebre y rescatar merma/aumentar ticket.
-4. Mostrar una estrategia rechazada y explicar la restricción: esto prueba control, no sólo generación.
-5. Mostrar el impacto del portafolio, no sólo de una tarjeta.
-6. Documentar límites: datos sintéticos, incertidumbre del uplift y aprobación humana obligatoria.
+**Suggested owner:** backend/cloud engineer.
 
-**Criterio de terminado:** la demo funciona con una sola configuración reproducible, cada cifra tiene una fuente trazable y ninguna promoción puede activarse sin aprobación.
+**Build**
 
-## Matriz rápida de dependencias
+- EventBridge for `stock.updated.v1`, daily plan generation, alerts, and weekly retraining.
+- Measurement flow after a promotion ends: sales, margin, waste, stockouts, acceptance, and control group.
+- Raw/Curated persistence of outcomes and evaluation-dataset updates.
+- Retries, DLQ, and event observability.
+
+**Gate:** an approval emits an event, changes promotion state, and leaves a measurable result.
+
+### M8. Experience integration and security
+
+**Suggested owners:** frontend, backend, and cloud engineers.
+
+**Build**
+
+- Connect M3 dashboard to live endpoints and replace fixtures incrementally using feature flags.
+- Role-based authentication/authorization; a manager approves only for assigned stores.
+- Telemetry for `request_id`, latency, tool errors, forecast quality, and strategy outcome.
+- Agent JSON validation, rate limiting, and message sanitization.
+
+**Gate:** end-to-end journey: tendency query → prompt strategy → simulation → draft → approval → updated plan.
+
+---
+
+## Phase 4 — hackathon closeout (M9, sequential)
+
+### M9. Rehearsal, evidence, and demo
+
+**Suggested owner:** entire team, with one integration owner.
+
+1. Run Docker regeneration and all data validations.
+2. Run contract, engine, and API tests; freeze model and dataset versions.
+3. Prepare two narratives: preventing a stockout and rescuing waste/increasing basket value.
+4. Show a rejected strategy and explain the constraint; this proves control rather than mere generation.
+5. Show portfolio impact, not only a single card.
+6. Document limits: synthetic data, uplift uncertainty, and mandatory human approval.
+
+**Definition of done:** the demo runs from one reproducible configuration, every number has a traceable source, and no promotion can activate without approval.
+
+## Dependency map
 
 ```text
 M0
-├── M1 Datos Curated ──────────────┐
-├── M2 API/Dynamo ───────┐         │
-├── M3 Dashboard ────────┼─────┐   │
-├── M4 Forecast ─────────┼─────┼───┤
-├── M5 Motor/optimizador ─┼─────┼───┤
-└── M6 LangGraph ────────┘     │   │
+├── M1 Curated data ──────────────┐
+├── M2 API/Dynamo ───────┐        │
+├── M3 Dashboard ────────┼────┐   │
+├── M4 Forecast ─────────┼────┼───┤
+├── M5 Engine/optimizer ──┼────┼───┤
+└── M6 LangGraph ─────────┘    │   │
                               M7  M8
                                └──┬──┘
                                   M9
 ```
 
-M3 puede enseñar la experiencia desde fase 1; M4/M5/M6 la vuelven inteligente; M7/M8 la conectan al ciclo operativo. El dueño de integración debe revisar los contratos al cierre de cada fase antes de abrir la siguiente.
+M3 can demonstrate the experience in phase 1; M4/M5/M6 make it intelligent; M7/M8 connect it to the operational cycle. The integration owner reviews contracts at the end of each phase before opening the next one.

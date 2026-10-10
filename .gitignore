@@ -1,3 +1,6 @@
 .venv/
 __pycache__/
 *.py[cod]
+
+# Synthetic datasets are generated locally and must not be committed.
+public/softtek/dataset/

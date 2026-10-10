@@ -66,16 +66,16 @@ Conventions: column names in `snake_case`, dates in `YYYY-MM-DD` format, monetar
 `store_id, store_name, colonia, latitude, longitude, zone_type, secondary_zone_type, size_category, opening_hours, is_24h, opened_date`
 
 - Reassign all stores to **random locations within Saltillo's urban area** (approximately latitude 25.36–25.49, longitude −101.06 to −100.92). Verify that no point falls on hills or outside the city; use real Saltillo neighborhoods as references.
-- Locations must be **consistent with the zone**: `carretera` stores near Highway 57, Periférico Luis Echeverría, or the exits toward Monterrey/Zacatecas; `escolar` stores near universities/schools (e.g., UAdeC, Tec de Monterrey); `industrial` stores toward Derramadero or industrial park areas; `residencial` stores in residential neighborhoods.
+- Locations must be **consistent with the zone**: `highway` stores near Highway 57, Periférico Luis Echeverría, or the exits toward Monterrey/Zacatecas; `school` stores near universities/schools (e.g., UAdeC, Tec de Monterrey); `industrial` stores toward Derramadero or industrial park areas; `residential` stores in residential neighborhoods.
 - Coordinates are **only for displaying the map**. The model uses `zone_type` and `secondary_zone_type` as features, not latitude/longitude.
 
 ## 2. `zones.csv` — zone catalog
 
 `zone_type, description, peak_hours, weekend_multiplier, notes`
 
-Confirmed zones: `residencial`, `empresarial`, `escolar`, `carretera`, `industrial`, `centro_comercial`, `hospital`.
+Confirmed zones: `residential`, `business`, `school`, `college`, `highway`, `industrial`, `shopping_center`, and `hospital`.
 
-Distribute the 25 stores realistically: most should be in `residencial`, with at least 2 stores in each of the other zones.
+Distribute the 25 stores realistically: most should be in `residential`, with at least 2 stores in each of the other zones.
 
 ## 3. `categories.csv` — category catalog
 
@@ -91,7 +91,7 @@ Distribute the 120 products across all categories, assigning greater weight to c
 
 `product_id, product_name, category_id, brand, unit, shelf_life_days, retail_price, is_seasonal, weather_sensitivity, base_daily_demand`
 
-- `weather_sensitivity`: `calor` (increases in hot weather: soft drinks, water, beer, ice cream, ice), `frio` (increases in cold weather: coffee, hot chocolate, instant soups, bread), `neutral`.
+- `weather_sensitivity`: `hot` (increases in hot weather: soft drinks, water, beer, ice cream, ice), `cold` (increases in cold weather: coffee, hot chocolate, instant soups, bread), `neutral`.
 - `retail_price` must be realistic for Mexico in 2024–2026.
 
 ## 5. `suppliers.csv` — supplier catalog
@@ -163,13 +163,13 @@ Include at least the following events (add any missing ones):
 - **Seasons and commercial dates:** Three Kings' Day (rosca), Candlemas, Super Bowl, Valentine's Day, Lent, Holy Week/Easter, Children's Day, Mother's Day (May 10), Father's Day, Back to School, Halloween, Day of the Dead, Buen Fin, Guadalupe-Reyes season (December 12–January 6), Christmas Eve, New Year's Eve.
 - **Sports events:** 2026 FIFA World Cup (June 11–July 19, 2026, with Mexico match days explicitly marked), Liga MX playoffs.
 - **Local Saltillo events:** city anniversary (July 25), Santo Cristo de la Capilla festivities (early August), Saltillo Fair.
-- **Cycles:** biweekly paydays (the 15th and the last day of each month → `is_payday`); school vacations (which strongly affect the `escolar` zone).
+- **Cycles:** biweekly paydays (the 15th and the last day of each month → `is_payday`); school vacations (which strongly affect the `school` zone).
 
 ## 8. `weather.csv` — daily weather in Saltillo
 
 `date, temp_max_c, temp_min_c, precipitation_mm, weather_label`
 
-- `weather_label`: `frio`, `templado`, `caluroso`, `lluvioso`.
+- `weather_label`: `cold`, `mild`, `hot`, `rainy`.
 - Weather must be realistic for Saltillo's semi-arid climate: summer highs around 30–34 °C, winter lows near 0 °C with occasional cold fronts, and rainfall concentrated from June through September.
 
 ## 9. `sales.csv` — sales facts (main training table)
@@ -195,7 +195,7 @@ Business rules that must be reflected:
 - **Highway stores** → snacks, water, soft drinks, energy drinks, and coffee are the top sellers every day.
 - **School-zone stores** → sharp declines during vacations and weekends.
 - **Business/industrial zones** → peaks during weekday breakfast and lunch hours, with declines on weekends.
-- **National holidays (September 15–16), the Super Bowl, and Mexico match days** → increased sales of beer, snacks, ice, sauces/dips, and soft drinks, with a stronger effect in the `residencial` zone.
+- **National holidays (September 15–16), the Super Bowl, and Mexico match days** → increased sales of beer, snacks, ice, sauces/dips, and soft drinks, with a stronger effect in the `residential` zone.
 - **Christmas/New Year's Eve** → increased sales of alcoholic beverages, 2–3 L soft drinks, ice, and disposable products.
 - **Day of the Dead/Halloween** → candy sales increase. **Three Kings' Day** → bread sales increase. **Mother's Day/Valentine's Day** → chocolates and flowers sales increase.
 

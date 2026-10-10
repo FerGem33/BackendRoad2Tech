@@ -1,12 +1,21 @@
 # API StockCopilot (Go + AWS Lambda)
 
-Endpoints §3.10–§3.18 de [`ENDPOINTS.md`](ENDPOINTS.md), una Lambda por carpeta, detrás de un API Gateway HTTP API, sobre la
+Endpoints §3.1–§3.18 de [`ENDPOINTS.md`](ENDPOINTS.md), una Lambda por carpeta, detrás de un API Gateway HTTP API, sobre la
 tabla única de DynamoDB descrita en [`docs/DYNAMO.md`](../docs/DYNAMO.md).
 
 Base URL: `https://avbylri05m.execute-api.us-east-1.amazonaws.com`
 
 | § | Método y ruta | Lambda (`functions/…`) |
 |---|---|---|
+| 3.1 | `GET /meta` | `meta` |
+| 3.2 | `GET /chain/summary` | `chain-summary` |
+| 3.3 | `GET /stores` | `stores` |
+| 3.4 | `GET /stores/{store_id}/kpis` | `kpis` |
+| 3.5 | `GET /heat` | `heat` |
+| 3.6 | `GET /stores/{store_id}/behaviors` | `behaviors` |
+| 3.7 | `GET /stores/{store_id}/stock` | `stock` |
+| 3.8 | `GET /stock/summary` | `stock-summary` |
+| 3.9 | `GET` / `PUT /stores/{store_id}/stock-policy` | `stock-policy` |
 | 3.10 | `POST /stores/{store_id}/stock-policy:suggest` | `stock-policy-suggest` |
 | 3.11 | `GET /stores/{store_id}/restock-suggestions` | `restock-suggestions` |
 | 3.12 | `POST /restock-orders` | `restock-orders` |
@@ -49,6 +58,14 @@ api/
   intención (oferta, reabasto, pronóstico, aprobar), categoría, producto, día y descuento máximo; crea borradores
   `contextual_offer` con `status: draft` y nunca aprueba. Elasticidad supuesta 4.0, margen mínimo 12 %, presupuesto $2,500.
 - **Pronóstico**: seasonal-naive mientras no exista la salida del modelo (DYNAMO.md §4.12).
+- **Dashboard (§3.1–§3.9)**: `/meta` lee catálogos (categorías, zonas); `/chain/summary` y `/kpis` agregan
+  tickets (average_ticket, items_per_ticket), stockouts, sin-demanda y el portafolio (suma del margen incremental
+  de las estrategias en plan); `/heat` normaliza el movimiento 0–100 entre tiendas; `/behaviors` combina afinidad
+  observada (reglas de `build_tickets.py`), merma y picos de demanda; `/stock` y `/stock/summary` calculan el estado
+  `out/low/ok/over`; `/stock-policy` lee y edita `reorder_point`/`max_stock`.
+
+Los KPIs de ticket y `lost_demand_7d` requieren que `build_import.py` cargue `ticket_lines.csv` e
+`inventory_daily.csv` (dataset regenerado con `run_all.py`, ver §6 de `ENDPOINTS.md`).
 
 ## Variables de entorno de las Lambdas
 

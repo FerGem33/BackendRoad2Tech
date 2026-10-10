@@ -256,6 +256,18 @@ def main() -> None:
                "revenue_by_category": {k: r2(v) for k, v in g.groupby("category_id").revenue.sum().items()},
                "zero_sale_products": int((g.units_sold == 0).sum())})
 
+    # ticket day aggregates (from ticket_lines.csv) for the ticket KPIs of ENDPOINTS.md §3.2/§3.4
+    # (average_ticket, items_per_ticket). One item per store x day in the same 90-day window.
+    print("reading ticket_lines.csv ...")
+    tickets = read("ticket_lines", dtype={"store_id": str})
+    tickets["date"] = pd.to_datetime(tickets["date"])
+    tickets = tickets[tickets.date >= window_start]
+    for (store_id, date), g in tickets.groupby(["store_id", "date"], sort=False):
+        w.put({"PK": f"STORE#{store_id}#SALES", "SK": f"TICKET#{ds(date)}", "entity_type": "TICKET_DAY",
+               "date": ds(date), "store_id": store_id, "tickets": int(g.ticket_id.nunique()),
+               "units": int(g.quantity.sum()), "net_amount": r2(g.net_amount.sum())})
+    del tickets
+
     hist = sales[sales.date > AS_OF - pd.Timedelta(days=84)].copy()
     del sales
     hist["dow"] = hist.date.dt.dayofweek
@@ -340,6 +352,15 @@ def main() -> None:
     on_order = open_pos.groupby(["store_id", "product_id"]).quantity.sum()
     open_ids = open_pos.groupby(["store_id", "product_id"]).order_id.apply(list)
     sold = recent[recent.units_sold > 0].groupby(["store_id", "product_id"]).date.max()
+
+    # lost demand over the last 7 days (inventory_daily.lost_demand), exposed as §3.7 lost_demand_7d
+    print("reading inventory_daily.csv ...")
+    inv = read("inventory_daily", dtype={"store_id": str, "product_id": str})
+    inv["date"] = pd.to_datetime(inv["date"])
+    lost = (inv[(inv.date > AS_OF - pd.Timedelta(days=7)) & (inv.date <= AS_OF)]
+            .groupby(["store_id", "product_id"]).lost_demand.sum())
+    del inv
+
     for s in stores.store_id:
         for p in products.itertuples(index=False):
             key = (s, p.product_id)
@@ -360,6 +381,7 @@ def main() -> None:
                    "days_coverage": round(oh / pred, 2) if pred > 0 else None,
                    "next_expiration_date": next_exp.get(key), "active_lots": int(n_lots.get(key, 0)),
                    "last_sale_date": ds(sold[key]) if key in sold.index else None,
+                   "lost_demand_7d": int(lost.get(key, 0)),
                    "as_of_date": ds(AS_OF), "updated_at": "2026-09-30T23:59:00Z", "version": 1})
 
     # auth and counters

@@ -16,6 +16,10 @@ type Store struct {
 	Longitude         float64 `dynamodbav:"longitude" json:"longitude"`
 	ZoneType          string  `dynamodbav:"zone_type" json:"zone_type"`
 	SecondaryZoneType *string `dynamodbav:"secondary_zone_type" json:"secondary_zone_type"`
+	SizeCategory      string  `dynamodbav:"size_category" json:"size_category"`
+	OpeningHours      string  `dynamodbav:"opening_hours" json:"opening_hours"`
+	Is24h             bool    `dynamodbav:"is_24h" json:"is_24h"`
+	OpenedDate        string  `dynamodbav:"opened_date" json:"opened_date"`
 }
 
 type DefaultSupplier struct {
@@ -78,6 +82,8 @@ type Stock struct {
 	MaxStock             float64  `dynamodbav:"max_stock"`
 	PredictedDailyDemand float64  `dynamodbav:"predicted_daily_demand"`
 	NextExpirationDate   *string  `dynamodbav:"next_expiration_date"`
+	LostDemand7d         int      `dynamodbav:"lost_demand_7d"`
+	UpdatedAt            string   `dynamodbav:"updated_at"`
 }
 
 type Lot struct {
@@ -168,8 +174,35 @@ type Day struct {
 }
 
 type Category struct {
-	CategoryID   string `dynamodbav:"category_id"`
-	CategoryName string `dynamodbav:"category_name"`
+	CategoryID            string `dynamodbav:"category_id"`
+	CategoryName          string `dynamodbav:"category_name"`
+	IsPerishable          bool   `dynamodbav:"is_perishable"`
+	TypicalShelfLifeDays  int    `dynamodbav:"typical_shelf_life_days"`
+	RequiresRefrigeration bool   `dynamodbav:"requires_refrigeration"`
+}
+
+type Zone struct {
+	ZoneType    string `dynamodbav:"zone_type"`
+	Description string `dynamodbav:"description"`
+}
+
+// SaleDay is the store x day sales summary (PK=STORE#<id>#SALES, SK=DAY#<date>).
+type SaleDay struct {
+	Date          string             `dynamodbav:"date"`
+	StoreID       string             `dynamodbav:"store_id"`
+	UnitsSold     int                `dynamodbav:"units_sold"`
+	Revenue       float64            `dynamodbav:"revenue"`
+	RevenueByCat  map[string]float64 `dynamodbav:"revenue_by_category"`
+	ZeroSaleProds int                `dynamodbav:"zero_sale_products"`
+}
+
+// TicketDay is the store x day ticket aggregate (PK=STORE#<id>#SALES, SK=TICKET#<date>).
+type TicketDay struct {
+	Date      string  `dynamodbav:"date"`
+	StoreID   string  `dynamodbav:"store_id"`
+	Tickets   int     `dynamodbav:"tickets"`
+	Units     int     `dynamodbav:"units"`
+	NetAmount float64 `dynamodbav:"net_amount"`
 }
 
 // --- catalog reads (cached for the life of the Lambda container; the catalog is read-only) ---
@@ -333,6 +366,43 @@ func Calendar(ctx context.Context, from, to string) ([]Day, error) {
 func Categories(ctx context.Context) ([]Category, error) {
 	var out []Category
 	err := QueryAll(ctx, Q{PK: "CATALOG", Begins: "CATEGORY#"}, &out)
+	return out, err
+}
+
+func Zones(ctx context.Context) ([]Zone, error) {
+	var out []Zone
+	err := QueryAll(ctx, Q{PK: "CATALOG", Begins: "ZONE#"}, &out)
+	return out, err
+}
+
+// Stores returns the 25 stores (GSI1 PK=STORE), sorted by store_id.
+func Stores(ctx context.Context) ([]Store, error) {
+	var out []Store
+	if err := QueryAll(ctx, Q{Index: "GSI1", PK: "STORE"}, &out); err != nil {
+		return nil, err
+	}
+	sort.Slice(out, func(i, j int) bool { return out[i].StoreID < out[j].StoreID })
+	return out, nil
+}
+
+// StoreSales returns the store SALE lines (PK=STORE#<id>#SALES, SK=LINE#<date>#<product>) in [from, to].
+func StoreSales(ctx context.Context, storeID, from, to string) ([]Sale, error) {
+	var out []Sale
+	err := QueryAll(ctx, Q{PK: "STORE#" + storeID + "#SALES", From: "LINE#" + from, To: "LINE#" + to + "~"}, &out)
+	return out, err
+}
+
+// StoreDaySales returns the store x day summaries (SK=DAY#<date>) in [from, to].
+func StoreDaySales(ctx context.Context, storeID, from, to string) ([]SaleDay, error) {
+	var out []SaleDay
+	err := QueryAll(ctx, Q{PK: "STORE#" + storeID + "#SALES", From: "DAY#" + from, To: "DAY#" + to + "~"}, &out)
+	return out, err
+}
+
+// StoreTicketDays returns the store x day ticket aggregates (SK=TICKET#<date>) in [from, to].
+func StoreTicketDays(ctx context.Context, storeID, from, to string) ([]TicketDay, error) {
+	var out []TicketDay
+	err := QueryAll(ctx, Q{PK: "STORE#" + storeID + "#SALES", From: "TICKET#" + from, To: "TICKET#" + to + "~"}, &out)
 	return out, err
 }
 

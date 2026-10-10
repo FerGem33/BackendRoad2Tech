@@ -12,6 +12,15 @@ call() { # method path [body]
   echo "== $code $1 $2"; jq -c "${JQ:-.data | keys}" <<<"$body" 2>/dev/null || echo "$body" | head -c 300; echo
 }
 call POST /auth/signin '{"email":"demo@stockcopilot.com","password":"bad"}'
+JQ='{cats: (.data.categories|length), zones: (.data.zones|length), as_of: .data.data_as_of, demo: .data.demo_mode}' call GET /meta
+JQ='{period: .data.period, kpis: .data.kpis, ranking: (.data.store_ranking|length), plan: .data.portfolio_impact.stores_with_plan}' call GET '/chain/summary'
+JQ='{n: (.data.items|length), first: .data.items[0]}' call GET /stores
+JQ='.data.kpis' call GET '/stores/S001/kpis'
+JQ='{n: (.data.items|length), top: [.data.items[] | select(.is_top) | {store_id, movement, units}]}' call GET '/heat?product_id=P001'
+JQ='{n: (.data.items|length), kinds: ([.data.items[].kind] | unique)}' call GET '/stores/S001/behaviors'
+JQ='{total: .data.total, first: .data.items[0] | {product_id, status, closing_qty, coverage_days, next_restock_date}}' call GET '/stores/S001/stock?page_size=2'
+JQ='.data' call GET '/stock/summary'
+JQ='{total: .data.total, first: .data.items[0]}' call GET '/stores/S001/stock-policy?page_size=2'
 JQ='.data.items[:2]' call POST '/stores/S001/stock-policy:suggest' '{"product_ids":["P001","P059"]}'
 JQ='{total: .data.total, first: .data.items[0] | {id,order_date,expected_delivery_date,is_urgent,reasons,suggested_qty,estimated_cost,supplier: .supplier.supplier_id, alts: (.alternatives|length)}}' call GET '/stores/S001/restock-suggestions?page_size=5'
 JQ='{events: (.data.events|length), kinds: ([.data.events[] | (.alert_type // .kind)] | group_by(.) | map({(.[0]): length}) | add), context: (.data.context|length)}' call GET '/stores/S001/calendar?from=2026-09-20&to=2026-10-14'
@@ -28,5 +37,6 @@ SUG=$(curl -s "$API/stores/S001/restock-suggestions?page_size=1" -H "$A" | jq -c
 JQ='.' call POST /restock-orders "$(jq -c '.qty = 1' <<<"$SUG")"
 JQ='.data | {order_id, status, email, demo_redirect}' call POST /restock-orders "$SUG"
 JQ='.data | {order_id, status}' call POST /restock-orders "$SUG"
+JQ='.data' call PUT '/stores/S001/stock-policy' '{"items":[{"product_id":"P001","reorder_point":120,"max_stock":480}]}'
 JQ='.data' call POST /auth/logout
 JQ='.' call GET /products

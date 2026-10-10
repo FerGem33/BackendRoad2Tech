@@ -49,7 +49,7 @@ How this maps to the AWS design in [`ARCHITECTURE.md`](../../ARCHITECTURE.md):
 | AWS component | Here (MVP) | Later |
 |---|---|---|
 | Athena / S3 Curated | `DataRepository` (CSV or PostgreSQL) | an Athena adapter implementing the same protocol |
-| SageMaker forecast | `domain/forecast.py` (seasonal baseline, P50/P80/P90) | an adapter returning `ForecastResult` |
+| SageMaker forecast | `domain/forecast.py` local baseline or `DynamoForecastProvider` (published P50/P80/P90) | SageMaker training and daily Processing Job |
 | Uplift / affinity models | `domain/uplift.py` (campaign diff-in-diff), `data/build_affinity.py` (tickets) | SageMaker uplift / affinity models |
 | Decision engine Lambda | `domain/strategy/*`, `domain/restock.py` | same code in Lambda |
 | DynamoDB drafts | `DraftStore` (memory / PostgreSQL) | a DynamoDB store with the same methods |

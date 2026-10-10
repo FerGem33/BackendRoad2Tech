@@ -7,3 +7,8 @@ public/softtek/dataset/
 
 # Local ML artifacts are reproducible and should not be committed.
 artifacts/forecast/
+
+# Local SageMaker packaging output and deployment configuration.
+.aws-sam/
+samconfig.toml
+.env.sagemaker

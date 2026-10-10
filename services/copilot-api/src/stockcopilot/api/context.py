@@ -95,7 +95,14 @@ def build_context(settings: Settings, include_agent: bool = True) -> AppContext:
     pools: list[Any] = []
     async_pools: list[Any] = []
     repo = _repository(settings, pools)
-    svc = Services.create(repo, settings.demo_as_of)
+    forecast_provider = None
+    if settings.forecast_provider == "dynamodb":
+        if not settings.forecast_table_name:
+            raise RuntimeError("FORECAST_PROVIDER=dynamodb requires FORECAST_TABLE_NAME")
+        from ..domain.forecast_provider import DynamoForecastProvider
+
+        forecast_provider = DynamoForecastProvider(settings.forecast_table_name, settings.aws_region)
+    svc = Services.create(repo, settings.demo_as_of, forecast_provider=forecast_provider)
     drafts = _drafts(settings, pools)
     engine = StrategyEngine(svc, drafts)
     model = None

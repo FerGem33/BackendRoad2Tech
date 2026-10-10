@@ -103,7 +103,7 @@ class WasteRisk(BaseModel):
 class ModelInfo(BaseModel):
     name: str
     backtest_wape_14d: float | None = Field(description="Weighted absolute % error on the last 14 days")
-    source: str = "deterministic baseline (SageMaker adapter pending)"
+    source: str = "deterministic baseline"
 
 
 class ProductTendency(BaseModel):

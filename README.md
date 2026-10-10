@@ -118,6 +118,10 @@ pytest tests/forecast
 
 The model predicts baseline demand as `units_sold + lost_demand`; treated promotion rows are excluded. It produces daily P50/P80/P90 forecasts for the 14-day feature-only context and stores local artifacts in `artifacts/forecast/`, which is also ignored by Git.
 
+## SageMaker batch deployment
+
+The production-shaped hackathon deployment trains the same CatBoost bundle in SageMaker, registers only a model that beats the seasonal-naive benchmark, and precomputes 14-day store-SKU forecasts into DynamoDB. It intentionally creates no real-time endpoint: the dashboard reads the validated forecasts with low latency and no idle inference cost. See [sagemaker/README.md](./sagemaker/README.md) for deployment, training, and cleanup commands.
+
 ## AI approach
 
 1. **Probabilistic forecast:** CatBoost predicts baseline store-SKU demand by horizon using P50/P80/P90 quantiles.
@@ -132,5 +136,6 @@ The model predicts baseline demand as `units_sold + lost_demand`; treated promot
 - [ARCHITECTURE.md](./ARCHITECTURE.md): AWS components, responsibilities, and interfaces.
 - [milestones.md](./milestones.md): phases, contracts, and ownership for concurrent implementation.
 - [services/copilot-api](./services/copilot-api/README.md): FastAPI + LangGraph copilot, REST/Lambda endpoints, strategy simulator.
+- [sagemaker](./sagemaker/README.md): CatBoost training, Model Registry, batch forecasting, and DynamoDB publication.
 - [AWS architecture diagram (SVG)](./docs/stockcopilot-aws-architecture.svg): editable vector diagram with services, flows, and solution boundaries.
 - [AWS architecture diagram (PNG)](./docs/stockcopilot-architecture.png): presentation-ready diagram.

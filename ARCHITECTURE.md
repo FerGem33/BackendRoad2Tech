@@ -110,6 +110,8 @@ Responsible for training, evaluating, and serving ML artifacts:
 
 Forecast inference can run in a daily batch. The decision engine combines it with current stock to generate dynamic recommendations without retraining after every sale.
 
+The implemented forecast path uses a SageMaker Training Job with a custom CatBoost image, four fixed 14-day backtests, and a Model Registry package only after CatBoost beats the seasonal-naive benchmark. An EventBridge Scheduler starts a daily SageMaker Processing Job; its validated `store × SKU × 14-day` P50/P80/P90 output is published atomically to DynamoDB. The Copilot API reads DynamoDB rather than invoking a permanent endpoint. This removes idle endpoint cost while keeping forecast lookups fast and deterministic.
+
 ### Decision engine and optimizer
 
 Deterministic service, for example Lambda/Python, that receives forecast, current state, constraints, and candidates. It must:

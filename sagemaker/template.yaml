@@ -1,0 +1,290 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: StockCopilot SageMaker CatBoost training and scheduled batch forecasting.
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Architectures: [arm64]
+    MemorySize: 512
+    Timeout: 60
+    Tracing: Active
+    Tags:
+      Project: StockCopilot
+      Component: Forecast
+
+Resources:
+  ForecastBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      VersioningConfiguration:
+        Status: Enabled
+      LifecycleConfiguration:
+        Rules:
+          - Id: ExpireForecastRuns
+            Status: Enabled
+            Prefix: forecast-runs/
+            ExpirationInDays: 30
+            NoncurrentVersionExpiration:
+              NoncurrentDays: 7
+
+  ForecastBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref ForecastBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: DenyInsecureTransport
+            Effect: Deny
+            Principal: "*"
+            Action: s3:*
+            Resource:
+              - !GetAtt ForecastBucket.Arn
+              - !Sub "${ForecastBucket.Arn}/*"
+            Condition:
+              Bool:
+                aws:SecureTransport: false
+
+  ForecastRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      ImageTagMutability: IMMUTABLE
+      ImageScanningConfiguration:
+        ScanOnPush: true
+      LifecyclePolicy:
+        LifecyclePolicyText: >-
+          {"rules":[{"rulePriority":1,"description":"Keep 10 forecast images","selection":{"tagStatus":"tagged","tagPrefixList":["forecast-"],"countType":"imageCountMoreThan","countNumber":10},"action":{"type":"expire"}}]}
+
+  ForecastTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      SSESpecification:
+        SSEEnabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+  ForecastModelPackageGroup:
+    Type: AWS::SageMaker::ModelPackageGroup
+    Properties:
+      ModelPackageGroupName: stockcopilot-catboost-forecast
+      ModelPackageGroupDescription: Approved CatBoost P50/P80/P90 forecast model versions.
+
+  SageMakerExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${AWS::StackName}-sagemaker-forecast"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: sagemaker.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: ForecastDataAndImageAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: s3:ListBucket
+                Resource: !GetAtt ForecastBucket.Arn
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                Resource:
+                  - !Sub "${ForecastBucket.Arn}/curated/forecast/*"
+                  - !Sub "${ForecastBucket.Arn}/model-runs/*"
+                  - !Sub "${ForecastBucket.Arn}/forecast-runs/*"
+              - Effect: Allow
+                Action: ecr:GetAuthorizationToken
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:BatchGetImage
+                  - ecr:GetDownloadUrlForLayer
+                Resource: !GetAtt ForecastRepository.Arn
+
+  ForecastRunnerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${AWS::StackName}-forecast-runner"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+              ArnLike:
+                aws:SourceArn: !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:*"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: StartForecastProcessing
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: dynamodb:GetItem
+                Resource: !GetAtt ForecastTable.Arn
+              - Effect: Allow
+                Action: s3:GetObject
+                Resource: !Sub "${ForecastBucket.Arn}/curated/forecast/latest.json"
+              - Effect: Allow
+                Action:
+                  - sagemaker:AddTags
+                  - sagemaker:CreateProcessingJob
+                Resource: !Sub "arn:${AWS::Partition}:sagemaker:${AWS::Region}:${AWS::AccountId}:processing-job/stockcopilot-forecast-*"
+              - Effect: Allow
+                Action: iam:PassRole
+                Resource: !GetAtt SageMakerExecutionRole.Arn
+                Condition:
+                  StringEquals:
+                    iam:PassedToService: sagemaker.amazonaws.com
+
+  ForecastPublisherRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${AWS::StackName}-forecast-publisher"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+              ArnLike:
+                aws:SourceArn: !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:*"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: PublishForecasts
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: sagemaker:DescribeProcessingJob
+                Resource: !Sub "arn:${AWS::Partition}:sagemaker:${AWS::Region}:${AWS::AccountId}:processing-job/stockcopilot-forecast-*"
+              - Effect: Allow
+                Action: s3:GetObject
+                Resource: !Sub "${ForecastBucket.Arn}/forecast-runs/*"
+              - Effect: Allow
+                Action:
+                  - dynamodb:BatchWriteItem
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                Resource: !GetAtt ForecastTable.Arn
+
+  ForecastSchedulerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${AWS::StackName}-forecast-scheduler"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: scheduler.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+              ArnLike:
+                aws:SourceArn: !Sub "arn:${AWS::Partition}:scheduler:${AWS::Region}:${AWS::AccountId}:schedule/default/*"
+      Policies:
+        - PolicyName: InvokeForecastRunner
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: lambda:InvokeFunction
+                Resource: !GetAtt ForecastRunnerFunction.Arn
+
+  ForecastRunnerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: handlers/
+      Handler: forecast_runner.lambda_handler
+      Role: !GetAtt ForecastRunnerRole.Arn
+      Environment:
+        Variables:
+          FORECAST_BUCKET_NAME: !Ref ForecastBucket
+          FORECAST_TABLE_NAME: !Ref ForecastTable
+          SAGEMAKER_EXECUTION_ROLE_ARN: !GetAtt SageMakerExecutionRole.Arn
+      Events:
+        DailyForecast:
+          Type: ScheduleV2
+          Properties:
+            ScheduleExpression: "cron(0 2 * * ? *)"
+            ScheduleExpressionTimezone: America/Monterrey
+            FlexibleTimeWindow:
+              Mode: "OFF"
+            RoleArn: !GetAtt ForecastSchedulerRole.Arn
+            Input: '{"source":"scheduler"}'
+            RetryPolicy:
+              MaximumEventAgeInSeconds: 3600
+              MaximumRetryAttempts: 2
+
+  ForecastPublisherFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: handlers/
+      Handler: forecast_publisher.lambda_handler
+      Role: !GetAtt ForecastPublisherRole.Arn
+      Environment:
+        Variables:
+          FORECAST_TABLE_NAME: !Ref ForecastTable
+      Events:
+        CompletedForecastProcessing:
+          Type: CloudWatchEvent
+          Properties:
+            Pattern:
+              source: [aws.sagemaker]
+              detail-type: ["SageMaker Processing Job State Change"]
+              detail:
+                ProcessingJobStatus: [Completed]
+                ProcessingJobName:
+                  - prefix: stockcopilot-forecast-
+
+Outputs:
+  ForecastBucketName:
+    Value: !Ref ForecastBucket
+  ForecastRepositoryUri:
+    Value: !GetAtt ForecastRepository.RepositoryUri
+  ForecastTableName:
+    Value: !Ref ForecastTable
+  SageMakerExecutionRoleArn:
+    Value: !GetAtt SageMakerExecutionRole.Arn
+  ModelPackageGroupName:
+    Value: !Ref ForecastModelPackageGroup
+  ForecastRunnerFunctionName:
+    Value: !Ref ForecastRunnerFunction

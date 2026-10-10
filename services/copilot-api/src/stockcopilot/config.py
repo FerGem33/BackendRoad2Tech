@@ -33,6 +33,11 @@ class Settings(BaseSettings):
     gemini_temperature: float = 0.2
     llm_mode: Literal["auto", "gemini", "offline"] = "auto"
 
+    # Forecast source. DynamoDB contains SageMaker's already-validated daily batch predictions.
+    forecast_provider: Literal["local", "dynamodb"] = "local"
+    forecast_table_name: str | None = None
+    aws_region: str | None = None
+
     # Persistence for LangGraph checkpoints (needed for approvals that resume later).
     checkpointer: Literal["memory", "postgres"] = "memory"
 

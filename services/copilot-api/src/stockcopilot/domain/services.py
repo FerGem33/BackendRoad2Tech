@@ -9,6 +9,7 @@ from datetime import date, timedelta
 from ..data.repository import Affinity, DataRepository, Product, SalesMatrix, Store
 from .catalog import Catalog
 from .forecast import ForecastResult, forecast_product
+from .forecast_provider import ForecastProvider
 from .inventory import StorePosition, store_position
 from .models import ProductRef, StoreRef, StrategyType, SupplierRef
 from .uplift import UpliftEstimate, measure_uplift
@@ -19,6 +20,7 @@ class Services:
     repo: DataRepository
     catalog: Catalog
     as_of: date
+    forecast_provider: ForecastProvider | None = None
     _lock: threading.Lock = field(default_factory=threading.Lock, repr=False)
     _positions: dict[tuple[str, date], StorePosition] = field(default_factory=dict, repr=False)
     _forecasts: dict[tuple[str, str, date, int], ForecastResult] = field(default_factory=dict, repr=False)
@@ -26,12 +28,14 @@ class Services:
     _uplift: dict[StrategyType, UpliftEstimate] | None = field(default=None, repr=False)
 
     @classmethod
-    def create(cls, repo: DataRepository, as_of: date | None = None) -> Services:
+    def create(
+        cls, repo: DataRepository, as_of: date | None = None, forecast_provider: ForecastProvider | None = None
+    ) -> Services:
         first, last = repo.data_bounds()
         resolved = as_of or last
         if not first <= resolved <= last:
             raise ValueError(f"DEMO_AS_OF {resolved} is outside the dataset range {first}..{last}")
-        return cls(repo=repo, catalog=Catalog(repo), as_of=resolved)
+        return cls(repo=repo, catalog=Catalog(repo), as_of=resolved, forecast_provider=forecast_provider)
 
     # --------------------------------------------------------------- caches
     def position(self, store_id: str) -> StorePosition:
@@ -56,9 +60,12 @@ class Services:
         cached = self._forecasts.get(key)
         if cached is not None:
             return cached
-        result = forecast_product(
-            self.repo, self.catalog, store_id, product_id, self.as_of, horizon, history=self.history(store_id)
-        )
+        if self.forecast_provider is None:
+            result = forecast_product(
+                self.repo, self.catalog, store_id, product_id, self.as_of, horizon, history=self.history(store_id)
+            )
+        else:
+            result = self.forecast_provider.forecast(store_id, product_id, self.as_of, horizon)
         with self._lock:
             if len(self._forecasts) > 5000:
                 self._forecasts.clear()

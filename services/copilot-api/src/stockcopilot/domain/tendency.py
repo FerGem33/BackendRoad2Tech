@@ -60,7 +60,8 @@ def get_product_tendency(
     s = svc.catalog.resolve_store(store)
     p = svc.catalog.resolve_product(product)
     history_days = int(np.clip(history_days, 14, 365))
-    forecast_days = int(np.clip(forecast_days, 1, 28))
+    max_horizon = 14 if svc.forecast_provider is not None else 28
+    forecast_days = int(np.clip(forecast_days, 1, max_horizon))
 
     full_history = svc.history(s.store_id)
     y_all = full_history.row(p.product_id)
@@ -107,6 +108,7 @@ def get_product_tendency(
         model=ModelInfo(
             name=forecast.model,
             backtest_wape_14d=round(forecast.backtest_wape, 3) if forecast.backtest_wape is not None else None,
+            source="SageMaker batch forecast" if forecast.model.startswith("sagemaker-") else "deterministic baseline",
         ),
         ai_summary="",
     )

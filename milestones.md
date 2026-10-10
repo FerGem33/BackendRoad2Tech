@@ -148,7 +148,7 @@ M4 and M5 may begin with M0 fixtures. M6 requires M2 draft persistence. Final in
 - Probabilistic P50/P80/P90 CatBoost model with four fixed 14-day rolling backtests against a seasonal-naive baseline.
 - Ticket-based affinity; keep business rules distinct from observed affinity.
 - Initial uplift from treatment/control campaigns; report uncertainty and exclude post-treatment features.
-- SageMaker endpoint or adapter that returns exactly `Forecast`.
+- SageMaker CatBoost Training Job, Model Registry quality gate, and daily Processing Job that publishes the exact `Forecast` contract to DynamoDB; use the API adapter rather than a permanently running endpoint.
 
 **Gate:** backtest metrics are recorded and inference is reproducible for the demo `data_as_of`.
 

@@ -1,4 +1,4 @@
-"""Baseline demand forecaster (stand-in for the SageMaker CatBoost/LightGBM endpoint).
+"""Baseline demand forecaster (local fallback for the SageMaker CatBoost batch provider).
 
 Multiplicative, fully deterministic model fitted per store x product:
 

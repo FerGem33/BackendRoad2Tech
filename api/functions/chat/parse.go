@@ -15,11 +15,12 @@ import (
 type intent string
 
 const (
-	intentApprove  intent = "approve"
-	intentPromo    intent = "promo"
-	intentRestock  intent = "restock"
-	intentForecast intent = "forecast"
-	intentContext  intent = "context"
+	intentApprove   intent = "approve"
+	intentPromo     intent = "promo"
+	intentRestock   intent = "restock"
+	intentInventory intent = "inventory"
+	intentForecast  intent = "forecast"
+	intentContext   intent = "context"
 )
 
 // parsed is what the orchestrator understood from the message (interpreted_constraints in the response).
@@ -74,8 +75,8 @@ var (
 		{intentApprove, []string{"activa", "aprueba", "aprobar", "autoriza", "programa la"}},
 		{intentPromo, []string{"descuento", "promo", "oferta", "aumenta", "aumentar", "impulsa", "vender mas", "combo",
 			"incrementa", "estrategia", "liquidar", "rescat", "rebaja"}},
-		{intentRestock, []string{"reabast", "surtir", "surte", "pedir", "pedido", "orden de compra", "inventario", "stock",
-			"agot", "quiebre", "proveedor"}},
+		{intentInventory, []string{"stock suficiente", "inventario suficiente", "se agot", "quedara merma", "merma", "cobertura", "fin de mes"}},
+		{intentRestock, []string{"reabast", "surtir", "surte", "pedir", "pedido", "orden de compra", "quiebre", "proveedor"}},
 		{intentForecast, []string{"pronost", "tendencia", "proyecc", "cuanto se va a vender", "demanda", "forecast", "ventas"}},
 	}
 )
